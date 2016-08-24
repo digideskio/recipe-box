@@ -1,21 +1,7 @@
 from django.db import models
 
-class CategoryType(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name_plural = "category types"
-    
-    def __str__(self):
-        return self.name
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-    category_type = models.ForeignKey(CategoryType)
-
-    class Meta:
-        verbose_name_plural = "categories"
     
     def __str__(self):
         return self.name
@@ -37,7 +23,7 @@ class Recipe(models.Model):
     prep_time = models.DurationField()
     cooking_time = models.DurationField()
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
-    categories = models.ManyToManyField(Category)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.title

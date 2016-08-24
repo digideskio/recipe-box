@@ -9,6 +9,5 @@ class RecipeAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(models.Recipe, RecipeAdmin)
-admin.site.register(models.Category)
-admin.site.register(models.CategoryType)
+admin.site.register(models.Tag)
 admin.site.register(models.Ingredient)
