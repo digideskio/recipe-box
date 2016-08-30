@@ -23,7 +23,7 @@ class Recipe(models.Model):
     prep_time = models.DurationField()
     cooking_time = models.DurationField()
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.title
@@ -32,6 +32,6 @@ class Recipe(models.Model):
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.DecimalField(decimal_places=10, max_digits=10)
+    quantity = models.DecimalField(decimal_places=5, max_digits=10)
     unit = models.CharField(max_length=255)
-    preparation = models.CharField(max_length=255)
+    preparation = models.CharField(blank=True, max_length=255)

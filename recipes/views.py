@@ -1,6 +1,17 @@
 from django.shortcuts import render
 
-# Create your views here.
+from rest_framework import viewsets
+from . import models
+from . import serializers
 
 def index(request):
-  return render(request, 'index.html')
+    return render(request, 'index.html')
+
+# API
+class RecipeViewSet(viewsets.ModelViewSet):
+    queryset = models.Recipe.objects.all();
+    serializer_class = serializers.RecipeSerializer
+
+class RecipeIngredientViewSet(viewsets.ModelViewSet):
+    queryset = models.RecipeIngredient.objects.all();
+    serializer_class = serializers.RecipeIngredientSerializer
