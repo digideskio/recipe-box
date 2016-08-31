@@ -10,6 +10,7 @@ export default React.createClass({
                     <ul>
                         <li><Link to='/'>Home</Link></li>
                         <li><Link to='/recipes'>Recipe List</Link></li>
+                        <li><Link to='/recipe/1'>Single Recipe</Link></li>
                     </ul>
                 </nav>
                 {this.props.children}

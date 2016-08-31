@@ -69,6 +69,10 @@
 	
 	var _RecipeList2 = _interopRequireDefault(_RecipeList);
 	
+	var _SingleRecipePage = __webpack_require__(/*! ./components/SingleRecipePage */ 240);
+	
+	var _SingleRecipePage2 = _interopRequireDefault(_SingleRecipePage);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -78,7 +82,8 @@
 	        _reactRouter.Route,
 	        { path: '/', component: _App2.default },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/recipes', component: _RecipeList2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/recipes', component: _RecipeList2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id', component: _SingleRecipePage2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -27841,6 +27846,15 @@
 	                            { to: '/recipes' },
 	                            'Recipe List'
 	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: '/recipe/1' },
+	                            'Single Recipe'
+	                        )
 	                    )
 	                )
 	            ),
@@ -27900,13 +27914,16 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
 	    displayName: 'RecipeList',
 	    getInitialState: function getInitialState() {
 	        return {
-	            data: {}
+	            loading: true,
+	            data: []
 	        };
 	    },
 	    componentWillMount: function componentWillMount() {
@@ -27915,11 +27932,43 @@
 	        _jquery2.default.ajax({
 	            url: '/api/recipes/',
 	            success: function success(data) {
-	                self.setState({ data: data });
+	                console.log(data);
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
 	            }
 	        });
 	    },
 	    render: function render() {
+	
+	        var content = null;
+	
+	        console.log(this.state.data);
+	
+	        var listOfRecipes = this.state.data.map(function (recipe) {
+	            var recipeUrl = '/recipe/' + recipe.id;
+	            return _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: recipeUrl },
+	                    recipe.title
+	                )
+	            );
+	        });
+	
+	        if (this.state.loading) {
+	            content = 'Loading...';
+	        } else {
+	            if (this.state.data.length === 0) {
+	                content = 'No recipes to display.';
+	            } else {
+	                content = listOfRecipes;
+	            }
+	        }
+	
 	        return _react2.default.createElement(
 	            'div',
 	            null,
@@ -27928,7 +27977,7 @@
 	                null,
 	                'Recipe List'
 	            ),
-	            this.state.data.toString()
+	            content
 	        );
 	    }
 	});
@@ -38015,6 +38064,171 @@
 	return jQuery;
 	} );
 
+
+/***/ },
+/* 239 */
+/*!****************************************!*\
+  !*** ./js/components/SingleRecipe.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SingleRecipe',
+	    render: function render() {
+	
+	        var recipe = this.props.data;
+	
+	        var ingredients = recipe.ingredients.map(function (ingredient) {
+	            return;
+	        });
+	
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'h1',
+	                null,
+	                recipe.title
+	            ),
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                recipe.description
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                null,
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'Yields: ',
+	                    recipe.yields
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'Cooking Time: ',
+	                    recipe.cooking_time
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'Prep Time: ',
+	                    recipe.prep_time
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'Serve With: ',
+	                    recipe.serve_with
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                'Ingredients'
+	            ),
+	            ingredients,
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                'Instructions'
+	            ),
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                recipe.instructions
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 240 */
+/*!********************************************!*\
+  !*** ./js/components/SingleRecipePage.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _SingleRecipe = __webpack_require__(/*! ./SingleRecipe */ 239);
+	
+	var _SingleRecipe2 = _interopRequireDefault(_SingleRecipe);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SingleRecipePage',
+	    getInitialState: function getInitialState() {
+	        return {
+	            loading: true,
+	            data: {}
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	
+	        var self = this;
+	        _jquery2.default.ajax({
+	            url: '/api/recipes/' + self.props.params.id + '/',
+	            success: function success(data) {
+	                console.log(data);
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
+	            }
+	        });
+	    },
+	    render: function render() {
+	
+	        var content = null;
+	
+	        if (this.state.loading === true) {
+	            content = 'Loading...';
+	        } else {
+	            if (_jquery2.default.isEmptyObject(this.state.data)) {
+	                content = 'No recipe found...';
+	            } else {
+	                content = _react2.default.createElement(_SingleRecipe2.default, { data: this.state.data });
+	            }
+	        }
+	
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            content
+	        );
+	    }
+	});
 
 /***/ }
 /******/ ]);
