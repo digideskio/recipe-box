@@ -1,67 +1,42 @@
 import React from 'react';
-import $ from 'jquery';
-
-import { Link } from 'react-router';
+import RecipeThumb from './RecipeThumb';
 
 export default React.createClass({
 
-    getInitialState() {
-        return ({
-            loading: true,
-            data: []
-        });
-    },
-
-    componentWillMount() {
-
-        var self = this;
-        $.ajax({
-            url: '/api/recipes/',
-            success: function (data) {
-                console.log(data);
-                self.setState({
-                    loading: false,
-                    data: data,
-                });
-            }
-        });
+    propTypes: {
+        recipes: React.PropTypes.array.isRequired
     },
 
     render() {
 
-        var content = null;
+        var recipes = this.props.recipes;
 
-        console.log(this.state.data);
-
-        var listOfRecipes = this.state.data.map(function(recipe) {
-            var recipeUrl = '/recipe/' + recipe.id
+        var recipeThumbs = recipes.map(function(recipe) {
+            var recipeUrl = '/recipe/' + recipe.id;
             return (
-                <li>
-                    <Link to={recipeUrl}>
-                        {recipe.title}
-                    </Link>
-                </li>
+                <RecipeThumb
+                    title={recipe.title}
+                    url={recipeUrl}
+                />
             );
         });
 
-        if (this.state.loading) {
-            content = 'Loading...';
+        if (recipes.length === 0) {
+            return (
+                <div>
+                    No Recipes Yet!
+                </div>
+            )
         }
         else {
-            if (this.state.data.length === 0) {
-                content = 'No recipes to display.';
-            }
-            else {
-                content = listOfRecipes;
-            }
+            return (
+                <div>
+                    {recipeThumbs}
+                </div>
+            )
         }
 
-        return (
-            <div>
-                <h2>Recipe List</h2>
-                {content}
-            </div>
-        )
+
     }
 
 })

@@ -1,13 +1,16 @@
 import React from 'react';
 import $ from 'jquery';
 
-import SingleRecipe from './SingleRecipe'
+import SingleRecipeEditor from './SingleRecipeEditor';
+import SingleRecipeViewer from './SingleRecipeViewer';
+
 
 export default React.createClass({
 
     getInitialState() {
         return ({
             loading: true,
+            editing: false,
             data: {}
         });
     },
@@ -27,27 +30,35 @@ export default React.createClass({
         });
     },
 
+    toggleEditor() {
+        this.setState({editing: !this.state.editing});
+    },
+
     render() {
 
-        var content = null;
-
         if (this.state.loading === true) {
-            content = 'Loading...';
+            return (
+                <div>
+                    'Loading...'
+                </div>
+            );
+        }
+        if (this.state.editing === true) {
+            return (
+                <SingleRecipeEditor
+                    recipe={this.state.data}
+                    handleCancelButton={this.toggleEditor}
+                />
+            );
         }
         else {
-            if ($.isEmptyObject(this.state.data)) {
-                content = 'No recipe found...';
-            }
-            else {
-                content = <SingleRecipe data={this.state.data}/>;
-            }
+            return (
+                <SingleRecipeViewer
+                    recipe={this.state.data}
+                    handleEditButton={this.toggleEditor}
+                />
+            );
         }
-
-        return (
-            <div>
-                {content}
-            </div>
-        )
     }
 
 })
