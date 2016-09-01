@@ -69,6 +69,10 @@
 	
 	var _SingleRecipePage2 = _interopRequireDefault(_SingleRecipePage);
 	
+	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 306);
+	
+	var _AddRecipePage2 = _interopRequireDefault(_AddRecipePage);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -78,6 +82,7 @@
 	        _reactRouter.Route,
 	        { path: '/', component: _App2.default },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _RecipeListPage2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/add', component: _AddRecipePage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id', component: _SingleRecipePage2.default })
 	    )
 	), document.getElementById('app'));
@@ -27832,6 +27837,15 @@
 	                            { to: '/' },
 	                            'Recipe List'
 	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: '/recipe/add' },
+	                            'Add Recipe'
+	                        )
 	                    )
 	                )
 	            ),
@@ -38135,7 +38149,6 @@
 	        _jquery2.default.ajax({
 	            url: '/api/recipes/' + self.props.params.id + '/',
 	            success: function success(data) {
-	                console.log(data);
 	                self.setState({
 	                    loading: false,
 	                    data: data
@@ -38145,6 +38158,10 @@
 	    },
 	    toggleEditor: function toggleEditor() {
 	        this.setState({ editing: !this.state.editing });
+	    },
+	    saveRecipe: function saveRecipe(state) {
+	        // Send UPDATE to server here
+	        console.log(state);
 	    },
 	    render: function render() {
 	
@@ -38158,7 +38175,8 @@
 	        if (this.state.editing === true) {
 	            return _react2.default.createElement(_SingleRecipeEditor2.default, {
 	                recipe: this.state.data,
-	                handleCancelButton: this.toggleEditor
+	                handleCancelButton: this.toggleEditor,
+	                handleSubmit: this.saveRecipe
 	            });
 	        } else {
 	            return _react2.default.createElement(_SingleRecipeViewer2.default, {
@@ -38208,7 +38226,11 @@
 	
 	    propTypes: {
 	        recipe: _react2.default.PropTypes.object.isRequired,
-	        handleCancelButton: _react2.default.PropTypes.func.isRequired
+	        allowCancel: _react2.default.PropTypes.bool.isRequired,
+	        handleCancelButton: _react2.default.PropTypes.func.isRequired,
+	        handleSubmit: _react2.default.PropTypes.func.isRequired,
+	        allowDelete: _react2.default.PropTypes.bool.isRequired,
+	        handleDelete: _react2.default.PropTypes.func.isRequired
 	    },
 	
 	    getInitialState: function getInitialState() {
@@ -38262,13 +38284,20 @@
 	            ingredients: newIngredientsState
 	        });
 	    },
+	
+	
+	    // Save the edited recipe
+	    handleSubmit: function handleSubmit(e) {
+	        e.preventDefault();
+	        this.props.handleSubmit(this.state);
+	    },
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
 	            null,
 	            _react2.default.createElement(
 	                'form',
-	                null,
+	                { onSumbit: this.handleSubmit },
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
@@ -38357,7 +38386,8 @@
 	                }),
 	                _react2.default.createElement('input', {
 	                    type: 'submit',
-	                    value: 'Save'
+	                    value: 'Save',
+	                    onClick: this.handleSubmit
 	                }),
 	                _react2.default.createElement(
 	                    'button',
@@ -49225,6 +49255,62 @@
 	  }
 	};
 
+
+/***/ },
+/* 306 */
+/*!*****************************************!*\
+  !*** ./js/components/AddRecipePage.jsx ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
+	
+	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	
+	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 244);
+	
+	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'AddRecipePage',
+	    saveRecipe: function saveRecipe(state) {
+	        // Send POST to server here
+	        console.log(state);
+	    },
+	    render: function render() {
+	
+	        var emptyRecipe = {
+	            'title': '',
+	            'description': '',
+	            'yields': '',
+	            'prep_time': '',
+	            'cooking_time': '',
+	            'serve_with': '',
+	            'ingredients': [],
+	            'instructions': ''
+	        };
+	        return _react2.default.createElement(_SingleRecipeEditor2.default, {
+	            recipe: emptyRecipe,
+	            handleSubmit: this.saveRecipe
+	        });
+	    }
+	});
 
 /***/ }
 /******/ ]);

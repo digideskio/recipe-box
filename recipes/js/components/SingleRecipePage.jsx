@@ -21,7 +21,6 @@ export default React.createClass({
         $.ajax({
             url: '/api/recipes/' + self.props.params.id + '/',
             success: function(data) {
-                console.log(data);
                 self.setState({
                     loading: false,
                     data: data,
@@ -32,6 +31,11 @@ export default React.createClass({
 
     toggleEditor() {
         this.setState({editing: !this.state.editing});
+    },
+
+    saveRecipe(state) {
+        // Send UPDATE to server here
+        console.log(state);
     },
 
     render() {
@@ -48,6 +52,7 @@ export default React.createClass({
                 <SingleRecipeEditor
                     recipe={this.state.data}
                     handleCancelButton={this.toggleEditor}
+                    handleSubmit={this.saveRecipe}
                 />
             );
         }

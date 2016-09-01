@@ -7,7 +7,11 @@ export default React.createClass({
 
     propTypes: {
         recipe: React.PropTypes.object.isRequired,
-        handleCancelButton: React.PropTypes.func.isRequired
+        allowCancel: React.PropTypes.bool.isRequired,
+        handleCancelButton: React.PropTypes.func.isRequired,
+        handleSubmit: React.PropTypes.func.isRequired,
+        allowDelete: React.PropTypes.bool.isRequired,
+        handleDelete: React.PropTypes.func.isRequired
     },
 
     getInitialState() {
@@ -69,10 +73,16 @@ export default React.createClass({
         })
     },
 
+    // Save the edited recipe
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.handleSubmit(this.state);
+    },
+
     render() {
         return (
             <div>
-                <form>
+                <form onSumbit={this.handleSubmit}>
                     <label>Title</label>
                     <input
                         type="text"
@@ -138,6 +148,7 @@ export default React.createClass({
                     <input
                         type="submit"
                         value="Save"
+                        onClick={this.handleSubmit}
                     />
                     <button onClick={this.props.handleCancelButton}>Cancel</button>
                     <button>Delete Recipe</button>
