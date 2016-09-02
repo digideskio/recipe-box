@@ -27819,33 +27819,15 @@
 	            'div',
 	            null,
 	            _react2.default.createElement(
-	                'h1',
-	                null,
-	                'Recipe Box App'
-	            ),
-	            _react2.default.createElement(
-	                'nav',
+	                'header',
 	                null,
 	                _react2.default.createElement(
-	                    'ul',
-	                    null,
+	                    _reactRouter.Link,
+	                    { to: '/' },
 	                    _react2.default.createElement(
-	                        'li',
+	                        'h1',
 	                        null,
-	                        _react2.default.createElement(
-	                            _reactRouter.Link,
-	                            { to: '/' },
-	                            'Recipe List'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactRouter.Link,
-	                            { to: '/recipe/add' },
-	                            'Add Recipe'
-	                        )
+	                        'Recipe Box App'
 	                    )
 	                )
 	            ),
@@ -38021,6 +38003,8 @@
 	
 	var _RecipeThumb2 = _interopRequireDefault(_RecipeThumb);
 	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
@@ -38053,7 +38037,37 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                recipeThumbs
+	                _react2.default.createElement(
+	                    'nav',
+	                    null,
+	                    _react2.default.createElement(
+	                        'ul',
+	                        null,
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/' },
+	                                'Recipe List'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/recipe/add' },
+	                                'Add Recipe'
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'recipe-list' },
+	                    recipeThumbs
+	                )
 	            );
 	        }
 	    }
@@ -38092,11 +38106,11 @@
 	    render: function render() {
 	
 	        return _react2.default.createElement(
-	            'li',
-	            null,
+	            _reactRouter.Link,
+	            { to: this.props.url, className: 'recipe' },
 	            _react2.default.createElement(
-	                _reactRouter.Link,
-	                { to: this.props.url },
+	                'div',
+	                null,
 	                this.props.title
 	            )
 	        );
@@ -38294,7 +38308,7 @@
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
-	            null,
+	            { className: 'recipe-editor narrow-container' },
 	            _react2.default.createElement(
 	                'form',
 	                { onSumbit: this.handleSubmit },
@@ -38522,55 +38536,64 @@
 	            'div',
 	            { className: 'ingredient' },
 	            _react2.default.createElement(
-	                'label',
-	                null,
-	                'Quantity'
+	                'div',
+	                { className: 'fields' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Quantity'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'quantity',
+	                    value: this.props.ingredient.quantity,
+	                    onChange: this.changeField
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Unit'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'unit',
+	                    value: this.props.ingredient.unit,
+	                    onChange: this.changeField
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Ingredient'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'ingredient',
+	                    value: this.props.ingredient.ingredient,
+	                    onChange: this.changeField
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Preparation'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'preparation',
+	                    value: this.props.ingredient.preparation,
+	                    onChange: this.changeField
+	                })
 	            ),
-	            _react2.default.createElement('input', {
-	                type: 'text',
-	                name: 'quantity',
-	                value: this.props.ingredient.quantity,
-	                onChange: this.changeField
-	            }),
 	            _react2.default.createElement(
-	                'label',
-	                null,
-	                'Unit'
-	            ),
-	            _react2.default.createElement('input', {
-	                type: 'text',
-	                name: 'unit',
-	                value: this.props.ingredient.unit,
-	                onChange: this.changeField
-	            }),
-	            _react2.default.createElement(
-	                'label',
-	                null,
-	                'Ingredient'
-	            ),
-	            _react2.default.createElement('input', {
-	                type: 'text',
-	                name: 'ingredient',
-	                value: this.props.ingredient.ingredient,
-	                onChange: this.changeField
-	            }),
-	            _react2.default.createElement(
-	                'label',
-	                null,
-	                'Preparation'
-	            ),
-	            _react2.default.createElement('input', {
-	                type: 'text',
-	                name: 'preparation',
-	                value: this.props.ingredient.preparation,
-	                onChange: this.changeField
-	            }),
-	            _react2.default.createElement(
-	                'button',
-	                {
-	                    onClick: this.remove
-	                },
-	                'Remove This Ingredient'
+	                'div',
+	                { className: 'remove-button-wrapper' },
+	                _react2.default.createElement(
+	                    'button',
+	                    {
+	                        className: 'remove-button',
+	                        onClick: this.remove
+	                    },
+	                    '-'
+	                )
 	            )
 	        );
 	    }
@@ -38640,15 +38663,15 @@
 	        } else {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'recipe-viewer narrow-container' },
 	                _react2.default.createElement(
 	                    'h1',
-	                    null,
+	                    { className: 'title' },
 	                    recipe.title
 	                ),
 	                _react2.default.createElement(
 	                    'p',
-	                    null,
+	                    { className: 'description' },
 	                    recipe.description
 	                ),
 	                _react2.default.createElement(
@@ -38696,7 +38719,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'p',
-	                    null,
+	                    { className: 'instructions' },
 	                    _react2.default.createElement('span', { dangerouslySetInnerHTML: this.markdownToHTML(recipe.instructions) })
 	                ),
 	                _react2.default.createElement(

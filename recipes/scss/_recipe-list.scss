@@ -1,0 +1,13 @@
+.recipe-list {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+
+    .recipe {
+        display: block;
+        border: 1px solid grey;
+        min-height: 300px;
+        width: 28%;
+        margin: 0 4%;
+    }
+}

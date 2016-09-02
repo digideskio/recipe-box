@@ -32,9 +32,9 @@ export default React.createClass({
         }
         else {
             return (
-                <div>
-                    <h1>{recipe.title}</h1>
-                    <p>{recipe.description}</p>
+                <div className="recipe-viewer narrow-container">
+                    <h1 className="title">{recipe.title}</h1>
+                    <p className="description">{recipe.description}</p>
                     <ul>
                         <li>Yields: {recipe.yields}</li>
                         <li>Cooking Time: {recipe.cooking_time}</li>
@@ -46,7 +46,7 @@ export default React.createClass({
                         {ingredients}
                     </ul>
                     <h3>Instructions</h3>
-                    <p><span dangerouslySetInnerHTML={this.markdownToHTML(recipe.instructions)}></span></p>
+                    <p className="instructions"><span dangerouslySetInnerHTML={this.markdownToHTML(recipe.instructions)}></span></p>
                     <h3>Tags</h3>
                     <button onClick={this.props.handleEditButton}>Edit Recipe</button>
                 </div>

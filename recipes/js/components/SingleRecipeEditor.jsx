@@ -81,7 +81,7 @@ export default React.createClass({
 
     render() {
         return (
-            <div>
+            <div className="recipe-editor narrow-container">
                 <form onSumbit={this.handleSubmit}>
                     <label>Title</label>
                     <input

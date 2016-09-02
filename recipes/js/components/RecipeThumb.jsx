@@ -11,7 +11,11 @@ export default React.createClass({
     render() {
 
         return (
-            <li><Link to={this.props.url}>{this.props.title}</Link></li>
+            <Link to={this.props.url} className="recipe">
+                <div>
+                    {this.props.title}
+                </div>
+            </Link>
         );
 
     }

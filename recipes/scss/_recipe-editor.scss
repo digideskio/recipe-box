@@ -1,0 +1,22 @@
+.recipe-editor {
+    .ingredient {
+        display: flex;
+        padding: 5px;
+        margin: 5px 0px;
+        background-color: grey;
+        .fields {
+            width: 100%;
+        }
+        .remove-button-wrapper{
+            display: flex;
+            align-items: center;
+            width: 30px;
+        }
+        .remove-button{
+            background-color: red;
+            border-radius: 100%;
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

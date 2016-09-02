@@ -25,42 +25,47 @@ export default React.createClass({
 
         return (
             <div className="ingredient">
-                <label>Quantity</label>
-                <input
-                    type="text"
-                    name="quantity"
-                    value={this.props.ingredient.quantity}
-                    onChange={this.changeField}
-                />
+                <div className="fields">
+                    <label>Quantity</label>
+                    <input
+                        type="text"
+                        name="quantity"
+                        value={this.props.ingredient.quantity}
+                        onChange={this.changeField}
+                    />
 
-                <label>Unit</label>
-                <input
-                    type="text"
-                    name="unit"
-                    value={this.props.ingredient.unit}
-                    onChange={this.changeField}
-                />
+                    <label>Unit</label>
+                    <input
+                        type="text"
+                        name="unit"
+                        value={this.props.ingredient.unit}
+                        onChange={this.changeField}
+                    />
 
-                <label>Ingredient</label>
-                <input
-                    type="text"
-                    name="ingredient"
-                    value={this.props.ingredient.ingredient}
-                    onChange={this.changeField}
-                />
+                    <label>Ingredient</label>
+                    <input
+                        type="text"
+                        name="ingredient"
+                        value={this.props.ingredient.ingredient}
+                        onChange={this.changeField}
+                    />
 
-                <label>Preparation</label>
-                <input
-                    type="text"
-                    name="preparation"
-                    value={this.props.ingredient.preparation}
-                    onChange={this.changeField}
-                />
-                <button
-                    onClick={this.remove}
-                >
-                    Remove This Ingredient
-                </button>
+                    <label>Preparation</label>
+                    <input
+                        type="text"
+                        name="preparation"
+                        value={this.props.ingredient.preparation}
+                        onChange={this.changeField}
+                    />
+                </div>
+                <div className="remove-button-wrapper">
+                    <button
+                        className="remove-button"
+                        onClick={this.remove}
+                    >
+                        -
+                    </button>
+                </div>
             </div>
         );
 

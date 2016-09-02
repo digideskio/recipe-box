@@ -5,13 +5,13 @@ export default React.createClass({
     render() {
         return (
             <div>
-                <h1>Recipe Box App</h1>
-                <nav>
-                    <ul>
-                        <li><Link to='/'>Recipe List</Link></li>
-                        <li><Link to='/recipe/add'>Add Recipe</Link></li>
-                    </ul>
-                </nav>
+                <header>
+                    <Link to="/">
+                        <h1>
+                            Recipe Box App
+                        </h1>
+                    </Link>
+                </header>
                 {this.props.children}
             </div>
         )

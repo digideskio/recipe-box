@@ -1,9 +1,129 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+a {
+  color: inherit; }
+  a:visited {
+    color: inherit; }
+
+body {
+  font-family: sans-serif; }
+
 input, button, textarea {
   display: block; }
 
-.ingredient {
-  border: 1px solid grey;
+input[type='text'] {
+  width: 100%;
+  font-size: 1.5em;
+  padding: 10px; }
+
+textarea {
+  font-size: 1.5em;
+  width: 100%;
+  height: 200px;
+  resize: none; }
+
+button, input[type='submit'] {
+  background-color: blue;
+  border: 0;
+  padding: 10px;
+  color: white;
+  cursor: pointer; }
+
+.delete-button {
+  background-color: red; }
+
+.narrow-container {
+  width: 90%;
+  max-width: 700px;
+  margin: 30px auto; }
+
+header {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 15px; }
+  header a {
+    text-decoration: none;
+    color: white; }
+  header h1 {
+    font-size: 2em;
+    font-weight: 300; }
+
+.recipe-list {
+  display: flex;
+  flex-direction: row;
+  padding: 20px; }
+  .recipe-list .recipe {
+    display: block;
+    border: 1px solid grey;
+    min-height: 300px;
+    width: 28%;
+    margin: 0 4%; }
+
+.recipe-editor .ingredient {
+  display: flex;
   padding: 5px;
-  margin: 5px 0px; }
+  margin: 5px 0px;
+  background-color: grey; }
+  .recipe-editor .ingredient .fields {
+    width: 100%; }
+  .recipe-editor .ingredient .remove-button-wrapper {
+    display: flex;
+    align-items: center;
+    width: 30px; }
+  .recipe-editor .ingredient .remove-button {
+    background-color: red;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px; }
+
+.recipe-viewer .title {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px; }
 
 /*# sourceMappingURL=styles.css.map */

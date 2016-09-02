@@ -16,9 +16,17 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from recipes import views
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register(r'recipes', views.RecipeViewSet)
+router.register(r'recipeingredients', views.RecipeIngredientViewSet)
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls',
                                 namespace='rest_framework')),
+    url(r'^api/', include(router.urls, namespace='api')),
     url(r'^', include('recipes.urls')),
 ]
