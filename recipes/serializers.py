@@ -1,14 +1,12 @@
 from rest_framework import serializers
 from . import models
 
-class RecipeIngredientSerializer(serializers.ModelSerializer):
-    ingredient = serializers.StringRelatedField()
+class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.RecipeIngredient
+        model = models.Ingredient
         fields = (
             'id',
             'recipe',
-            'ingredient',
             'quantity',
             'unit',
             'preparation'
@@ -16,7 +14,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
 
-    ingredients = RecipeIngredientSerializer(source='recipeingredient_set', many=True)
+    ingredients = IngredientSerializer(source='ingredient_set', many=True)
 
     def create(self, validated_data):
 

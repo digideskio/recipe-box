@@ -21,7 +21,7 @@ from rest_framework import routers
 
 router = routers.SimpleRouter()
 router.register(r'recipes', views.RecipeViewSet)
-router.register(r'recipeingredients', views.RecipeIngredientViewSet)
+# router.register(r'recipeingredients', views.RecipeIngredientViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

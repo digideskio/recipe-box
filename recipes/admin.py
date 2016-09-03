@@ -1,11 +1,28 @@
 from django.contrib import admin
 from . import models
 
-class RecipeIngredientsInline(admin.StackedInline):
-    model = models.RecipeIngredient
+class IngredientInline(admin.StackedInline):
+    fields = (
+        'quantity',
+        'unit',
+        'name',
+        'preparation'
+    )
+    model = models.Ingredient
 
 class RecipeAdmin(admin.ModelAdmin):
-    inlines = [RecipeIngredientsInline]
+    fields = (
+        'title',
+        'description',
+        'yields',
+        'prep_time',
+        'cooking_time',
+        'instructions',
+        'serve_with',
+        'notes',
+        'tags'
+    )
+    inlines = [IngredientInline]
 
 # Register your models here.
 admin.site.register(models.Recipe, RecipeAdmin)
