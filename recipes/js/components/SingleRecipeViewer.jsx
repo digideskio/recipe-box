@@ -22,7 +22,9 @@ export default React.createClass({
         var ingredients = recipe.ingredients.map(function (ingredient) {
             return (
                 <li>
-                    {ingredient.quantity} {ingredient.unit} {ingredient.ingredient}, {ingredient.preparation}
+                    {ingredient.quantity} {ingredient.unit} {ingredient.ingredient}
+                    {/* append a comma if ingredient includes preparation */ }
+                    { ingredient.preparation ? ', ' + ingredient.preparation : ''}
                 </li>
             );
         });
@@ -34,21 +36,34 @@ export default React.createClass({
             return (
                 <div className="recipe-viewer narrow-container">
                     <h1 className="title">{recipe.title}</h1>
-                    <p className="description">{recipe.description}</p>
+                    <div className="divider"></div>
+                    { recipe.description ?
+                        <div>
+                            <p className="description">{recipe.description}</p>
+                            <div className="divider"></div>
+                        </div>
+                    :
+                    ''
+                    }
+                    <div className="yields">{recipe.yields}</div>
                     <ul>
-                        <li>Yields: {recipe.yields}</li>
                         <li>Cooking Time: {recipe.cooking_time}</li>
                         <li>Prep Time: {recipe.prep_time}</li>
-                        <li>Serve With: {recipe.serve_with}</li>
                     </ul>
-                    <h3>Ingredients</h3>
-                    <ul>
+                    <h3 className="subhead">Ingredients</h3>
+                    <ul className="ingredients">
                         {ingredients}
                     </ul>
-                    <h3>Instructions</h3>
-                    <p className="instructions"><span dangerouslySetInnerHTML={this.markdownToHTML(recipe.instructions)}></span></p>
-                    <h3>Tags</h3>
-                    <button onClick={this.props.handleEditButton}>Edit Recipe</button>
+                    <h3 className="subhead">Instructions</h3>
+                    <p className="instructions">
+                        <span dangerouslySetInnerHTML={this.markdownToHTML(recipe.instructions)}></span>
+                    </p>
+                    <p>Serve With: {recipe.serve_with}</p>
+                    <h3 className="subhead">Tags</h3>
+                    <div className="divider"></div>
+                    <div className="buttons-wrapper">
+                        <button onClick={this.props.handleEditButton}>Edit Recipe</button>
+                    </div>
                 </div>
             )
         }

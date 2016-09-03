@@ -27,9 +27,12 @@ textarea {
 }
 
 button, input[type='submit'] {
-    background-color: blue;
+    display: inline-block;
+    font-family: $serif-font;
+    font-size: 1.25em;
+    background-color: $green;
     border: 0;
-    padding: 10px;
+    padding: 10px 20px;
     color: white;
     cursor: pointer;
     &:hover {

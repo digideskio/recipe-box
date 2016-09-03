@@ -8,7 +8,7 @@ export default React.createClass({
                 <header>
                     <Link to="/">
                         <h1>
-                            Recipe Box App
+                            Recipe Box
                         </h1>
                     </Link>
                 </header>

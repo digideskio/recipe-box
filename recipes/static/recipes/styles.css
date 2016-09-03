@@ -2,6 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import "https://fonts.googleapis.com/css?family=Merriweather:400,400i|Open+Sans";
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -68,9 +69,12 @@ textarea {
   resize: none; }
 
 button, input[type='submit'] {
-  background-color: blue;
+  display: inline-block;
+  font-family: "Merriweather";
+  font-size: 1.25em;
+  background-color: #145a32;
   border: 0;
-  padding: 10px;
+  padding: 10px 20px;
   color: white;
   cursor: pointer; }
 
@@ -83,13 +87,14 @@ button, input[type='submit'] {
   margin: 30px auto; }
 
 header {
-  background-color: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 15px; }
+  background-color: black;
+  border-bottom: 1px solid grey;
+  padding: 20px 20px 20px 30px; }
   header a {
-    text-decoration: none;
-    color: white; }
+    text-decoration: none; }
   header h1 {
+    font-family: "Merriweather";
+    color: white;
     font-size: 2em;
     font-weight: 300; }
 
@@ -122,8 +127,49 @@ header {
     height: 20px; }
 
 .recipe-viewer .title {
-  font-size: 2em;
+  font-family: "Merriweather";
+  color: #b22222;
+  font-size: 2.5em;
   text-align: center;
   margin-bottom: 20px; }
+.recipe-viewer .description {
+  font-family: "Merriweather";
+  margin-bottom: 20px;
+  line-height: 1.75em;
+  text-align: center; }
+.recipe-viewer .yields {
+  font-family: "Merriweather";
+  font-style: italic;
+  text-align: center; }
+.recipe-viewer .subhead {
+  font-family: "Merriweather";
+  font-style: italic;
+  color: #b22222;
+  font-size: 1.5em;
+  margin: 10px 0px; }
+.recipe-viewer .ingredients {
+  font-family: "Merriweather"; }
+  .recipe-viewer .ingredients li {
+    line-height: 1.4em;
+    margin-bottom: 10px;
+    padding-left: 35px;
+    text-indent: -35px; }
+.recipe-viewer .instructions {
+  font-family: "Merriweather"; }
+  .recipe-viewer .instructions ol {
+    list-style-type: decimal;
+    list-style-position: inside; }
+  .recipe-viewer .instructions li {
+    line-height: 1.4em;
+    margin-bottom: 10px;
+    text-indent: 30px; }
+.recipe-viewer .buttons-wrapper {
+  text-align: right; }
+.recipe-viewer .divider {
+  height: 2px;
+  width: 100%;
+  max-width: 200px;
+  margin: 20px auto;
+  background-color: grey; }
 
 /*# sourceMappingURL=styles.css.map */

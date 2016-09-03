@@ -69,7 +69,7 @@
 	
 	var _SingleRecipePage2 = _interopRequireDefault(_SingleRecipePage);
 	
-	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 306);
+	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 245);
 	
 	var _AddRecipePage2 = _interopRequireDefault(_AddRecipePage);
 	
@@ -27827,7 +27827,7 @@
 	                    _react2.default.createElement(
 	                        'h1',
 	                        null,
-	                        'Recipe Box App'
+	                        'Recipe Box'
 	                    )
 	                )
 	            ),
@@ -38620,7 +38620,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _remarkable = __webpack_require__(/*! remarkable */ 245);
+	var _remarkable = __webpack_require__(/*! remarkable */ 246);
 	
 	var _remarkable2 = _interopRequireDefault(_remarkable);
 	
@@ -38653,8 +38653,7 @@
 	                ingredient.unit,
 	                ' ',
 	                ingredient.ingredient,
-	                ', ',
-	                ingredient.preparation
+	                ingredient.preparation ? ', ' + ingredient.preparation : ''
 	            );
 	        });
 	
@@ -38669,20 +38668,25 @@
 	                    { className: 'title' },
 	                    recipe.title
 	                ),
+	                _react2.default.createElement('div', { className: 'divider' }),
+	                recipe.description ? _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(
+	                        'p',
+	                        { className: 'description' },
+	                        recipe.description
+	                    ),
+	                    _react2.default.createElement('div', { className: 'divider' })
+	                ) : '',
 	                _react2.default.createElement(
-	                    'p',
-	                    { className: 'description' },
-	                    recipe.description
+	                    'div',
+	                    { className: 'yields' },
+	                    recipe.yields
 	                ),
 	                _react2.default.createElement(
 	                    'ul',
 	                    null,
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        'Yields: ',
-	                        recipe.yields
-	                    ),
 	                    _react2.default.createElement(
 	                        'li',
 	                        null,
@@ -38694,27 +38698,21 @@
 	                        null,
 	                        'Prep Time: ',
 	                        recipe.prep_time
-	                    ),
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        'Serve With: ',
-	                        recipe.serve_with
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'h3',
-	                    null,
+	                    { className: 'subhead' },
 	                    'Ingredients'
 	                ),
 	                _react2.default.createElement(
 	                    'ul',
-	                    null,
+	                    { className: 'ingredients' },
 	                    ingredients
 	                ),
 	                _react2.default.createElement(
 	                    'h3',
-	                    null,
+	                    { className: 'subhead' },
 	                    'Instructions'
 	                ),
 	                _react2.default.createElement(
@@ -38723,14 +38721,25 @@
 	                    _react2.default.createElement('span', { dangerouslySetInnerHTML: this.markdownToHTML(recipe.instructions) })
 	                ),
 	                _react2.default.createElement(
-	                    'h3',
+	                    'p',
 	                    null,
-	                    'Tags'
+	                    'Serve With: ',
+	                    recipe.serve_with
 	                ),
 	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.props.handleEditButton },
-	                    'Edit Recipe'
+	                    'h3',
+	                    { className: 'subhead' },
+	                    'Tags'
+	                ),
+	                _react2.default.createElement('div', { className: 'divider' }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'buttons-wrapper' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.props.handleEditButton },
+	                        'Edit Recipe'
+	                    )
 	                )
 	            );
 	        }
@@ -38739,6 +38748,62 @@
 
 /***/ },
 /* 245 */
+/*!*****************************************!*\
+  !*** ./js/components/AddRecipePage.jsx ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
+	
+	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	
+	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 244);
+	
+	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'AddRecipePage',
+	    saveRecipe: function saveRecipe(state) {
+	        // Send POST to server here
+	        console.log(state);
+	    },
+	    render: function render() {
+	
+	        var emptyRecipe = {
+	            'title': '',
+	            'description': '',
+	            'yields': '',
+	            'prep_time': '',
+	            'cooking_time': '',
+	            'serve_with': '',
+	            'ingredients': [],
+	            'instructions': ''
+	        };
+	        return _react2.default.createElement(_SingleRecipeEditor2.default, {
+	            recipe: emptyRecipe,
+	            handleSubmit: this.saveRecipe
+	        });
+	    }
+	});
+
+/***/ },
+/* 246 */
 /*!*******************************!*\
   !*** ./~/remarkable/index.js ***!
   \*******************************/
@@ -38747,11 +38812,11 @@
 	'use strict';
 	
 	
-	module.exports = __webpack_require__(/*! ./lib/ */ 246);
+	module.exports = __webpack_require__(/*! ./lib/ */ 247);
 
 
 /***/ },
-/* 246 */
+/* 247 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/index.js ***!
   \***********************************/
@@ -38763,21 +38828,21 @@
 	 * Local dependencies
 	 */
 	
-	var assign       = __webpack_require__(/*! ./common/utils */ 247).assign;
-	var Renderer     = __webpack_require__(/*! ./renderer */ 249);
-	var ParserCore   = __webpack_require__(/*! ./parser_core */ 251);
-	var ParserBlock  = __webpack_require__(/*! ./parser_block */ 269);
-	var ParserInline = __webpack_require__(/*! ./parser_inline */ 284);
-	var Ruler        = __webpack_require__(/*! ./ruler */ 252);
+	var assign       = __webpack_require__(/*! ./common/utils */ 248).assign;
+	var Renderer     = __webpack_require__(/*! ./renderer */ 250);
+	var ParserCore   = __webpack_require__(/*! ./parser_core */ 252);
+	var ParserBlock  = __webpack_require__(/*! ./parser_block */ 270);
+	var ParserInline = __webpack_require__(/*! ./parser_inline */ 285);
+	var Ruler        = __webpack_require__(/*! ./ruler */ 253);
 	
 	/**
 	 * Preset configs
 	 */
 	
 	var config = {
-	  'default':    __webpack_require__(/*! ./configs/default */ 303),
-	  'full':       __webpack_require__(/*! ./configs/full */ 304),
-	  'commonmark': __webpack_require__(/*! ./configs/commonmark */ 305)
+	  'default':    __webpack_require__(/*! ./configs/default */ 304),
+	  'full':       __webpack_require__(/*! ./configs/full */ 305),
+	  'commonmark': __webpack_require__(/*! ./configs/commonmark */ 306)
 	};
 	
 	/**
@@ -38951,11 +39016,11 @@
 	 * rendering.
 	 */
 	
-	module.exports.utils = __webpack_require__(/*! ./common/utils */ 247);
+	module.exports.utils = __webpack_require__(/*! ./common/utils */ 248);
 
 
 /***/ },
-/* 247 */
+/* 248 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/common/utils.js ***!
   \******************************************/
@@ -39045,7 +39110,7 @@
 	
 	var NAMED_ENTITY_RE   = /&([a-z#][a-z0-9]{1,31});/gi;
 	var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
-	var entities = __webpack_require__(/*! ./entities */ 248);
+	var entities = __webpack_require__(/*! ./entities */ 249);
 	
 	function replaceEntityPattern(match, name) {
 	  var code = 0;
@@ -39105,7 +39170,7 @@
 
 
 /***/ },
-/* 248 */
+/* 249 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/common/entities.js ***!
   \*********************************************/
@@ -41248,7 +41313,7 @@
 
 
 /***/ },
-/* 249 */
+/* 250 */
 /*!**************************************!*\
   !*** ./~/remarkable/lib/renderer.js ***!
   \**************************************/
@@ -41260,8 +41325,8 @@
 	 * Local dependencies
 	 */
 	
-	var utils = __webpack_require__(/*! ./common/utils */ 247);
-	var rules = __webpack_require__(/*! ./rules */ 250);
+	var utils = __webpack_require__(/*! ./common/utils */ 248);
+	var rules = __webpack_require__(/*! ./rules */ 251);
 	
 	/**
 	 * Expose `Renderer`
@@ -41332,7 +41397,7 @@
 
 
 /***/ },
-/* 250 */
+/* 251 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/rules.js ***!
   \***********************************/
@@ -41344,10 +41409,10 @@
 	 * Local dependencies
 	 */
 	
-	var has             = __webpack_require__(/*! ./common/utils */ 247).has;
-	var unescapeMd      = __webpack_require__(/*! ./common/utils */ 247).unescapeMd;
-	var replaceEntities = __webpack_require__(/*! ./common/utils */ 247).replaceEntities;
-	var escapeHtml      = __webpack_require__(/*! ./common/utils */ 247).escapeHtml;
+	var has             = __webpack_require__(/*! ./common/utils */ 248).has;
+	var unescapeMd      = __webpack_require__(/*! ./common/utils */ 248).unescapeMd;
+	var replaceEntities = __webpack_require__(/*! ./common/utils */ 248).replaceEntities;
+	var escapeHtml      = __webpack_require__(/*! ./common/utils */ 248).escapeHtml;
 	
 	/**
 	 * Renderer rules cache
@@ -41768,7 +41833,7 @@
 
 
 /***/ },
-/* 251 */
+/* 252 */
 /*!*****************************************!*\
   !*** ./~/remarkable/lib/parser_core.js ***!
   \*****************************************/
@@ -41780,22 +41845,22 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler = __webpack_require__(/*! ./ruler */ 252);
+	var Ruler = __webpack_require__(/*! ./ruler */ 253);
 	
 	/**
 	 * Core parser `rules`
 	 */
 	
 	var _rules = [
-	  [ 'block',          __webpack_require__(/*! ./rules_core/block */ 253)          ],
-	  [ 'abbr',           __webpack_require__(/*! ./rules_core/abbr */ 254)           ],
-	  [ 'references',     __webpack_require__(/*! ./rules_core/references */ 257)     ],
-	  [ 'inline',         __webpack_require__(/*! ./rules_core/inline */ 262)         ],
-	  [ 'footnote_tail',  __webpack_require__(/*! ./rules_core/footnote_tail */ 263)  ],
-	  [ 'abbr2',          __webpack_require__(/*! ./rules_core/abbr2 */ 264)          ],
-	  [ 'replacements',   __webpack_require__(/*! ./rules_core/replacements */ 265)   ],
-	  [ 'smartquotes',    __webpack_require__(/*! ./rules_core/smartquotes */ 266)    ],
-	  [ 'linkify',        __webpack_require__(/*! ./rules_core/linkify */ 267)        ]
+	  [ 'block',          __webpack_require__(/*! ./rules_core/block */ 254)          ],
+	  [ 'abbr',           __webpack_require__(/*! ./rules_core/abbr */ 255)           ],
+	  [ 'references',     __webpack_require__(/*! ./rules_core/references */ 258)     ],
+	  [ 'inline',         __webpack_require__(/*! ./rules_core/inline */ 263)         ],
+	  [ 'footnote_tail',  __webpack_require__(/*! ./rules_core/footnote_tail */ 264)  ],
+	  [ 'abbr2',          __webpack_require__(/*! ./rules_core/abbr2 */ 265)          ],
+	  [ 'replacements',   __webpack_require__(/*! ./rules_core/replacements */ 266)   ],
+	  [ 'smartquotes',    __webpack_require__(/*! ./rules_core/smartquotes */ 267)    ],
+	  [ 'linkify',        __webpack_require__(/*! ./rules_core/linkify */ 268)        ]
 	];
 	
 	/**
@@ -41835,7 +41900,7 @@
 
 
 /***/ },
-/* 252 */
+/* 253 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/ruler.js ***!
   \***********************************/
@@ -42117,7 +42182,7 @@
 
 
 /***/ },
-/* 253 */
+/* 254 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_core/block.js ***!
   \**********************************************/
@@ -42143,7 +42208,7 @@
 
 
 /***/ },
-/* 254 */
+/* 255 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/rules_core/abbr.js ***!
   \*********************************************/
@@ -42155,8 +42220,8 @@
 	'use strict';
 	
 	
-	var StateInline    = __webpack_require__(/*! ../rules_inline/state_inline */ 255);
-	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 256);
+	var StateInline    = __webpack_require__(/*! ../rules_inline/state_inline */ 256);
+	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
 	
 	
 	function parseAbbr(str, parserInline, options, env) {
@@ -42222,7 +42287,7 @@
 
 
 /***/ },
-/* 255 */
+/* 256 */
 /*!*******************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/state_inline.js ***!
   \*******************************************************/
@@ -42313,7 +42378,7 @@
 
 
 /***/ },
-/* 256 */
+/* 257 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_label.js ***!
   \******************************************************/
@@ -42381,7 +42446,7 @@
 
 
 /***/ },
-/* 257 */
+/* 258 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_core/references.js ***!
   \***************************************************/
@@ -42390,11 +42455,11 @@
 	'use strict';
 	
 	
-	var StateInline          = __webpack_require__(/*! ../rules_inline/state_inline */ 255);
-	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 256);
-	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 258);
-	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 260);
-	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 261);
+	var StateInline          = __webpack_require__(/*! ../rules_inline/state_inline */ 256);
+	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
+	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 259);
+	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 261);
+	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 262);
 	
 	
 	function parseReference(str, parser, options, env) {
@@ -42488,7 +42553,7 @@
 
 
 /***/ },
-/* 258 */
+/* 259 */
 /*!************************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_destination.js ***!
   \************************************************************/
@@ -42497,8 +42562,8 @@
 	'use strict';
 	
 	
-	var normalizeLink = __webpack_require__(/*! ./normalize_link */ 259);
-	var unescapeMd    = __webpack_require__(/*! ../common/utils */ 247).unescapeMd;
+	var normalizeLink = __webpack_require__(/*! ./normalize_link */ 260);
+	var unescapeMd    = __webpack_require__(/*! ../common/utils */ 248).unescapeMd;
 	
 	/**
 	 * Parse link destination
@@ -42580,7 +42645,7 @@
 
 
 /***/ },
-/* 259 */
+/* 260 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/helpers/normalize_link.js ***!
   \****************************************************/
@@ -42588,7 +42653,7 @@
 
 	'use strict';
 	
-	var replaceEntities = __webpack_require__(/*! ../common/utils */ 247).replaceEntities;
+	var replaceEntities = __webpack_require__(/*! ../common/utils */ 248).replaceEntities;
 	
 	module.exports = function normalizeLink(url) {
 	  var normalized = replaceEntities(url);
@@ -42602,7 +42667,7 @@
 
 
 /***/ },
-/* 260 */
+/* 261 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_title.js ***!
   \******************************************************/
@@ -42611,7 +42676,7 @@
 	'use strict';
 	
 	
-	var unescapeMd = __webpack_require__(/*! ../common/utils */ 247).unescapeMd;
+	var unescapeMd = __webpack_require__(/*! ../common/utils */ 248).unescapeMd;
 	
 	/**
 	 * Parse link title
@@ -42657,7 +42722,7 @@
 
 
 /***/ },
-/* 261 */
+/* 262 */
 /*!*********************************************************!*\
   !*** ./~/remarkable/lib/helpers/normalize_reference.js ***!
   \*********************************************************/
@@ -42674,7 +42739,7 @@
 
 
 /***/ },
-/* 262 */
+/* 263 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_core/inline.js ***!
   \***********************************************/
@@ -42696,7 +42761,7 @@
 
 
 /***/ },
-/* 263 */
+/* 264 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/rules_core/footnote_tail.js ***!
   \******************************************************/
@@ -42800,7 +42865,7 @@
 
 
 /***/ },
-/* 264 */
+/* 265 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_core/abbr2.js ***!
   \**********************************************/
@@ -42897,7 +42962,7 @@
 
 
 /***/ },
-/* 265 */
+/* 266 */
 /*!*****************************************************!*\
   !*** ./~/remarkable/lib/rules_core/replacements.js ***!
   \*****************************************************/
@@ -42970,7 +43035,7 @@
 
 
 /***/ },
-/* 266 */
+/* 267 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_core/smartquotes.js ***!
   \****************************************************/
@@ -43092,7 +43157,7 @@
 
 
 /***/ },
-/* 267 */
+/* 268 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_core/linkify.js ***!
   \************************************************/
@@ -43105,7 +43170,7 @@
 	'use strict';
 	
 	
-	var Autolinker = __webpack_require__(/*! autolinker */ 268);
+	var Autolinker = __webpack_require__(/*! autolinker */ 269);
 	
 	
 	var LINK_SCAN_RE = /www|@|\:\/\//;
@@ -43262,7 +43327,7 @@
 
 
 /***/ },
-/* 268 */
+/* 269 */
 /*!*****************************************!*\
   !*** ./~/autolinker/dist/Autolinker.js ***!
   \*****************************************/
@@ -45594,7 +45659,7 @@
 
 
 /***/ },
-/* 269 */
+/* 270 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/parser_block.js ***!
   \******************************************/
@@ -45606,26 +45671,26 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler      = __webpack_require__(/*! ./ruler */ 252);
-	var StateBlock = __webpack_require__(/*! ./rules_block/state_block */ 270);
+	var Ruler      = __webpack_require__(/*! ./ruler */ 253);
+	var StateBlock = __webpack_require__(/*! ./rules_block/state_block */ 271);
 	
 	/**
 	 * Parser rules
 	 */
 	
 	var _rules = [
-	  [ 'code',       __webpack_require__(/*! ./rules_block/code */ 271) ],
-	  [ 'fences',     __webpack_require__(/*! ./rules_block/fences */ 272),     [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'blockquote', __webpack_require__(/*! ./rules_block/blockquote */ 273), [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'hr',         __webpack_require__(/*! ./rules_block/hr */ 274),         [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'list',       __webpack_require__(/*! ./rules_block/list */ 275),       [ 'paragraph', 'blockquote' ] ],
-	  [ 'footnote',   __webpack_require__(/*! ./rules_block/footnote */ 276),   [ 'paragraph' ] ],
-	  [ 'heading',    __webpack_require__(/*! ./rules_block/heading */ 277),    [ 'paragraph', 'blockquote' ] ],
-	  [ 'lheading',   __webpack_require__(/*! ./rules_block/lheading */ 278) ],
-	  [ 'htmlblock',  __webpack_require__(/*! ./rules_block/htmlblock */ 279),  [ 'paragraph', 'blockquote' ] ],
-	  [ 'table',      __webpack_require__(/*! ./rules_block/table */ 281),      [ 'paragraph' ] ],
-	  [ 'deflist',    __webpack_require__(/*! ./rules_block/deflist */ 282),    [ 'paragraph' ] ],
-	  [ 'paragraph',  __webpack_require__(/*! ./rules_block/paragraph */ 283) ]
+	  [ 'code',       __webpack_require__(/*! ./rules_block/code */ 272) ],
+	  [ 'fences',     __webpack_require__(/*! ./rules_block/fences */ 273),     [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'blockquote', __webpack_require__(/*! ./rules_block/blockquote */ 274), [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'hr',         __webpack_require__(/*! ./rules_block/hr */ 275),         [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'list',       __webpack_require__(/*! ./rules_block/list */ 276),       [ 'paragraph', 'blockquote' ] ],
+	  [ 'footnote',   __webpack_require__(/*! ./rules_block/footnote */ 277),   [ 'paragraph' ] ],
+	  [ 'heading',    __webpack_require__(/*! ./rules_block/heading */ 278),    [ 'paragraph', 'blockquote' ] ],
+	  [ 'lheading',   __webpack_require__(/*! ./rules_block/lheading */ 279) ],
+	  [ 'htmlblock',  __webpack_require__(/*! ./rules_block/htmlblock */ 280),  [ 'paragraph', 'blockquote' ] ],
+	  [ 'table',      __webpack_require__(/*! ./rules_block/table */ 282),      [ 'paragraph' ] ],
+	  [ 'deflist',    __webpack_require__(/*! ./rules_block/deflist */ 283),    [ 'paragraph' ] ],
+	  [ 'paragraph',  __webpack_require__(/*! ./rules_block/paragraph */ 284) ]
 	];
 	
 	/**
@@ -45758,7 +45823,7 @@
 
 
 /***/ },
-/* 270 */
+/* 271 */
 /*!*****************************************************!*\
   !*** ./~/remarkable/lib/rules_block/state_block.js ***!
   \*****************************************************/
@@ -45925,7 +45990,7 @@
 
 
 /***/ },
-/* 271 */
+/* 272 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_block/code.js ***!
   \**********************************************/
@@ -45970,7 +46035,7 @@
 
 
 /***/ },
-/* 272 */
+/* 273 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_block/fences.js ***!
   \************************************************/
@@ -46070,7 +46135,7 @@
 
 
 /***/ },
-/* 273 */
+/* 274 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_block/blockquote.js ***!
   \****************************************************/
@@ -46212,7 +46277,7 @@
 
 
 /***/ },
-/* 274 */
+/* 275 */
 /*!********************************************!*\
   !*** ./~/remarkable/lib/rules_block/hr.js ***!
   \********************************************/
@@ -46266,7 +46331,7 @@
 
 
 /***/ },
-/* 275 */
+/* 276 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_block/list.js ***!
   \**********************************************/
@@ -46541,7 +46606,7 @@
 
 
 /***/ },
-/* 276 */
+/* 277 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_block/footnote.js ***!
   \**************************************************/
@@ -46617,7 +46682,7 @@
 
 
 /***/ },
-/* 277 */
+/* 278 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_block/heading.js ***!
   \*************************************************/
@@ -46684,7 +46749,7 @@
 
 
 /***/ },
-/* 278 */
+/* 279 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_block/lheading.js ***!
   \**************************************************/
@@ -46748,7 +46813,7 @@
 
 
 /***/ },
-/* 279 */
+/* 280 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_block/htmlblock.js ***!
   \***************************************************/
@@ -46759,7 +46824,7 @@
 	'use strict';
 	
 	
-	var block_names = __webpack_require__(/*! ../common/html_blocks */ 280);
+	var block_names = __webpack_require__(/*! ../common/html_blocks */ 281);
 	
 	
 	var HTML_TAG_OPEN_RE = /^<([a-zA-Z]{1,15})[\s\/>]/;
@@ -46831,7 +46896,7 @@
 
 
 /***/ },
-/* 280 */
+/* 281 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/common/html_blocks.js ***!
   \************************************************/
@@ -46902,7 +46967,7 @@
 
 
 /***/ },
-/* 281 */
+/* 282 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_block/table.js ***!
   \***********************************************/
@@ -47045,7 +47110,7 @@
 
 
 /***/ },
-/* 282 */
+/* 283 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_block/deflist.js ***!
   \*************************************************/
@@ -47261,7 +47326,7 @@
 
 
 /***/ },
-/* 283 */
+/* 284 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_block/paragraph.js ***!
   \***************************************************/
@@ -47329,7 +47394,7 @@
 
 
 /***/ },
-/* 284 */
+/* 285 */
 /*!*******************************************!*\
   !*** ./~/remarkable/lib/parser_inline.js ***!
   \*******************************************/
@@ -47341,31 +47406,31 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler       = __webpack_require__(/*! ./ruler */ 252);
-	var StateInline = __webpack_require__(/*! ./rules_inline/state_inline */ 255);
-	var utils       = __webpack_require__(/*! ./common/utils */ 247);
+	var Ruler       = __webpack_require__(/*! ./ruler */ 253);
+	var StateInline = __webpack_require__(/*! ./rules_inline/state_inline */ 256);
+	var utils       = __webpack_require__(/*! ./common/utils */ 248);
 	
 	/**
 	 * Inline Parser `rules`
 	 */
 	
 	var _rules = [
-	  [ 'text',            __webpack_require__(/*! ./rules_inline/text */ 285) ],
-	  [ 'newline',         __webpack_require__(/*! ./rules_inline/newline */ 286) ],
-	  [ 'escape',          __webpack_require__(/*! ./rules_inline/escape */ 287) ],
-	  [ 'backticks',       __webpack_require__(/*! ./rules_inline/backticks */ 288) ],
-	  [ 'del',             __webpack_require__(/*! ./rules_inline/del */ 289) ],
-	  [ 'ins',             __webpack_require__(/*! ./rules_inline/ins */ 290) ],
-	  [ 'mark',            __webpack_require__(/*! ./rules_inline/mark */ 291) ],
-	  [ 'emphasis',        __webpack_require__(/*! ./rules_inline/emphasis */ 292) ],
-	  [ 'sub',             __webpack_require__(/*! ./rules_inline/sub */ 293) ],
-	  [ 'sup',             __webpack_require__(/*! ./rules_inline/sup */ 294) ],
-	  [ 'links',           __webpack_require__(/*! ./rules_inline/links */ 295) ],
-	  [ 'footnote_inline', __webpack_require__(/*! ./rules_inline/footnote_inline */ 296) ],
-	  [ 'footnote_ref',    __webpack_require__(/*! ./rules_inline/footnote_ref */ 297) ],
-	  [ 'autolink',        __webpack_require__(/*! ./rules_inline/autolink */ 298) ],
-	  [ 'htmltag',         __webpack_require__(/*! ./rules_inline/htmltag */ 300) ],
-	  [ 'entity',          __webpack_require__(/*! ./rules_inline/entity */ 302) ]
+	  [ 'text',            __webpack_require__(/*! ./rules_inline/text */ 286) ],
+	  [ 'newline',         __webpack_require__(/*! ./rules_inline/newline */ 287) ],
+	  [ 'escape',          __webpack_require__(/*! ./rules_inline/escape */ 288) ],
+	  [ 'backticks',       __webpack_require__(/*! ./rules_inline/backticks */ 289) ],
+	  [ 'del',             __webpack_require__(/*! ./rules_inline/del */ 290) ],
+	  [ 'ins',             __webpack_require__(/*! ./rules_inline/ins */ 291) ],
+	  [ 'mark',            __webpack_require__(/*! ./rules_inline/mark */ 292) ],
+	  [ 'emphasis',        __webpack_require__(/*! ./rules_inline/emphasis */ 293) ],
+	  [ 'sub',             __webpack_require__(/*! ./rules_inline/sub */ 294) ],
+	  [ 'sup',             __webpack_require__(/*! ./rules_inline/sup */ 295) ],
+	  [ 'links',           __webpack_require__(/*! ./rules_inline/links */ 296) ],
+	  [ 'footnote_inline', __webpack_require__(/*! ./rules_inline/footnote_inline */ 297) ],
+	  [ 'footnote_ref',    __webpack_require__(/*! ./rules_inline/footnote_ref */ 298) ],
+	  [ 'autolink',        __webpack_require__(/*! ./rules_inline/autolink */ 299) ],
+	  [ 'htmltag',         __webpack_require__(/*! ./rules_inline/htmltag */ 301) ],
+	  [ 'entity',          __webpack_require__(/*! ./rules_inline/entity */ 303) ]
 	];
 	
 	/**
@@ -47499,7 +47564,7 @@
 
 
 /***/ },
-/* 285 */
+/* 286 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/text.js ***!
   \***********************************************/
@@ -47561,7 +47626,7 @@
 
 
 /***/ },
-/* 286 */
+/* 287 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/newline.js ***!
   \**************************************************/
@@ -47618,7 +47683,7 @@
 
 
 /***/ },
-/* 287 */
+/* 288 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/escape.js ***!
   \*************************************************/
@@ -47676,7 +47741,7 @@
 
 
 /***/ },
-/* 288 */
+/* 289 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/backticks.js ***!
   \****************************************************/
@@ -47731,7 +47796,7 @@
 
 
 /***/ },
-/* 289 */
+/* 290 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/del.js ***!
   \**********************************************/
@@ -47824,7 +47889,7 @@
 
 
 /***/ },
-/* 290 */
+/* 291 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/ins.js ***!
   \**********************************************/
@@ -47917,7 +47982,7 @@
 
 
 /***/ },
-/* 291 */
+/* 292 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/mark.js ***!
   \***********************************************/
@@ -48010,7 +48075,7 @@
 
 
 /***/ },
-/* 292 */
+/* 293 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/emphasis.js ***!
   \***************************************************/
@@ -48168,7 +48233,7 @@
 
 
 /***/ },
-/* 293 */
+/* 294 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/sub.js ***!
   \**********************************************/
@@ -48235,7 +48300,7 @@
 
 
 /***/ },
-/* 294 */
+/* 295 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/sup.js ***!
   \**********************************************/
@@ -48302,7 +48367,7 @@
 
 
 /***/ },
-/* 295 */
+/* 296 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/links.js ***!
   \************************************************/
@@ -48312,10 +48377,10 @@
 	
 	'use strict';
 	
-	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 256);
-	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 258);
-	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 260);
-	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 261);
+	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
+	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 259);
+	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 261);
+	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 262);
 	
 	
 	module.exports = function links(state, silent) {
@@ -48481,7 +48546,7 @@
 
 
 /***/ },
-/* 296 */
+/* 297 */
 /*!**********************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/footnote_inline.js ***!
   \**********************************************************/
@@ -48491,7 +48556,7 @@
 	
 	'use strict';
 	
-	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 256);
+	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
 	
 	
 	module.exports = function footnote_inline(state, silent) {
@@ -48543,7 +48608,7 @@
 
 
 /***/ },
-/* 297 */
+/* 298 */
 /*!*******************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/footnote_ref.js ***!
   \*******************************************************/
@@ -48614,7 +48679,7 @@
 
 
 /***/ },
-/* 298 */
+/* 299 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/autolink.js ***!
   \***************************************************/
@@ -48624,8 +48689,8 @@
 	
 	'use strict';
 	
-	var url_schemas   = __webpack_require__(/*! ../common/url_schemas */ 299);
-	var normalizeLink = __webpack_require__(/*! ../helpers/normalize_link */ 259);
+	var url_schemas   = __webpack_require__(/*! ../common/url_schemas */ 300);
+	var normalizeLink = __webpack_require__(/*! ../helpers/normalize_link */ 260);
 	
 	
 	/*eslint max-len:0*/
@@ -48701,7 +48766,7 @@
 
 
 /***/ },
-/* 299 */
+/* 300 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/common/url_schemas.js ***!
   \************************************************/
@@ -48882,7 +48947,7 @@
 
 
 /***/ },
-/* 300 */
+/* 301 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/htmltag.js ***!
   \**************************************************/
@@ -48893,7 +48958,7 @@
 	'use strict';
 	
 	
-	var HTML_TAG_RE = __webpack_require__(/*! ../common/html_re */ 301).HTML_TAG_RE;
+	var HTML_TAG_RE = __webpack_require__(/*! ../common/html_re */ 302).HTML_TAG_RE;
 	
 	
 	function isLetter(ch) {
@@ -48940,7 +49005,7 @@
 
 
 /***/ },
-/* 301 */
+/* 302 */
 /*!********************************************!*\
   !*** ./~/remarkable/lib/common/html_re.js ***!
   \********************************************/
@@ -49008,7 +49073,7 @@
 
 
 /***/ },
-/* 302 */
+/* 303 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/entity.js ***!
   \*************************************************/
@@ -49018,10 +49083,10 @@
 	
 	'use strict';
 	
-	var entities          = __webpack_require__(/*! ../common/entities */ 248);
-	var has               = __webpack_require__(/*! ../common/utils */ 247).has;
-	var isValidEntityCode = __webpack_require__(/*! ../common/utils */ 247).isValidEntityCode;
-	var fromCodePoint     = __webpack_require__(/*! ../common/utils */ 247).fromCodePoint;
+	var entities          = __webpack_require__(/*! ../common/entities */ 249);
+	var has               = __webpack_require__(/*! ../common/utils */ 248).has;
+	var isValidEntityCode = __webpack_require__(/*! ../common/utils */ 248).isValidEntityCode;
+	var fromCodePoint     = __webpack_require__(/*! ../common/utils */ 248).fromCodePoint;
 	
 	
 	var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
@@ -49065,7 +49130,7 @@
 
 
 /***/ },
-/* 303 */
+/* 304 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/configs/default.js ***!
   \*********************************************/
@@ -49153,7 +49218,7 @@
 
 
 /***/ },
-/* 304 */
+/* 305 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/configs/full.js ***!
   \******************************************/
@@ -49200,7 +49265,7 @@
 
 
 /***/ },
-/* 305 */
+/* 306 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/configs/commonmark.js ***!
   \************************************************/
@@ -49278,62 +49343,6 @@
 	  }
 	};
 
-
-/***/ },
-/* 306 */
-/*!*****************************************!*\
-  !*** ./js/components/AddRecipePage.jsx ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
-	
-	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
-	
-	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 244);
-	
-	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'AddRecipePage',
-	    saveRecipe: function saveRecipe(state) {
-	        // Send POST to server here
-	        console.log(state);
-	    },
-	    render: function render() {
-	
-	        var emptyRecipe = {
-	            'title': '',
-	            'description': '',
-	            'yields': '',
-	            'prep_time': '',
-	            'cooking_time': '',
-	            'serve_with': '',
-	            'ingredients': [],
-	            'instructions': ''
-	        };
-	        return _react2.default.createElement(_SingleRecipeEditor2.default, {
-	            recipe: emptyRecipe,
-	            handleSubmit: this.saveRecipe
-	        });
-	    }
-	});
 
 /***/ }
 /******/ ]);
