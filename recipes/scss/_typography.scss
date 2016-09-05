@@ -1,1 +1,12 @@
 @import 'https://fonts.googleapis.com/css?family=Merriweather:400,400i|Open+Sans';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css';
+
+@mixin bodytext() {
+    font-family: $serif-font;
+    line-height: 1.75em;
+}
+
+@mixin hangingindent() {
+    padding-left: 35px;
+    text-indent: -35px;
+}

@@ -36,16 +36,19 @@ button, input[type='submit'] {
     color: white;
     cursor: pointer;
     &:hover {
-        //
+        background-color: $dark-green;
     }
 }
 
 .delete-button{
     background-color: red;
+    &:hover {
+        background-color: $dark-red;
+    }
 }
 
 .narrow-container{
     width: 90%;
     max-width: 700px;
-    margin: 30px auto;
+    margin: 40px auto;
 }

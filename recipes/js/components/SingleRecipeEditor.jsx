@@ -24,7 +24,9 @@ export default React.createClass({
             cooking_time: recipe.cooking_time,
             serve_with: recipe.serve_with,
             ingredients: recipe.ingredients,
-            instructions: recipe.instructions
+            instructions: recipe.instructions,
+            notes: recipe.notes,
+            tags: recipe.tags
         });
     },
 
@@ -38,10 +40,9 @@ export default React.createClass({
     addIngredient(e) {
         e.preventDefault();
         var newIngredients = this.state.ingredients.concat([{
-            ingredient: '',
-            preparation: '',
             quantity: '',
-            unit: ''
+            name: '',
+            preparation: '',
         }]);
         this.setState({
             ingredients: newIngredients

@@ -3,6 +3,7 @@
    License: none (public domain)
 */
 @import "https://fonts.googleapis.com/css?family=Merriweather:400,400i|Open+Sans";
+@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css";
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -77,14 +78,18 @@ button, input[type='submit'] {
   padding: 10px 20px;
   color: white;
   cursor: pointer; }
+  button:hover, input[type='submit']:hover {
+    background-color: #092a17; }
 
 .delete-button {
   background-color: red; }
+  .delete-button:hover {
+    background-color: #561010; }
 
 .narrow-container {
   width: 90%;
   max-width: 700px;
-  margin: 30px auto; }
+  margin: 40px auto; }
 
 header {
   background-color: black;
@@ -98,16 +103,23 @@ header {
     font-size: 2em;
     font-weight: 300; }
 
-.recipe-list {
-  display: flex;
-  flex-direction: row;
-  padding: 20px; }
-  .recipe-list .recipe {
+.recipe-list .recipe {
+  font-family: "Merriweather";
+  color: #b22222;
+  font-size: 1.5em;
+  text-align: center;
+  text-decoration: none; }
+  .recipe-list .recipe:hover {
+    color: #561010; }
+  .recipe-list .recipe::after {
+    content: '';
     display: block;
-    border: 1px solid grey;
-    min-height: 300px;
-    width: 28%;
-    margin: 0 4%; }
+    width: 200px;
+    height: 2px;
+    background-color: grey;
+    margin: 20px auto; }
+  .recipe-list .recipe:last-child::after {
+    display: none; }
 
 .recipe-editor .ingredient {
   display: flex;
@@ -126,16 +138,19 @@ header {
     width: 20px;
     height: 20px; }
 
+.recipe-viewer section {
+  margin-bottom: 30px; }
 .recipe-viewer .title {
   font-family: "Merriweather";
   color: #b22222;
   font-size: 2.5em;
+  line-height: 1.2em;
   text-align: center;
   margin-bottom: 20px; }
 .recipe-viewer .description {
   font-family: "Merriweather";
-  margin-bottom: 20px;
   line-height: 1.75em;
+  margin-bottom: 20px;
   text-align: center; }
 .recipe-viewer .yields {
   font-family: "Merriweather";
@@ -147,22 +162,36 @@ header {
   color: #b22222;
   font-size: 1.5em;
   margin: 10px 0px; }
-.recipe-viewer .ingredients {
-  font-family: "Merriweather"; }
-  .recipe-viewer .ingredients li {
-    line-height: 1.4em;
-    margin-bottom: 10px;
+.recipe-viewer .ingredients-list {
+  font-family: "Merriweather";
+  line-height: 1.75em; }
+  .recipe-viewer .ingredients-list li {
     padding-left: 35px;
-    text-indent: -35px; }
+    text-indent: -35px;
+    margin-bottom: 10px; }
 .recipe-viewer .instructions {
-  font-family: "Merriweather"; }
+  font-family: "Merriweather";
+  line-height: 1.75em; }
   .recipe-viewer .instructions ol {
     list-style-type: decimal;
     list-style-position: inside; }
   .recipe-viewer .instructions li {
-    line-height: 1.4em;
     margin-bottom: 10px;
     text-indent: 30px; }
+.recipe-viewer .notes {
+  font-family: "Merriweather";
+  line-height: 1.75em; }
+.recipe-viewer .tags .tag {
+  font-family: "Merriweather";
+  display: inline-block;
+  border: 2px solid #b22222;
+  color: #b22222;
+  padding: 5px;
+  margin: 0px 15px 0px 0px;
+  cursor: pointer; }
+  .recipe-viewer .tags .tag:hover {
+    background-color: #b22222;
+    color: white; }
 .recipe-viewer .buttons-wrapper {
   text-align: right; }
 .recipe-viewer .divider {

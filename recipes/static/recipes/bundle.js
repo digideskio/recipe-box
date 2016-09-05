@@ -37999,9 +37999,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _RecipeThumb = __webpack_require__(/*! ./RecipeThumb */ 239);
+	var _RecipeListItem = __webpack_require__(/*! ./RecipeListItem */ 307);
 	
-	var _RecipeThumb2 = _interopRequireDefault(_RecipeThumb);
+	var _RecipeListItem2 = _interopRequireDefault(_RecipeListItem);
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
@@ -38019,9 +38019,9 @@
 	
 	        var recipes = this.props.recipes;
 	
-	        var recipeThumbs = recipes.map(function (recipe) {
+	        var recipeListItems = recipes.map(function (recipe) {
 	            var recipeUrl = '/recipe/' + recipe.id;
-	            return _react2.default.createElement(_RecipeThumb2.default, {
+	            return _react2.default.createElement(_RecipeListItem2.default, {
 	                title: recipe.title,
 	                url: recipeUrl
 	            });
@@ -38066,7 +38066,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'recipe-list' },
-	                    recipeThumbs
+	                    recipeListItems
 	                )
 	            );
 	        }
@@ -38074,50 +38074,7 @@
 	});
 
 /***/ },
-/* 239 */
-/*!***************************************!*\
-  !*** ./js/components/RecipeThumb.jsx ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 172);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'RecipeThumb',
-	
-	
-	    propTypes: {
-	        title: _react2.default.PropTypes.string.isRequired,
-	        url: _react2.default.PropTypes.string.isRequired
-	    },
-	
-	    render: function render() {
-	
-	        return _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: this.props.url, className: 'recipe' },
-	            _react2.default.createElement(
-	                'div',
-	                null,
-	                this.props.title
-	            )
-	        );
-	    }
-	});
-
-/***/ },
+/* 239 */,
 /* 240 */
 /*!********************************************!*\
   !*** ./js/components/SingleRecipePage.jsx ***!
@@ -38257,7 +38214,9 @@
 	            cooking_time: recipe.cooking_time,
 	            serve_with: recipe.serve_with,
 	            ingredients: recipe.ingredients,
-	            instructions: recipe.instructions
+	            instructions: recipe.instructions,
+	            notes: recipe.notes,
+	            tags: recipe.tags
 	        };
 	    },
 	
@@ -38269,10 +38228,9 @@
 	    addIngredient: function addIngredient(e) {
 	        e.preventDefault();
 	        var newIngredients = this.state.ingredients.concat([{
-	            ingredient: '',
-	            preparation: '',
 	            quantity: '',
-	            unit: ''
+	            name: '',
+	            preparation: ''
 	        }]);
 	        this.setState({
 	            ingredients: newIngredients
@@ -38552,23 +38510,12 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Unit'
+	                    'Name'
 	                ),
 	                _react2.default.createElement('input', {
 	                    type: 'text',
-	                    name: 'unit',
-	                    value: this.props.ingredient.unit,
-	                    onChange: this.changeField
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Ingredient'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'ingredient',
-	                    value: this.props.ingredient.ingredient,
+	                    name: 'name',
+	                    value: this.props.ingredient.name,
 	                    onChange: this.changeField
 	                }),
 	                _react2.default.createElement(
@@ -38650,10 +38597,16 @@
 	                null,
 	                ingredient.quantity,
 	                ' ',
-	                ingredient.unit,
-	                ' ',
-	                ingredient.ingredient,
+	                ingredient.name,
 	                ingredient.preparation ? ', ' + ingredient.preparation : ''
+	            );
+	        });
+	
+	        var tags = recipe.tags.map(function (tag) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'tag' },
+	                tag.name
 	            );
 	        });
 	
@@ -38664,73 +38617,125 @@
 	                'div',
 	                { className: 'recipe-viewer narrow-container' },
 	                _react2.default.createElement(
-	                    'h1',
-	                    { className: 'title' },
-	                    recipe.title
-	                ),
-	                _react2.default.createElement('div', { className: 'divider' }),
-	                recipe.description ? _react2.default.createElement(
-	                    'div',
+	                    'section',
 	                    null,
 	                    _react2.default.createElement(
-	                        'p',
-	                        { className: 'description' },
-	                        recipe.description
+	                        'h1',
+	                        { className: 'title' },
+	                        recipe.title
 	                    ),
-	                    _react2.default.createElement('div', { className: 'divider' })
-	                ) : '',
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'yields' },
-	                    recipe.yields
-	                ),
-	                _react2.default.createElement(
-	                    'ul',
-	                    null,
-	                    _react2.default.createElement(
-	                        'li',
+	                    _react2.default.createElement('div', { className: 'divider' }),
+	                    recipe.description ? _react2.default.createElement(
+	                        'div',
 	                        null,
-	                        'Cooking Time: ',
-	                        recipe.cooking_time
+	                        _react2.default.createElement(
+	                            'p',
+	                            { className: 'description' },
+	                            recipe.description
+	                        ),
+	                        _react2.default.createElement('div', { className: 'divider' })
+	                    ) : '',
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'yields' },
+	                        recipe.yields
 	                    ),
 	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        'Prep Time: ',
-	                        recipe.prep_time
+	                        'div',
+	                        { className: 'times' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'label' },
+	                                'Cooking Time:'
+	                            ),
+	                            ' ',
+	                            recipe.cooking_time
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'label' },
+	                                'Prep Time:'
+	                            ),
+	                            ' ',
+	                            recipe.prep_time
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    'h3',
-	                    { className: 'subhead' },
-	                    'Ingredients'
-	                ),
-	                _react2.default.createElement(
-	                    'ul',
+	                    'section',
 	                    { className: 'ingredients' },
-	                    ingredients
+	                    _react2.default.createElement(
+	                        'h3',
+	                        { className: 'subhead' },
+	                        'Ingredients'
+	                    ),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { className: 'ingredients-list' },
+	                        ingredients
+	                    )
 	                ),
 	                _react2.default.createElement(
-	                    'h3',
-	                    { className: 'subhead' },
-	                    'Instructions'
-	                ),
-	                _react2.default.createElement(
-	                    'p',
+	                    'section',
 	                    { className: 'instructions' },
-	                    _react2.default.createElement('span', { dangerouslySetInnerHTML: this.markdownToHTML(recipe.instructions) })
+	                    _react2.default.createElement(
+	                        'h3',
+	                        { className: 'subhead' },
+	                        'Instructions'
+	                    ),
+	                    _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        _react2.default.createElement('span', { dangerouslySetInnerHTML: this.markdownToHTML(recipe.instructions) })
+	                    ),
+	                    recipe.serve_with ? _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        _react2.default.createElement(
+	                            'span',
+	                            { 'class': 'label' },
+	                            'Serve With:'
+	                        ),
+	                        ' ',
+	                        recipe.serve_with
+	                    ) : ''
 	                ),
 	                _react2.default.createElement(
-	                    'p',
+	                    'section',
+	                    { className: 'notes' },
+	                    recipe.notes ? _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        _react2.default.createElement(
+	                            'h3',
+	                            { className: 'subhead' },
+	                            'Notes'
+	                        ),
+	                        recipe.notes
+	                    ) : ''
+	                ),
+	                recipe.tags ? _react2.default.createElement(
+	                    'div',
 	                    null,
-	                    'Serve With: ',
-	                    recipe.serve_with
-	                ),
-	                _react2.default.createElement(
-	                    'h3',
-	                    { className: 'subhead' },
-	                    'Tags'
-	                ),
+	                    _react2.default.createElement(
+	                        'h3',
+	                        { className: 'subhead' },
+	                        'Tags'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'tags' },
+	                        tags
+	                    )
+	                ) : '',
 	                _react2.default.createElement('div', { className: 'divider' }),
 	                _react2.default.createElement(
 	                    'div',
@@ -38738,7 +38743,8 @@
 	                    _react2.default.createElement(
 	                        'button',
 	                        { onClick: this.props.handleEditButton },
-	                        'Edit Recipe'
+	                        _react2.default.createElement('i', { className: 'fa fa-pencil-square-o', 'aria-hidden': 'true' }),
+	                        '   Edit Recipe'
 	                    )
 	                )
 	            );
@@ -49343,6 +49349,50 @@
 	  }
 	};
 
+
+/***/ },
+/* 307 */
+/*!******************************************!*\
+  !*** ./js/components/RecipeListItem.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'RecipeListItem',
+	
+	
+	    propTypes: {
+	        title: _react2.default.PropTypes.string.isRequired,
+	        url: _react2.default.PropTypes.string.isRequired
+	    },
+	
+	    render: function render() {
+	
+	        return _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: this.props.url, className: 'recipe' },
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                this.props.title
+	            )
+	        );
+	    }
+	});
 
 /***/ }
 /******/ ]);

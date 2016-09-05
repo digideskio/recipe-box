@@ -1,5 +1,5 @@
 import React from 'react';
-import RecipeThumb from './RecipeThumb';
+import RecipeListItem from './RecipeListItem';
 import { Link } from 'react-router';
 
 export default React.createClass({
@@ -12,10 +12,10 @@ export default React.createClass({
 
         var recipes = this.props.recipes;
 
-        var recipeThumbs = recipes.map(function(recipe) {
+        var recipeListItems = recipes.map(function(recipe) {
             var recipeUrl = '/recipe/' + recipe.id;
             return (
-                <RecipeThumb
+                <RecipeListItem
                     title={recipe.title}
                     url={recipeUrl}
                 />
@@ -39,7 +39,7 @@ export default React.createClass({
                         </ul>
                     </nav>
                     <div className="recipe-list">
-                        {recipeThumbs}
+                        {recipeListItems}
                     </div>
                 </div>
             )

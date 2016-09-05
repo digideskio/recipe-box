@@ -1,13 +1,25 @@
 .recipe-list {
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-
     .recipe {
-        display: block;
-        border: 1px solid grey;
-        min-height: 300px;
-        width: 28%;
-        margin: 0 4%;
+        font-family: $serif-font;
+        color: $red;
+        font-size: 1.5em;
+        text-align: center;
+        &:hover {
+            color: $dark-red;
+        }
+        text-decoration: none;
+        &::after {
+            content: '';
+            display: block;
+            width: 200px;
+            height: 2px;
+            background-color: $grey;
+            margin: 20px auto;
+        }
+        &:last-child {
+            &::after {
+                display: none;
+            }
+        }
     }
 }

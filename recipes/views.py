@@ -11,7 +11,3 @@ def index(request):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = models.Recipe.objects.all();
     serializer_class = serializers.RecipeSerializer
-
-# class RecipeIngredientViewSet(viewsets.ModelViewSet):
-#     queryset = models.RecipeIngredient.objects.all();
-#     serializer_class = serializers.RecipeIngredientSerializer

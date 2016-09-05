@@ -12,9 +12,9 @@ export default React.createClass({
 
         return (
             <Link to={this.props.url} className="recipe">
-                <div>
+                <h2>
                     {this.props.title}
-                </div>
+                </h2>
             </Link>
         );
 

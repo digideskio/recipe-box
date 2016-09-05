@@ -4,7 +4,6 @@ from . import models
 class IngredientInline(admin.StackedInline):
     fields = (
         'quantity',
-        'unit',
         'name',
         'preparation'
     )

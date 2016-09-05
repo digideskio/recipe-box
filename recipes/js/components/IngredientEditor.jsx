@@ -34,19 +34,11 @@ export default React.createClass({
                         onChange={this.changeField}
                     />
 
-                    <label>Unit</label>
+                    <label>Name</label>
                     <input
                         type="text"
-                        name="unit"
-                        value={this.props.ingredient.unit}
-                        onChange={this.changeField}
-                    />
-
-                    <label>Ingredient</label>
-                    <input
-                        type="text"
-                        name="ingredient"
-                        value={this.props.ingredient.ingredient}
+                        name="name"
+                        value={this.props.ingredient.name}
                         onChange={this.changeField}
                     />
 
