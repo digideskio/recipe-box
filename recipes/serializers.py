@@ -24,21 +24,25 @@ class RecipeSerializer(serializers.ModelSerializer):
     ingredients = IngredientSerializer(source='ingredient_set', many=True)
     tags = TagSerializer(many=True)
 
-    # def create(self, validated_data):
+    def create(self, validated_data):
 
-    #     # Create Recipe without ingredients
-    #     ingredients_data = validated_data.pop('ingredients')
-    #     recipe = Recipe.objects.create(**validated_data)
+        # Create Recipe without ingredients or tags
+        ingredients_data = validated_data.pop('ingredient_set')
+        tags_data = validated_data.pop('tags')
+        recipe = models.Recipe.objects.create(**validated_data)
 
-    #     # Create ingredients that do not already exist
-    #     for ingredient in ingredients_data:
-    #         ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name'])
+        # Create ingredients
+        for ingredient in ingredients_data:
+            models.Ingredient.objects.create(**ingredient, recipe=recipe)
 
-    #     # Create RecipeIngredient relationships
-    #         # recipe.ingredients.add(ingredient)
-    #     return recipe
+        # Get or create tags, add to recipe
+        for tag in tags_data:
+            tag, created = models.Tag.objects.get_or_create(name=tag['name'])
+            recipe.tags.add(tag)
 
-    # # Add UPDATE method
+        return recipe
+
+    # Todo: Add UPDATE method
 
     class Meta:
         model = models.Recipe

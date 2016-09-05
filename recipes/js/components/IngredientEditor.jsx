@@ -51,12 +51,10 @@ export default React.createClass({
                     />
                 </div>
                 <div className="remove-button-wrapper">
-                    <button
-                        className="remove-button"
+                    <i
+                        className="remove-button fa fa-minus-circle"
                         onClick={this.remove}
-                    >
-                        -
-                    </button>
+                    />
                 </div>
             </div>
         );

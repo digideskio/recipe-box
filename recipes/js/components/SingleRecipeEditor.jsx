@@ -8,7 +8,7 @@ export default React.createClass({
     propTypes: {
         recipe: React.PropTypes.object.isRequired,
         allowCancel: React.PropTypes.bool.isRequired,
-        handleCancelButton: React.PropTypes.func.isRequired,
+        handleCancel: React.PropTypes.func.isRequired,
         handleSubmit: React.PropTypes.func.isRequired,
         allowDelete: React.PropTypes.bool.isRequired,
         handleDelete: React.PropTypes.func.isRequired
@@ -80,6 +80,12 @@ export default React.createClass({
         this.props.handleSubmit(this.state);
     },
 
+    // Delete the recipe
+    handleDelete(e) {
+        e.preventDefault();
+        this.props.handleDelete();
+    },
+
     render() {
         return (
             <div className="recipe-editor narrow-container">
@@ -99,14 +105,6 @@ export default React.createClass({
                         onChange={this.handleFormChange}
                     />
 
-                    <label>Yields</label>
-                    <input
-                        type="text"
-                        name="yields"
-                        value={this.state.yields}
-                        onChange={this.handleFormChange}
-                    />
-
                     <label>Prep Time</label>
                     <input
                         type="text"
@@ -123,6 +121,14 @@ export default React.createClass({
                         onChange={this.handleFormChange} 
                     />
 
+                    <label>Yields</label>
+                    <input
+                        type="text"
+                        name="yields"
+                        value={this.state.yields}
+                        onChange={this.handleFormChange}
+                    />
+
                     <label>Serve With</label>
                     <input
                         type="text"
@@ -131,7 +137,8 @@ export default React.createClass({
                         onChange={this.handleFormChange} 
                     />
 
-                    <label>Ingredients</label>
+                    <h3 className="subhead">Ingredients</h3>
+
                     <IngredientsEditor
                         ingredients={this.state.ingredients}
                         addIngredientFunction={this.addIngredient}
@@ -139,20 +146,43 @@ export default React.createClass({
                         changeIngredientFieldFunction={this.changeIngredientField}
                     />
 
-                    <label>Instructions</label>
+                    <h3 className="subhead">Instructions</h3>
                     <textarea
-                        name="serve_with"
+                        name="instructions"
                         value={this.state.instructions}
                         onChange={this.handleFormChange} 
                     />
 
-                    <input
-                        type="submit"
-                        value="Save"
-                        onClick={this.handleSubmit}
-                    />
-                    <button onClick={this.props.handleCancelButton}>Cancel</button>
-                    <button>Delete Recipe</button>
+
+                    <div className="buttons-container">
+                        <div className="left-buttons">
+                            { this.props.allowDelete ?
+                                <button
+                                    className="delete"
+                                    onClick={this.handleDelete}
+                                >
+                                    <i className="fa fa-trash" aria-hidden="true" />
+                                    Delete Recipe
+                                </button>
+                            :
+                                ''
+                            }
+                        </div>
+
+                        <div className="right-buttons">
+                            { this.props.allowCancel ?
+                                <button onClick={this.props.handleCancel}>Cancel</button>
+                            :
+                                ''}
+                            <button
+                            className="primary"
+                                type="submit"
+                                onClick={this.handleSubmit}
+                            >
+                                <i className='fa fa-floppy-o' aria-hidden='true' /> Save
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         );

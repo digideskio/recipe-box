@@ -20,13 +20,6 @@
         font-style: italic;
         text-align: center;
     }
-    .subhead {
-        font-family: $serif-font;
-        font-style: italic;
-        color: $red;
-        font-size: 1.5em;
-        margin: 10px 0px;
-    }
     .ingredients-list {
         @include bodytext();
         li {

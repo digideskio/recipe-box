@@ -15,7 +15,7 @@ class Recipe(models.Model):
     prep_time = models.DurationField(blank=True, null=True)
     cooking_time = models.DurationField(blank=True, null=True)
     notes = models.TextField(blank=True)
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -24,7 +24,7 @@ class Ingredient(models.Model):
     quantity = models.CharField(blank=True, max_length=255)
     name = models.CharField(max_length=255)
     preparation = models.CharField(blank=True, max_length=255)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

@@ -1,3 +1,14 @@
+// General
+body {
+    font-family: sans-serif;
+}
+
+.narrow-container{
+    width: 90%;
+    max-width: 700px;
+    margin: 40px auto;
+}
+
 a{
     color: inherit;
     &:visited {
@@ -5,50 +16,63 @@ a{
     }
 }
 
-body {
-    font-family: sans-serif;
-}
-
-input, button, textarea {
+// Inputs
+input, textarea {
     display: block;
 }
 
-input[type='text'] {
+input[type='text'], textarea {
     width: 100%;
     font-size: 1.5em;
     padding: 10px;
 }
 
 textarea {
-    font-size: 1.5em;
-    width: 100%;
     height: 200px;
-    resize: none;
+    resize: vertical;
 }
 
+// Buttons
 button, input[type='submit'] {
     display: inline-block;
     font-family: $serif-font;
     font-size: 1.25em;
-    background-color: $green;
+    background-color: $grey;
     border: 0;
     padding: 10px 20px;
     color: white;
     cursor: pointer;
+    outline: none;
+    margin-right: 10px;
+    i {
+        margin-right: 10px;
+    }
+    &:hover {
+        background-color: $dark-grey;
+    }
+}
+
+button.primary {
+    background-color: $green;
     &:hover {
         background-color: $dark-green;
     }
 }
 
-.delete-button{
-    background-color: red;
+button.delete{
+    background-color: $red;
     &:hover {
         background-color: $dark-red;
     }
 }
 
-.narrow-container{
-    width: 90%;
-    max-width: 700px;
-    margin: 40px auto;
+// Should include a .left-buttons container and a .right-buttons container
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    .right-buttons {
+        button:last-child {
+            margin-right: 0;
+        }
+    }
 }

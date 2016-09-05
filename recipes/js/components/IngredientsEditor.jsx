@@ -33,9 +33,15 @@ export default React.createClass({
         return (
             <div>
                 {ingredientEditors}
-                <button onClick={this.props.addIngredientFunction}>
-                    Add Ingredient
-                </button>
+                <div className="buttons-container">
+                    <div className="left-buttons" />
+                    <div className="right-buttons">
+                        <button className="primary" onClick={this.props.addIngredientFunction}>
+                            <i className="fa fa-plus-circle" aria-hidden="true" />
+                            Add Ingredient
+                        </button>
+                    </div>
+                </div>
             </div>
         );
     }

@@ -47,49 +47,69 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-a {
-  color: inherit; }
-  a:visited {
-    color: inherit; }
+.subhead {
+  font-family: "Merriweather";
+  font-style: italic;
+  color: #b22222;
+  font-size: 1.5em;
+  margin: 10px 0px; }
 
 body {
   font-family: sans-serif; }
-
-input, button, textarea {
-  display: block; }
-
-input[type='text'] {
-  width: 100%;
-  font-size: 1.5em;
-  padding: 10px; }
-
-textarea {
-  font-size: 1.5em;
-  width: 100%;
-  height: 200px;
-  resize: none; }
-
-button, input[type='submit'] {
-  display: inline-block;
-  font-family: "Merriweather";
-  font-size: 1.25em;
-  background-color: #145a32;
-  border: 0;
-  padding: 10px 20px;
-  color: white;
-  cursor: pointer; }
-  button:hover, input[type='submit']:hover {
-    background-color: #092a17; }
-
-.delete-button {
-  background-color: red; }
-  .delete-button:hover {
-    background-color: #561010; }
 
 .narrow-container {
   width: 90%;
   max-width: 700px;
   margin: 40px auto; }
+
+a {
+  color: inherit; }
+  a:visited {
+    color: inherit; }
+
+input, textarea {
+  display: block; }
+
+input[type='text'], textarea {
+  width: 100%;
+  font-size: 1.5em;
+  padding: 10px; }
+
+textarea {
+  height: 200px;
+  resize: vertical; }
+
+button, input[type='submit'] {
+  display: inline-block;
+  font-family: "Merriweather";
+  font-size: 1.25em;
+  background-color: #808080;
+  border: 0;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  margin-right: 10px; }
+  button i, input[type='submit'] i {
+    margin-right: 10px; }
+  button:hover, input[type='submit']:hover {
+    background-color: #404040; }
+
+button.primary {
+  background-color: #145a32; }
+  button.primary:hover {
+    background-color: #092a17; }
+
+button.delete {
+  background-color: #b22222; }
+  button.delete:hover {
+    background-color: #561010; }
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between; }
+  .buttons-container .right-buttons button:last-child {
+    margin-right: 0; }
 
 header {
   background-color: black;
@@ -116,27 +136,39 @@ header {
     display: block;
     width: 200px;
     height: 2px;
-    background-color: grey;
+    background-color: #808080;
     margin: 20px auto; }
   .recipe-list .recipe:last-child::after {
     display: none; }
 
+.recipe-editor label {
+  display: block;
+  font-family: "Merriweather";
+  font-size: 1.2em;
+  margin-bottom: 10px; }
+.recipe-editor input[type="text"], .recipe-editor textarea {
+  margin-bottom: 20px; }
 .recipe-editor .ingredient {
   display: flex;
-  padding: 5px;
-  margin: 5px 0px;
-  background-color: grey; }
+  padding: 20px 0px 20px 20px;
+  margin: 5px 0px 30px 0px;
+  border: 2px solid #808080; }
   .recipe-editor .ingredient .fields {
     width: 100%; }
   .recipe-editor .ingredient .remove-button-wrapper {
     display: flex;
     align-items: center;
-    width: 30px; }
+    width: 50px; }
   .recipe-editor .ingredient .remove-button {
-    background-color: red;
-    border-radius: 100%;
-    width: 20px;
-    height: 20px; }
+    color: #b22222;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    cursor: pointer; }
+    .recipe-editor .ingredient .remove-button:hover {
+      color: #561010; }
+  .recipe-editor .ingredient :last-child {
+    margin-bottom: 0; }
 
 .recipe-viewer section {
   margin-bottom: 30px; }
@@ -156,12 +188,6 @@ header {
   font-family: "Merriweather";
   font-style: italic;
   text-align: center; }
-.recipe-viewer .subhead {
-  font-family: "Merriweather";
-  font-style: italic;
-  color: #b22222;
-  font-size: 1.5em;
-  margin: 10px 0px; }
 .recipe-viewer .ingredients-list {
   font-family: "Merriweather";
   line-height: 1.75em; }
@@ -199,6 +225,6 @@ header {
   width: 100%;
   max-width: 200px;
   margin: 20px auto;
-  background-color: grey; }
+  background-color: #808080; }
 
 /*# sourceMappingURL=styles.css.map */

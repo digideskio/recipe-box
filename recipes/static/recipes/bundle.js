@@ -73,6 +73,10 @@
 	
 	var _AddRecipePage2 = _interopRequireDefault(_AddRecipePage);
 	
+	var _EditRecipePage = __webpack_require__(/*! ./components/EditRecipePage */ 308);
+	
+	var _EditRecipePage2 = _interopRequireDefault(_EditRecipePage);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -83,7 +87,8 @@
 	        { path: '/', component: _App2.default },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _RecipeListPage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/add', component: _AddRecipePage2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id', component: _SingleRecipePage2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id', component: _SingleRecipePage2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id/edit', component: _EditRecipePage2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -38095,9 +38100,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
-	
-	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
 	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 244);
 	
@@ -38110,12 +38113,10 @@
 	    getInitialState: function getInitialState() {
 	        return {
 	            loading: true,
-	            editing: false,
 	            data: {}
 	        };
 	    },
 	    componentWillMount: function componentWillMount() {
-	
 	        var self = this;
 	        _jquery2.default.ajax({
 	            url: '/api/recipes/' + self.props.params.id + '/',
@@ -38128,11 +38129,7 @@
 	        });
 	    },
 	    toggleEditor: function toggleEditor() {
-	        this.setState({ editing: !this.state.editing });
-	    },
-	    saveRecipe: function saveRecipe(state) {
-	        // Send UPDATE to server here
-	        console.log(state);
+	        _reactRouter.browserHistory.push('/recipe/' + this.props.params.id + '/edit');
 	    },
 	    render: function render() {
 	
@@ -38142,13 +38139,6 @@
 	                null,
 	                '\'Loading...\''
 	            );
-	        }
-	        if (this.state.editing === true) {
-	            return _react2.default.createElement(_SingleRecipeEditor2.default, {
-	                recipe: this.state.data,
-	                handleCancelButton: this.toggleEditor,
-	                handleSubmit: this.saveRecipe
-	            });
 	        } else {
 	            return _react2.default.createElement(_SingleRecipeViewer2.default, {
 	                recipe: this.state.data,
@@ -38198,7 +38188,7 @@
 	    propTypes: {
 	        recipe: _react2.default.PropTypes.object.isRequired,
 	        allowCancel: _react2.default.PropTypes.bool.isRequired,
-	        handleCancelButton: _react2.default.PropTypes.func.isRequired,
+	        handleCancel: _react2.default.PropTypes.func.isRequired,
 	        handleSubmit: _react2.default.PropTypes.func.isRequired,
 	        allowDelete: _react2.default.PropTypes.bool.isRequired,
 	        handleDelete: _react2.default.PropTypes.func.isRequired
@@ -38263,6 +38253,13 @@
 	        e.preventDefault();
 	        this.props.handleSubmit(this.state);
 	    },
+	
+	
+	    // Delete the recipe
+	    handleDelete: function handleDelete(e) {
+	        e.preventDefault();
+	        this.props.handleDelete();
+	    },
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
@@ -38294,17 +38291,6 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Yields'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'yields',
-	                    value: this.state.yields,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
 	                    'Prep Time'
 	                ),
 	                _react2.default.createElement('input', {
@@ -38327,6 +38313,17 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
+	                    'Yields'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'yields',
+	                    value: this.state.yields,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
 	                    'Serve With'
 	                ),
 	                _react2.default.createElement('input', {
@@ -38336,8 +38333,8 @@
 	                    onChange: this.handleFormChange
 	                }),
 	                _react2.default.createElement(
-	                    'label',
-	                    null,
+	                    'h3',
+	                    { className: 'subhead' },
 	                    'Ingredients'
 	                ),
 	                _react2.default.createElement(_IngredientsEditor2.default, {
@@ -38347,29 +38344,50 @@
 	                    changeIngredientFieldFunction: this.changeIngredientField
 	                }),
 	                _react2.default.createElement(
-	                    'label',
-	                    null,
+	                    'h3',
+	                    { className: 'subhead' },
 	                    'Instructions'
 	                ),
 	                _react2.default.createElement('textarea', {
-	                    name: 'serve_with',
+	                    name: 'instructions',
 	                    value: this.state.instructions,
 	                    onChange: this.handleFormChange
 	                }),
-	                _react2.default.createElement('input', {
-	                    type: 'submit',
-	                    value: 'Save',
-	                    onClick: this.handleSubmit
-	                }),
 	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.props.handleCancelButton },
-	                    'Cancel'
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    null,
-	                    'Delete Recipe'
+	                    'div',
+	                    { className: 'buttons-container' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'left-buttons' },
+	                        this.props.allowDelete ? _react2.default.createElement(
+	                            'button',
+	                            {
+	                                className: 'delete',
+	                                onClick: this.handleDelete
+	                            },
+	                            _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' }),
+	                            'Delete Recipe'
+	                        ) : ''
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'right-buttons' },
+	                        this.props.allowCancel ? _react2.default.createElement(
+	                            'button',
+	                            { onClick: this.props.handleCancel },
+	                            'Cancel'
+	                        ) : '',
+	                        _react2.default.createElement(
+	                            'button',
+	                            {
+	                                className: 'primary',
+	                                type: 'submit',
+	                                onClick: this.handleSubmit
+	                            },
+	                            _react2.default.createElement('i', { className: 'fa fa-floppy-o', 'aria-hidden': 'true' }),
+	                            ' Save'
+	                        )
+	                    )
 	                )
 	            )
 	        );
@@ -38435,9 +38453,19 @@
 	            null,
 	            ingredientEditors,
 	            _react2.default.createElement(
-	                'button',
-	                { onClick: this.props.addIngredientFunction },
-	                'Add Ingredient'
+	                'div',
+	                { className: 'buttons-container' },
+	                _react2.default.createElement('div', { className: 'left-buttons' }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'right-buttons' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'primary', onClick: this.props.addIngredientFunction },
+	                        _react2.default.createElement('i', { className: 'fa fa-plus-circle', 'aria-hidden': 'true' }),
+	                        'Add Ingredient'
+	                    )
+	                )
 	            )
 	        );
 	    }
@@ -38533,14 +38561,10 @@
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'remove-button-wrapper' },
-	                _react2.default.createElement(
-	                    'button',
-	                    {
-	                        className: 'remove-button',
-	                        onClick: this.remove
-	                    },
-	                    '-'
-	                )
+	                _react2.default.createElement('i', {
+	                    className: 'remove-button fa fa-minus-circle',
+	                    onClick: this.remove
+	                })
 	            )
 	        );
 	    }
@@ -38742,9 +38766,9 @@
 	                    { className: 'buttons-wrapper' },
 	                    _react2.default.createElement(
 	                        'button',
-	                        { onClick: this.props.handleEditButton },
+	                        { className: 'primary', onClick: this.props.handleEditButton },
 	                        _react2.default.createElement('i', { className: 'fa fa-pencil-square-o', 'aria-hidden': 'true' }),
-	                        '   Edit Recipe'
+	                        'Edit Recipe'
 	                    )
 	                )
 	            );
@@ -49393,6 +49417,139 @@
 	        );
 	    }
 	});
+
+/***/ },
+/* 308 */
+/*!******************************************!*\
+  !*** ./js/components/EditRecipePage.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _utilities = __webpack_require__(/*! ../utilities */ 309);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
+	
+	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'EditRecipePage',
+	    getInitialState: function getInitialState() {
+	        return {
+	            loading: true,
+	            data: {}
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	        var self = this;
+	        _jquery2.default.ajax({
+	            url: '/api/recipes/' + self.props.params.id + '/',
+	            success: function success(data) {
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
+	            }
+	        });
+	    },
+	    toggleEditor: function toggleEditor() {
+	        _reactRouter.browserHistory.push('/recipes/' + this.props.params.id);
+	    },
+	    saveRecipe: function saveRecipe(state) {
+	        // Send UPDATE to server here
+	        console.log(state);
+	    },
+	    deleteRecipe: function deleteRecipe() {
+	        var self = this;
+	        var confirmation = window.confirm('Are you sure you want to delete this recipe?');
+	        if (confirmation) {
+	            _jquery2.default.ajax({
+	                method: 'DELETE',
+	                // Must include CSRF token for DELETE request
+	                beforeSend: function beforeSend(request) {
+	                    request.setRequestHeader("X-CSRFToken", (0, _utilities.getCookie)('csrftoken'));
+	                },
+	                url: '/api/recipes/' + self.props.params.id + '/',
+	                success: function success(data) {
+	                    _reactRouter.browserHistory.push('/');
+	                }
+	            });
+	        }
+	    },
+	    render: function render() {
+	
+	        if (this.state.loading === true) {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                '\'Loading...\''
+	            );
+	        } else {
+	            return _react2.default.createElement(_SingleRecipeEditor2.default, {
+	                recipe: this.state.data,
+	                handleCancelButton: this.toggleEditor,
+	                handleSubmit: this.saveRecipe,
+	                allowDelete: true,
+	                handleDelete: this.deleteRecipe,
+	                allowCancel: true,
+	                handleCancel: this.toggleEditor
+	            });
+	        }
+	    }
+	});
+
+/***/ },
+/* 309 */
+/*!*************************!*\
+  !*** ./js/utilities.js ***!
+  \*************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.getCookie = undefined;
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var getCookie = exports.getCookie = function getCookie(name) {
+	    var cookieValue = null;
+	    if (document.cookie && document.cookie != '') {
+	        var cookies = document.cookie.split(';');
+	        for (var i = 0; i < cookies.length; i++) {
+	            var cookie = _jquery2.default.trim(cookies[i]);
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) == name + '=') {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	};
 
 /***/ }
 /******/ ]);

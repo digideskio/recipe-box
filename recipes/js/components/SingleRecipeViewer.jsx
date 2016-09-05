@@ -110,9 +110,9 @@ export default React.createClass({
                     }
                     <div className="divider"></div>
                     <div className="buttons-wrapper">
-                        <button onClick={this.props.handleEditButton}>
+                        <button className="primary" onClick={this.props.handleEditButton}>
                             <i className="fa fa-pencil-square-o" aria-hidden="true" />
-                            &nbsp;&nbsp;&nbsp;Edit Recipe
+                            Edit Recipe
                         </button>
                     </div>
                 </div>
