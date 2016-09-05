@@ -61,19 +61,19 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _RecipeListPage = __webpack_require__(/*! ./components/RecipeListPage */ 236);
+	var _HomePage = __webpack_require__(/*! ./components/HomePage */ 236);
 	
-	var _RecipeListPage2 = _interopRequireDefault(_RecipeListPage);
+	var _HomePage2 = _interopRequireDefault(_HomePage);
 	
-	var _SingleRecipePage = __webpack_require__(/*! ./components/SingleRecipePage */ 240);
+	var _SingleRecipePage = __webpack_require__(/*! ./components/SingleRecipePage */ 237);
 	
 	var _SingleRecipePage2 = _interopRequireDefault(_SingleRecipePage);
 	
-	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 245);
+	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 301);
 	
 	var _AddRecipePage2 = _interopRequireDefault(_AddRecipePage);
 	
-	var _EditRecipePage = __webpack_require__(/*! ./components/EditRecipePage */ 308);
+	var _EditRecipePage = __webpack_require__(/*! ./components/EditRecipePage */ 305);
 	
 	var _EditRecipePage2 = _interopRequireDefault(_EditRecipePage);
 	
@@ -85,7 +85,7 @@
 	    _react2.default.createElement(
 	        _reactRouter.Route,
 	        { path: '/', component: _App2.default },
-	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _RecipeListPage2.default }),
+	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _HomePage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/add', component: _AddRecipePage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id', component: _SingleRecipePage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id/edit', component: _EditRecipePage2.default })
@@ -27843,9 +27843,9 @@
 
 /***/ },
 /* 236 */
-/*!******************************************!*\
-  !*** ./js/components/RecipeListPage.jsx ***!
-  \******************************************/
+/*!************************************!*\
+  !*** ./js/components/HomePage.jsx ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27858,18 +27858,20 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
+	var _jquery = __webpack_require__(/*! jquery */ 238);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _RecipeList = __webpack_require__(/*! ./RecipeList */ 238);
+	var _RecipeList = __webpack_require__(/*! ./RecipeList */ 307);
 	
 	var _RecipeList2 = _interopRequireDefault(_RecipeList);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
-	    displayName: 'RecipeListPage',
+	    displayName: 'HomePage',
 	    getInitialState: function getInitialState() {
 	        return {
 	            loading: true,
@@ -27892,6 +27894,43 @@
 	    },
 	    render: function render() {
 	
+	        var randomQuote = function randomQuote() {
+	            var randomNumber = Math.random();
+	            var quote = {};
+	            if (randomNumber < 0.2) {
+	                quote.quote = "If you're afraid of butter, use cream.";
+	                quote.attribution = "Julia Child";
+	            } else if (randomNumber < 0.4) {
+	                quote.quote = "I know who in the family is a great cook. I know where the great recipes are.";
+	                quote.attribution = "Irma S. Rombauer";
+	            } else if (randomNumber < 0.6) {
+	                quote.quote = "Food is our common ground, a universal experience.";
+	                quote.attribution = "James Beard";
+	            } else if (randomNumber < 0.8) {
+	                quote.quote = "Man is born to eat.";
+	                quote.attribution = "Craig Claiborne";
+	            } else {
+	                quote.quote = "Good food is very often, even most often, simple food.";
+	                quote.attribution = "Anthony Bourdain";
+	            }
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'quote-container' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'quote' },
+	                    '"',
+	                    quote.quote,
+	                    '"'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'attribution' },
+	                    quote.attribution
+	                )
+	            );
+	        };
+	
 	        if (this.state.loading) {
 	            return _react2.default.createElement(
 	                'div',
@@ -27899,13 +27938,113 @@
 	                'Loading...'
 	            );
 	        } else {
-	            return _react2.default.createElement(_RecipeList2.default, { recipes: this.state.data });
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'home-page narrow-container' },
+	                _react2.default.createElement(
+	                    'nav',
+	                    null,
+	                    _react2.default.createElement(
+	                        'ul',
+	                        null,
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/' },
+	                                'Recipe List'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/recipe/add' },
+	                                'Add Recipe'
+	                            )
+	                        )
+	                    )
+	                ),
+	                randomQuote(),
+	                _react2.default.createElement(_RecipeList2.default, { recipes: this.state.data })
+	            );
 	        }
 	    }
 	});
 
 /***/ },
 /* 237 */
+/*!********************************************!*\
+  !*** ./js/components/SingleRecipePage.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 239);
+	
+	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SingleRecipePage',
+	    getInitialState: function getInitialState() {
+	        return {
+	            loading: true,
+	            data: {}
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	        var self = this;
+	        _jquery2.default.ajax({
+	            url: '/api/recipes/' + self.props.params.id + '/',
+	            success: function success(data) {
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
+	            }
+	        });
+	    },
+	    toggleEditor: function toggleEditor() {
+	        _reactRouter.browserHistory.push('/recipe/' + this.props.params.id + '/edit');
+	    },
+	    render: function render() {
+	
+	        if (this.state.loading === true) {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                '\'Loading...\''
+	            );
+	        } else {
+	            return _react2.default.createElement(_SingleRecipeViewer2.default, {
+	                recipe: this.state.data,
+	                handleEditButton: this.toggleEditor
+	            });
+	        }
+	    }
+	});
+
+/***/ },
+/* 238 */
 /*!*********************************!*\
   !*** ./~/jquery/dist/jquery.js ***!
   \*********************************/
@@ -37988,590 +38127,7 @@
 
 
 /***/ },
-/* 238 */
-/*!**************************************!*\
-  !*** ./js/components/RecipeList.jsx ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _RecipeListItem = __webpack_require__(/*! ./RecipeListItem */ 307);
-	
-	var _RecipeListItem2 = _interopRequireDefault(_RecipeListItem);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 172);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'RecipeList',
-	
-	
-	    propTypes: {
-	        recipes: _react2.default.PropTypes.array.isRequired
-	    },
-	
-	    render: function render() {
-	
-	        var recipes = this.props.recipes;
-	
-	        var recipeListItems = recipes.map(function (recipe) {
-	            var recipeUrl = '/recipe/' + recipe.id;
-	            return _react2.default.createElement(_RecipeListItem2.default, {
-	                title: recipe.title,
-	                url: recipeUrl
-	            });
-	        });
-	
-	        if (recipes.length === 0) {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                'No Recipes Yet!'
-	            );
-	        } else {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'nav',
-	                    null,
-	                    _react2.default.createElement(
-	                        'ul',
-	                        null,
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/' },
-	                                'Recipe List'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/recipe/add' },
-	                                'Add Recipe'
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'recipe-list' },
-	                    recipeListItems
-	                )
-	            );
-	        }
-	    }
-	});
-
-/***/ },
-/* 239 */,
-/* 240 */
-/*!********************************************!*\
-  !*** ./js/components/SingleRecipePage.jsx ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 172);
-	
-	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 244);
-	
-	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'SingleRecipePage',
-	    getInitialState: function getInitialState() {
-	        return {
-	            loading: true,
-	            data: {}
-	        };
-	    },
-	    componentWillMount: function componentWillMount() {
-	        var self = this;
-	        _jquery2.default.ajax({
-	            url: '/api/recipes/' + self.props.params.id + '/',
-	            success: function success(data) {
-	                self.setState({
-	                    loading: false,
-	                    data: data
-	                });
-	            }
-	        });
-	    },
-	    toggleEditor: function toggleEditor() {
-	        _reactRouter.browserHistory.push('/recipe/' + this.props.params.id + '/edit');
-	    },
-	    render: function render() {
-	
-	        if (this.state.loading === true) {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                '\'Loading...\''
-	            );
-	        } else {
-	            return _react2.default.createElement(_SingleRecipeViewer2.default, {
-	                recipe: this.state.data,
-	                handleEditButton: this.toggleEditor
-	            });
-	        }
-	    }
-	});
-
-/***/ },
-/* 241 */
-/*!**********************************************!*\
-  !*** ./js/components/SingleRecipeEditor.jsx ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _IngredientsEditor = __webpack_require__(/*! ./IngredientsEditor */ 242);
-	
-	var _IngredientsEditor2 = _interopRequireDefault(_IngredientsEditor);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'SingleRecipeEditor',
-	
-	
-	    propTypes: {
-	        recipe: _react2.default.PropTypes.object.isRequired,
-	        allowCancel: _react2.default.PropTypes.bool.isRequired,
-	        handleCancel: _react2.default.PropTypes.func.isRequired,
-	        handleSubmit: _react2.default.PropTypes.func.isRequired,
-	        allowDelete: _react2.default.PropTypes.bool.isRequired,
-	        handleDelete: _react2.default.PropTypes.func.isRequired
-	    },
-	
-	    getInitialState: function getInitialState() {
-	        var recipe = this.props.recipe;
-	        return {
-	            title: recipe.title,
-	            description: recipe.description,
-	            yields: recipe.yields,
-	            prep_time: recipe.prep_time,
-	            cooking_time: recipe.cooking_time,
-	            serve_with: recipe.serve_with,
-	            ingredients: recipe.ingredients,
-	            instructions: recipe.instructions,
-	            notes: recipe.notes,
-	            tags: recipe.tags
-	        };
-	    },
-	
-	
-	    // Handles changes from form fields, excluding ingredient fields
-	    handleFormChange: function handleFormChange(e) {
-	        this.setState(_defineProperty({}, e.target.name, e.target.value));
-	    },
-	    addIngredient: function addIngredient(e) {
-	        e.preventDefault();
-	        var newIngredients = this.state.ingredients.concat([{
-	            quantity: '',
-	            name: '',
-	            preparation: ''
-	        }]);
-	        this.setState({
-	            ingredients: newIngredients
-	        });
-	    },
-	    removeIngredient: function removeIngredient(index) {
-	        var ingredientsCopy = this.state.ingredients.slice(0);
-	        ingredientsCopy.splice(index, 1);
-	        this.setState({
-	            ingredients: ingredientsCopy
-	        });
-	    },
-	
-	
-	    // Handles changes to ingredient fields bubbled up from IngredientEditor component
-	    changeIngredientField: function changeIngredientField(field, index, value) {
-	
-	        var newIngredientsState = [].concat(_toConsumableArray(this.state.ingredients));
-	
-	        newIngredientsState[index] = _extends({}, newIngredientsState[index], _defineProperty({}, field, value));
-	
-	        this.setState({
-	            ingredients: newIngredientsState
-	        });
-	    },
-	
-	
-	    // Save the edited recipe
-	    handleSubmit: function handleSubmit(e) {
-	        e.preventDefault();
-	        this.props.handleSubmit(this.state);
-	    },
-	
-	
-	    // Delete the recipe
-	    handleDelete: function handleDelete(e) {
-	        e.preventDefault();
-	        this.props.handleDelete();
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'recipe-editor narrow-container' },
-	            _react2.default.createElement(
-	                'form',
-	                { onSumbit: this.handleSubmit },
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Title'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'title',
-	                    value: this.state.title,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Description'
-	                ),
-	                _react2.default.createElement('textarea', {
-	                    name: 'description',
-	                    value: this.state.description,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Prep Time'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'prep_time',
-	                    value: this.state.prep_time,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Cooking Time'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'cooking_time',
-	                    value: this.state.cooking_time,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Yields'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'yields',
-	                    value: this.state.yields,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Serve With'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'serve_with',
-	                    value: this.state.serve_with,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'h3',
-	                    { className: 'subhead' },
-	                    'Ingredients'
-	                ),
-	                _react2.default.createElement(_IngredientsEditor2.default, {
-	                    ingredients: this.state.ingredients,
-	                    addIngredientFunction: this.addIngredient,
-	                    removeIngredientFunction: this.removeIngredient,
-	                    changeIngredientFieldFunction: this.changeIngredientField
-	                }),
-	                _react2.default.createElement(
-	                    'h3',
-	                    { className: 'subhead' },
-	                    'Instructions'
-	                ),
-	                _react2.default.createElement('textarea', {
-	                    name: 'instructions',
-	                    value: this.state.instructions,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'buttons-container' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'left-buttons' },
-	                        this.props.allowDelete ? _react2.default.createElement(
-	                            'button',
-	                            {
-	                                className: 'delete',
-	                                onClick: this.handleDelete
-	                            },
-	                            _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' }),
-	                            'Delete Recipe'
-	                        ) : ''
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'right-buttons' },
-	                        this.props.allowCancel ? _react2.default.createElement(
-	                            'button',
-	                            { onClick: this.props.handleCancel },
-	                            'Cancel'
-	                        ) : '',
-	                        _react2.default.createElement(
-	                            'button',
-	                            {
-	                                className: 'primary',
-	                                type: 'submit',
-	                                onClick: this.handleSubmit
-	                            },
-	                            _react2.default.createElement('i', { className: 'fa fa-floppy-o', 'aria-hidden': 'true' }),
-	                            ' Save'
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-/***/ },
-/* 242 */
-/*!*********************************************!*\
-  !*** ./js/components/IngredientsEditor.jsx ***!
-  \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 243);
-	
-	var _IngredientEditor2 = _interopRequireDefault(_IngredientEditor);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'IngredientsEditor',
-	
-	
-	    propTypes: {
-	        ingredients: _react2.default.PropTypes.array.isRequired,
-	        addIngredientFunction: _react2.default.PropTypes.func.isRequired,
-	        removeIngredientFunction: _react2.default.PropTypes.func.isRequired,
-	        changeIngredientFieldFunction: _react2.default.PropTypes.func.isRequired
-	    },
-	
-	    render: function render() {
-	
-	        console.log(this.props.ingredients);
-	
-	        var removeIngredientFunction = this.props.removeIngredientFunction;
-	        var changeIngredientFieldFunction = this.props.changeIngredientFieldFunction;
-	
-	        var ingredientEditors = this.props.ingredients.map(function (ingredient, index) {
-	            return _react2.default.createElement(_IngredientEditor2.default, {
-	                ingredient: ingredient,
-	                index: index,
-	                removeIngredientFunction: removeIngredientFunction,
-	                changeIngredientFieldFunction: changeIngredientFieldFunction
-	            });
-	        });
-	
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            ingredientEditors,
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'buttons-container' },
-	                _react2.default.createElement('div', { className: 'left-buttons' }),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'right-buttons' },
-	                    _react2.default.createElement(
-	                        'button',
-	                        { className: 'primary', onClick: this.props.addIngredientFunction },
-	                        _react2.default.createElement('i', { className: 'fa fa-plus-circle', 'aria-hidden': 'true' }),
-	                        'Add Ingredient'
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-/***/ },
-/* 243 */
-/*!********************************************!*\
-  !*** ./js/components/IngredientEditor.jsx ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 243);
-	
-	var _IngredientEditor2 = _interopRequireDefault(_IngredientEditor);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'IngredientEditor',
-	
-	
-	    propTypes: {
-	        ingredient: _react2.default.PropTypes.object.isRequired,
-	        index: _react2.default.PropTypes.number.isRequired,
-	        removeIngredientFunction: _react2.default.PropTypes.func.isRequired,
-	        changeIngredientFieldFunction: _react2.default.PropTypes.func.isRequired
-	    },
-	
-	    remove: function remove(e) {
-	        e.preventDefault();
-	        this.props.removeIngredientFunction(this.props.index);
-	    },
-	    changeField: function changeField(e) {
-	        this.props.changeIngredientFieldFunction(e.target.name, this.props.index, e.target.value);
-	    },
-	    render: function render() {
-	
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'ingredient' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'fields' },
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Quantity'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'quantity',
-	                    value: this.props.ingredient.quantity,
-	                    onChange: this.changeField
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Name'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'name',
-	                    value: this.props.ingredient.name,
-	                    onChange: this.changeField
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Preparation'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'preparation',
-	                    value: this.props.ingredient.preparation,
-	                    onChange: this.changeField
-	                })
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'remove-button-wrapper' },
-	                _react2.default.createElement('i', {
-	                    className: 'remove-button fa fa-minus-circle',
-	                    onClick: this.remove
-	                })
-	            )
-	        );
-	    }
-	});
-
-/***/ },
-/* 244 */
+/* 239 */
 /*!**********************************************!*\
   !*** ./js/components/SingleRecipeViewer.jsx ***!
   \**********************************************/
@@ -38587,11 +38143,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
+	var _jquery = __webpack_require__(/*! jquery */ 238);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _remarkable = __webpack_require__(/*! remarkable */ 246);
+	var _remarkable = __webpack_require__(/*! remarkable */ 240);
 	
 	var _remarkable2 = _interopRequireDefault(_remarkable);
 	
@@ -38777,63 +38333,7 @@
 	});
 
 /***/ },
-/* 245 */
-/*!*****************************************!*\
-  !*** ./js/components/AddRecipePage.jsx ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
-	
-	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
-	
-	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 244);
-	
-	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'AddRecipePage',
-	    saveRecipe: function saveRecipe(state) {
-	        // Send POST to server here
-	        console.log(state);
-	    },
-	    render: function render() {
-	
-	        var emptyRecipe = {
-	            'title': '',
-	            'description': '',
-	            'yields': '',
-	            'prep_time': '',
-	            'cooking_time': '',
-	            'serve_with': '',
-	            'ingredients': [],
-	            'instructions': ''
-	        };
-	        return _react2.default.createElement(_SingleRecipeEditor2.default, {
-	            recipe: emptyRecipe,
-	            handleSubmit: this.saveRecipe
-	        });
-	    }
-	});
-
-/***/ },
-/* 246 */
+/* 240 */
 /*!*******************************!*\
   !*** ./~/remarkable/index.js ***!
   \*******************************/
@@ -38842,11 +38342,11 @@
 	'use strict';
 	
 	
-	module.exports = __webpack_require__(/*! ./lib/ */ 247);
+	module.exports = __webpack_require__(/*! ./lib/ */ 241);
 
 
 /***/ },
-/* 247 */
+/* 241 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/index.js ***!
   \***********************************/
@@ -38858,21 +38358,21 @@
 	 * Local dependencies
 	 */
 	
-	var assign       = __webpack_require__(/*! ./common/utils */ 248).assign;
-	var Renderer     = __webpack_require__(/*! ./renderer */ 250);
-	var ParserCore   = __webpack_require__(/*! ./parser_core */ 252);
-	var ParserBlock  = __webpack_require__(/*! ./parser_block */ 270);
-	var ParserInline = __webpack_require__(/*! ./parser_inline */ 285);
-	var Ruler        = __webpack_require__(/*! ./ruler */ 253);
+	var assign       = __webpack_require__(/*! ./common/utils */ 242).assign;
+	var Renderer     = __webpack_require__(/*! ./renderer */ 244);
+	var ParserCore   = __webpack_require__(/*! ./parser_core */ 246);
+	var ParserBlock  = __webpack_require__(/*! ./parser_block */ 264);
+	var ParserInline = __webpack_require__(/*! ./parser_inline */ 279);
+	var Ruler        = __webpack_require__(/*! ./ruler */ 247);
 	
 	/**
 	 * Preset configs
 	 */
 	
 	var config = {
-	  'default':    __webpack_require__(/*! ./configs/default */ 304),
-	  'full':       __webpack_require__(/*! ./configs/full */ 305),
-	  'commonmark': __webpack_require__(/*! ./configs/commonmark */ 306)
+	  'default':    __webpack_require__(/*! ./configs/default */ 298),
+	  'full':       __webpack_require__(/*! ./configs/full */ 299),
+	  'commonmark': __webpack_require__(/*! ./configs/commonmark */ 300)
 	};
 	
 	/**
@@ -39046,11 +38546,11 @@
 	 * rendering.
 	 */
 	
-	module.exports.utils = __webpack_require__(/*! ./common/utils */ 248);
+	module.exports.utils = __webpack_require__(/*! ./common/utils */ 242);
 
 
 /***/ },
-/* 248 */
+/* 242 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/common/utils.js ***!
   \******************************************/
@@ -39140,7 +38640,7 @@
 	
 	var NAMED_ENTITY_RE   = /&([a-z#][a-z0-9]{1,31});/gi;
 	var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
-	var entities = __webpack_require__(/*! ./entities */ 249);
+	var entities = __webpack_require__(/*! ./entities */ 243);
 	
 	function replaceEntityPattern(match, name) {
 	  var code = 0;
@@ -39200,7 +38700,7 @@
 
 
 /***/ },
-/* 249 */
+/* 243 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/common/entities.js ***!
   \*********************************************/
@@ -41343,7 +40843,7 @@
 
 
 /***/ },
-/* 250 */
+/* 244 */
 /*!**************************************!*\
   !*** ./~/remarkable/lib/renderer.js ***!
   \**************************************/
@@ -41355,8 +40855,8 @@
 	 * Local dependencies
 	 */
 	
-	var utils = __webpack_require__(/*! ./common/utils */ 248);
-	var rules = __webpack_require__(/*! ./rules */ 251);
+	var utils = __webpack_require__(/*! ./common/utils */ 242);
+	var rules = __webpack_require__(/*! ./rules */ 245);
 	
 	/**
 	 * Expose `Renderer`
@@ -41427,7 +40927,7 @@
 
 
 /***/ },
-/* 251 */
+/* 245 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/rules.js ***!
   \***********************************/
@@ -41439,10 +40939,10 @@
 	 * Local dependencies
 	 */
 	
-	var has             = __webpack_require__(/*! ./common/utils */ 248).has;
-	var unescapeMd      = __webpack_require__(/*! ./common/utils */ 248).unescapeMd;
-	var replaceEntities = __webpack_require__(/*! ./common/utils */ 248).replaceEntities;
-	var escapeHtml      = __webpack_require__(/*! ./common/utils */ 248).escapeHtml;
+	var has             = __webpack_require__(/*! ./common/utils */ 242).has;
+	var unescapeMd      = __webpack_require__(/*! ./common/utils */ 242).unescapeMd;
+	var replaceEntities = __webpack_require__(/*! ./common/utils */ 242).replaceEntities;
+	var escapeHtml      = __webpack_require__(/*! ./common/utils */ 242).escapeHtml;
 	
 	/**
 	 * Renderer rules cache
@@ -41863,7 +41363,7 @@
 
 
 /***/ },
-/* 252 */
+/* 246 */
 /*!*****************************************!*\
   !*** ./~/remarkable/lib/parser_core.js ***!
   \*****************************************/
@@ -41875,22 +41375,22 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler = __webpack_require__(/*! ./ruler */ 253);
+	var Ruler = __webpack_require__(/*! ./ruler */ 247);
 	
 	/**
 	 * Core parser `rules`
 	 */
 	
 	var _rules = [
-	  [ 'block',          __webpack_require__(/*! ./rules_core/block */ 254)          ],
-	  [ 'abbr',           __webpack_require__(/*! ./rules_core/abbr */ 255)           ],
-	  [ 'references',     __webpack_require__(/*! ./rules_core/references */ 258)     ],
-	  [ 'inline',         __webpack_require__(/*! ./rules_core/inline */ 263)         ],
-	  [ 'footnote_tail',  __webpack_require__(/*! ./rules_core/footnote_tail */ 264)  ],
-	  [ 'abbr2',          __webpack_require__(/*! ./rules_core/abbr2 */ 265)          ],
-	  [ 'replacements',   __webpack_require__(/*! ./rules_core/replacements */ 266)   ],
-	  [ 'smartquotes',    __webpack_require__(/*! ./rules_core/smartquotes */ 267)    ],
-	  [ 'linkify',        __webpack_require__(/*! ./rules_core/linkify */ 268)        ]
+	  [ 'block',          __webpack_require__(/*! ./rules_core/block */ 248)          ],
+	  [ 'abbr',           __webpack_require__(/*! ./rules_core/abbr */ 249)           ],
+	  [ 'references',     __webpack_require__(/*! ./rules_core/references */ 252)     ],
+	  [ 'inline',         __webpack_require__(/*! ./rules_core/inline */ 257)         ],
+	  [ 'footnote_tail',  __webpack_require__(/*! ./rules_core/footnote_tail */ 258)  ],
+	  [ 'abbr2',          __webpack_require__(/*! ./rules_core/abbr2 */ 259)          ],
+	  [ 'replacements',   __webpack_require__(/*! ./rules_core/replacements */ 260)   ],
+	  [ 'smartquotes',    __webpack_require__(/*! ./rules_core/smartquotes */ 261)    ],
+	  [ 'linkify',        __webpack_require__(/*! ./rules_core/linkify */ 262)        ]
 	];
 	
 	/**
@@ -41930,7 +41430,7 @@
 
 
 /***/ },
-/* 253 */
+/* 247 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/ruler.js ***!
   \***********************************/
@@ -42212,7 +41712,7 @@
 
 
 /***/ },
-/* 254 */
+/* 248 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_core/block.js ***!
   \**********************************************/
@@ -42238,7 +41738,7 @@
 
 
 /***/ },
-/* 255 */
+/* 249 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/rules_core/abbr.js ***!
   \*********************************************/
@@ -42250,8 +41750,8 @@
 	'use strict';
 	
 	
-	var StateInline    = __webpack_require__(/*! ../rules_inline/state_inline */ 256);
-	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
+	var StateInline    = __webpack_require__(/*! ../rules_inline/state_inline */ 250);
+	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
 	
 	
 	function parseAbbr(str, parserInline, options, env) {
@@ -42317,7 +41817,7 @@
 
 
 /***/ },
-/* 256 */
+/* 250 */
 /*!*******************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/state_inline.js ***!
   \*******************************************************/
@@ -42408,7 +41908,7 @@
 
 
 /***/ },
-/* 257 */
+/* 251 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_label.js ***!
   \******************************************************/
@@ -42476,7 +41976,7 @@
 
 
 /***/ },
-/* 258 */
+/* 252 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_core/references.js ***!
   \***************************************************/
@@ -42485,11 +41985,11 @@
 	'use strict';
 	
 	
-	var StateInline          = __webpack_require__(/*! ../rules_inline/state_inline */ 256);
-	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
-	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 259);
-	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 261);
-	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 262);
+	var StateInline          = __webpack_require__(/*! ../rules_inline/state_inline */ 250);
+	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
+	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 253);
+	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 255);
+	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 256);
 	
 	
 	function parseReference(str, parser, options, env) {
@@ -42583,7 +42083,7 @@
 
 
 /***/ },
-/* 259 */
+/* 253 */
 /*!************************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_destination.js ***!
   \************************************************************/
@@ -42592,8 +42092,8 @@
 	'use strict';
 	
 	
-	var normalizeLink = __webpack_require__(/*! ./normalize_link */ 260);
-	var unescapeMd    = __webpack_require__(/*! ../common/utils */ 248).unescapeMd;
+	var normalizeLink = __webpack_require__(/*! ./normalize_link */ 254);
+	var unescapeMd    = __webpack_require__(/*! ../common/utils */ 242).unescapeMd;
 	
 	/**
 	 * Parse link destination
@@ -42675,7 +42175,7 @@
 
 
 /***/ },
-/* 260 */
+/* 254 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/helpers/normalize_link.js ***!
   \****************************************************/
@@ -42683,7 +42183,7 @@
 
 	'use strict';
 	
-	var replaceEntities = __webpack_require__(/*! ../common/utils */ 248).replaceEntities;
+	var replaceEntities = __webpack_require__(/*! ../common/utils */ 242).replaceEntities;
 	
 	module.exports = function normalizeLink(url) {
 	  var normalized = replaceEntities(url);
@@ -42697,7 +42197,7 @@
 
 
 /***/ },
-/* 261 */
+/* 255 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_title.js ***!
   \******************************************************/
@@ -42706,7 +42206,7 @@
 	'use strict';
 	
 	
-	var unescapeMd = __webpack_require__(/*! ../common/utils */ 248).unescapeMd;
+	var unescapeMd = __webpack_require__(/*! ../common/utils */ 242).unescapeMd;
 	
 	/**
 	 * Parse link title
@@ -42752,7 +42252,7 @@
 
 
 /***/ },
-/* 262 */
+/* 256 */
 /*!*********************************************************!*\
   !*** ./~/remarkable/lib/helpers/normalize_reference.js ***!
   \*********************************************************/
@@ -42769,7 +42269,7 @@
 
 
 /***/ },
-/* 263 */
+/* 257 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_core/inline.js ***!
   \***********************************************/
@@ -42791,7 +42291,7 @@
 
 
 /***/ },
-/* 264 */
+/* 258 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/rules_core/footnote_tail.js ***!
   \******************************************************/
@@ -42895,7 +42395,7 @@
 
 
 /***/ },
-/* 265 */
+/* 259 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_core/abbr2.js ***!
   \**********************************************/
@@ -42992,7 +42492,7 @@
 
 
 /***/ },
-/* 266 */
+/* 260 */
 /*!*****************************************************!*\
   !*** ./~/remarkable/lib/rules_core/replacements.js ***!
   \*****************************************************/
@@ -43065,7 +42565,7 @@
 
 
 /***/ },
-/* 267 */
+/* 261 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_core/smartquotes.js ***!
   \****************************************************/
@@ -43187,7 +42687,7 @@
 
 
 /***/ },
-/* 268 */
+/* 262 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_core/linkify.js ***!
   \************************************************/
@@ -43200,7 +42700,7 @@
 	'use strict';
 	
 	
-	var Autolinker = __webpack_require__(/*! autolinker */ 269);
+	var Autolinker = __webpack_require__(/*! autolinker */ 263);
 	
 	
 	var LINK_SCAN_RE = /www|@|\:\/\//;
@@ -43357,7 +42857,7 @@
 
 
 /***/ },
-/* 269 */
+/* 263 */
 /*!*****************************************!*\
   !*** ./~/autolinker/dist/Autolinker.js ***!
   \*****************************************/
@@ -45689,7 +45189,7 @@
 
 
 /***/ },
-/* 270 */
+/* 264 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/parser_block.js ***!
   \******************************************/
@@ -45701,26 +45201,26 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler      = __webpack_require__(/*! ./ruler */ 253);
-	var StateBlock = __webpack_require__(/*! ./rules_block/state_block */ 271);
+	var Ruler      = __webpack_require__(/*! ./ruler */ 247);
+	var StateBlock = __webpack_require__(/*! ./rules_block/state_block */ 265);
 	
 	/**
 	 * Parser rules
 	 */
 	
 	var _rules = [
-	  [ 'code',       __webpack_require__(/*! ./rules_block/code */ 272) ],
-	  [ 'fences',     __webpack_require__(/*! ./rules_block/fences */ 273),     [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'blockquote', __webpack_require__(/*! ./rules_block/blockquote */ 274), [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'hr',         __webpack_require__(/*! ./rules_block/hr */ 275),         [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'list',       __webpack_require__(/*! ./rules_block/list */ 276),       [ 'paragraph', 'blockquote' ] ],
-	  [ 'footnote',   __webpack_require__(/*! ./rules_block/footnote */ 277),   [ 'paragraph' ] ],
-	  [ 'heading',    __webpack_require__(/*! ./rules_block/heading */ 278),    [ 'paragraph', 'blockquote' ] ],
-	  [ 'lheading',   __webpack_require__(/*! ./rules_block/lheading */ 279) ],
-	  [ 'htmlblock',  __webpack_require__(/*! ./rules_block/htmlblock */ 280),  [ 'paragraph', 'blockquote' ] ],
-	  [ 'table',      __webpack_require__(/*! ./rules_block/table */ 282),      [ 'paragraph' ] ],
-	  [ 'deflist',    __webpack_require__(/*! ./rules_block/deflist */ 283),    [ 'paragraph' ] ],
-	  [ 'paragraph',  __webpack_require__(/*! ./rules_block/paragraph */ 284) ]
+	  [ 'code',       __webpack_require__(/*! ./rules_block/code */ 266) ],
+	  [ 'fences',     __webpack_require__(/*! ./rules_block/fences */ 267),     [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'blockquote', __webpack_require__(/*! ./rules_block/blockquote */ 268), [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'hr',         __webpack_require__(/*! ./rules_block/hr */ 269),         [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'list',       __webpack_require__(/*! ./rules_block/list */ 270),       [ 'paragraph', 'blockquote' ] ],
+	  [ 'footnote',   __webpack_require__(/*! ./rules_block/footnote */ 271),   [ 'paragraph' ] ],
+	  [ 'heading',    __webpack_require__(/*! ./rules_block/heading */ 272),    [ 'paragraph', 'blockquote' ] ],
+	  [ 'lheading',   __webpack_require__(/*! ./rules_block/lheading */ 273) ],
+	  [ 'htmlblock',  __webpack_require__(/*! ./rules_block/htmlblock */ 274),  [ 'paragraph', 'blockquote' ] ],
+	  [ 'table',      __webpack_require__(/*! ./rules_block/table */ 276),      [ 'paragraph' ] ],
+	  [ 'deflist',    __webpack_require__(/*! ./rules_block/deflist */ 277),    [ 'paragraph' ] ],
+	  [ 'paragraph',  __webpack_require__(/*! ./rules_block/paragraph */ 278) ]
 	];
 	
 	/**
@@ -45853,7 +45353,7 @@
 
 
 /***/ },
-/* 271 */
+/* 265 */
 /*!*****************************************************!*\
   !*** ./~/remarkable/lib/rules_block/state_block.js ***!
   \*****************************************************/
@@ -46020,7 +45520,7 @@
 
 
 /***/ },
-/* 272 */
+/* 266 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_block/code.js ***!
   \**********************************************/
@@ -46065,7 +45565,7 @@
 
 
 /***/ },
-/* 273 */
+/* 267 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_block/fences.js ***!
   \************************************************/
@@ -46165,7 +45665,7 @@
 
 
 /***/ },
-/* 274 */
+/* 268 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_block/blockquote.js ***!
   \****************************************************/
@@ -46307,7 +45807,7 @@
 
 
 /***/ },
-/* 275 */
+/* 269 */
 /*!********************************************!*\
   !*** ./~/remarkable/lib/rules_block/hr.js ***!
   \********************************************/
@@ -46361,7 +45861,7 @@
 
 
 /***/ },
-/* 276 */
+/* 270 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_block/list.js ***!
   \**********************************************/
@@ -46636,7 +46136,7 @@
 
 
 /***/ },
-/* 277 */
+/* 271 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_block/footnote.js ***!
   \**************************************************/
@@ -46712,7 +46212,7 @@
 
 
 /***/ },
-/* 278 */
+/* 272 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_block/heading.js ***!
   \*************************************************/
@@ -46779,7 +46279,7 @@
 
 
 /***/ },
-/* 279 */
+/* 273 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_block/lheading.js ***!
   \**************************************************/
@@ -46843,7 +46343,7 @@
 
 
 /***/ },
-/* 280 */
+/* 274 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_block/htmlblock.js ***!
   \***************************************************/
@@ -46854,7 +46354,7 @@
 	'use strict';
 	
 	
-	var block_names = __webpack_require__(/*! ../common/html_blocks */ 281);
+	var block_names = __webpack_require__(/*! ../common/html_blocks */ 275);
 	
 	
 	var HTML_TAG_OPEN_RE = /^<([a-zA-Z]{1,15})[\s\/>]/;
@@ -46926,7 +46426,7 @@
 
 
 /***/ },
-/* 281 */
+/* 275 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/common/html_blocks.js ***!
   \************************************************/
@@ -46997,7 +46497,7 @@
 
 
 /***/ },
-/* 282 */
+/* 276 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_block/table.js ***!
   \***********************************************/
@@ -47140,7 +46640,7 @@
 
 
 /***/ },
-/* 283 */
+/* 277 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_block/deflist.js ***!
   \*************************************************/
@@ -47356,7 +46856,7 @@
 
 
 /***/ },
-/* 284 */
+/* 278 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_block/paragraph.js ***!
   \***************************************************/
@@ -47424,7 +46924,7 @@
 
 
 /***/ },
-/* 285 */
+/* 279 */
 /*!*******************************************!*\
   !*** ./~/remarkable/lib/parser_inline.js ***!
   \*******************************************/
@@ -47436,31 +46936,31 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler       = __webpack_require__(/*! ./ruler */ 253);
-	var StateInline = __webpack_require__(/*! ./rules_inline/state_inline */ 256);
-	var utils       = __webpack_require__(/*! ./common/utils */ 248);
+	var Ruler       = __webpack_require__(/*! ./ruler */ 247);
+	var StateInline = __webpack_require__(/*! ./rules_inline/state_inline */ 250);
+	var utils       = __webpack_require__(/*! ./common/utils */ 242);
 	
 	/**
 	 * Inline Parser `rules`
 	 */
 	
 	var _rules = [
-	  [ 'text',            __webpack_require__(/*! ./rules_inline/text */ 286) ],
-	  [ 'newline',         __webpack_require__(/*! ./rules_inline/newline */ 287) ],
-	  [ 'escape',          __webpack_require__(/*! ./rules_inline/escape */ 288) ],
-	  [ 'backticks',       __webpack_require__(/*! ./rules_inline/backticks */ 289) ],
-	  [ 'del',             __webpack_require__(/*! ./rules_inline/del */ 290) ],
-	  [ 'ins',             __webpack_require__(/*! ./rules_inline/ins */ 291) ],
-	  [ 'mark',            __webpack_require__(/*! ./rules_inline/mark */ 292) ],
-	  [ 'emphasis',        __webpack_require__(/*! ./rules_inline/emphasis */ 293) ],
-	  [ 'sub',             __webpack_require__(/*! ./rules_inline/sub */ 294) ],
-	  [ 'sup',             __webpack_require__(/*! ./rules_inline/sup */ 295) ],
-	  [ 'links',           __webpack_require__(/*! ./rules_inline/links */ 296) ],
-	  [ 'footnote_inline', __webpack_require__(/*! ./rules_inline/footnote_inline */ 297) ],
-	  [ 'footnote_ref',    __webpack_require__(/*! ./rules_inline/footnote_ref */ 298) ],
-	  [ 'autolink',        __webpack_require__(/*! ./rules_inline/autolink */ 299) ],
-	  [ 'htmltag',         __webpack_require__(/*! ./rules_inline/htmltag */ 301) ],
-	  [ 'entity',          __webpack_require__(/*! ./rules_inline/entity */ 303) ]
+	  [ 'text',            __webpack_require__(/*! ./rules_inline/text */ 280) ],
+	  [ 'newline',         __webpack_require__(/*! ./rules_inline/newline */ 281) ],
+	  [ 'escape',          __webpack_require__(/*! ./rules_inline/escape */ 282) ],
+	  [ 'backticks',       __webpack_require__(/*! ./rules_inline/backticks */ 283) ],
+	  [ 'del',             __webpack_require__(/*! ./rules_inline/del */ 284) ],
+	  [ 'ins',             __webpack_require__(/*! ./rules_inline/ins */ 285) ],
+	  [ 'mark',            __webpack_require__(/*! ./rules_inline/mark */ 286) ],
+	  [ 'emphasis',        __webpack_require__(/*! ./rules_inline/emphasis */ 287) ],
+	  [ 'sub',             __webpack_require__(/*! ./rules_inline/sub */ 288) ],
+	  [ 'sup',             __webpack_require__(/*! ./rules_inline/sup */ 289) ],
+	  [ 'links',           __webpack_require__(/*! ./rules_inline/links */ 290) ],
+	  [ 'footnote_inline', __webpack_require__(/*! ./rules_inline/footnote_inline */ 291) ],
+	  [ 'footnote_ref',    __webpack_require__(/*! ./rules_inline/footnote_ref */ 292) ],
+	  [ 'autolink',        __webpack_require__(/*! ./rules_inline/autolink */ 293) ],
+	  [ 'htmltag',         __webpack_require__(/*! ./rules_inline/htmltag */ 295) ],
+	  [ 'entity',          __webpack_require__(/*! ./rules_inline/entity */ 297) ]
 	];
 	
 	/**
@@ -47594,7 +47094,7 @@
 
 
 /***/ },
-/* 286 */
+/* 280 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/text.js ***!
   \***********************************************/
@@ -47656,7 +47156,7 @@
 
 
 /***/ },
-/* 287 */
+/* 281 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/newline.js ***!
   \**************************************************/
@@ -47713,7 +47213,7 @@
 
 
 /***/ },
-/* 288 */
+/* 282 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/escape.js ***!
   \*************************************************/
@@ -47771,7 +47271,7 @@
 
 
 /***/ },
-/* 289 */
+/* 283 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/backticks.js ***!
   \****************************************************/
@@ -47826,7 +47326,7 @@
 
 
 /***/ },
-/* 290 */
+/* 284 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/del.js ***!
   \**********************************************/
@@ -47919,7 +47419,7 @@
 
 
 /***/ },
-/* 291 */
+/* 285 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/ins.js ***!
   \**********************************************/
@@ -48012,7 +47512,7 @@
 
 
 /***/ },
-/* 292 */
+/* 286 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/mark.js ***!
   \***********************************************/
@@ -48105,7 +47605,7 @@
 
 
 /***/ },
-/* 293 */
+/* 287 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/emphasis.js ***!
   \***************************************************/
@@ -48263,7 +47763,7 @@
 
 
 /***/ },
-/* 294 */
+/* 288 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/sub.js ***!
   \**********************************************/
@@ -48330,7 +47830,7 @@
 
 
 /***/ },
-/* 295 */
+/* 289 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/sup.js ***!
   \**********************************************/
@@ -48397,7 +47897,7 @@
 
 
 /***/ },
-/* 296 */
+/* 290 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/links.js ***!
   \************************************************/
@@ -48407,10 +47907,10 @@
 	
 	'use strict';
 	
-	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
-	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 259);
-	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 261);
-	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 262);
+	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
+	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 253);
+	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 255);
+	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 256);
 	
 	
 	module.exports = function links(state, silent) {
@@ -48576,7 +48076,7 @@
 
 
 /***/ },
-/* 297 */
+/* 291 */
 /*!**********************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/footnote_inline.js ***!
   \**********************************************************/
@@ -48586,7 +48086,7 @@
 	
 	'use strict';
 	
-	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 257);
+	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
 	
 	
 	module.exports = function footnote_inline(state, silent) {
@@ -48638,7 +48138,7 @@
 
 
 /***/ },
-/* 298 */
+/* 292 */
 /*!*******************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/footnote_ref.js ***!
   \*******************************************************/
@@ -48709,7 +48209,7 @@
 
 
 /***/ },
-/* 299 */
+/* 293 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/autolink.js ***!
   \***************************************************/
@@ -48719,8 +48219,8 @@
 	
 	'use strict';
 	
-	var url_schemas   = __webpack_require__(/*! ../common/url_schemas */ 300);
-	var normalizeLink = __webpack_require__(/*! ../helpers/normalize_link */ 260);
+	var url_schemas   = __webpack_require__(/*! ../common/url_schemas */ 294);
+	var normalizeLink = __webpack_require__(/*! ../helpers/normalize_link */ 254);
 	
 	
 	/*eslint max-len:0*/
@@ -48796,7 +48296,7 @@
 
 
 /***/ },
-/* 300 */
+/* 294 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/common/url_schemas.js ***!
   \************************************************/
@@ -48977,7 +48477,7 @@
 
 
 /***/ },
-/* 301 */
+/* 295 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/htmltag.js ***!
   \**************************************************/
@@ -48988,7 +48488,7 @@
 	'use strict';
 	
 	
-	var HTML_TAG_RE = __webpack_require__(/*! ../common/html_re */ 302).HTML_TAG_RE;
+	var HTML_TAG_RE = __webpack_require__(/*! ../common/html_re */ 296).HTML_TAG_RE;
 	
 	
 	function isLetter(ch) {
@@ -49035,7 +48535,7 @@
 
 
 /***/ },
-/* 302 */
+/* 296 */
 /*!********************************************!*\
   !*** ./~/remarkable/lib/common/html_re.js ***!
   \********************************************/
@@ -49103,7 +48603,7 @@
 
 
 /***/ },
-/* 303 */
+/* 297 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/entity.js ***!
   \*************************************************/
@@ -49113,10 +48613,10 @@
 	
 	'use strict';
 	
-	var entities          = __webpack_require__(/*! ../common/entities */ 249);
-	var has               = __webpack_require__(/*! ../common/utils */ 248).has;
-	var isValidEntityCode = __webpack_require__(/*! ../common/utils */ 248).isValidEntityCode;
-	var fromCodePoint     = __webpack_require__(/*! ../common/utils */ 248).fromCodePoint;
+	var entities          = __webpack_require__(/*! ../common/entities */ 243);
+	var has               = __webpack_require__(/*! ../common/utils */ 242).has;
+	var isValidEntityCode = __webpack_require__(/*! ../common/utils */ 242).isValidEntityCode;
+	var fromCodePoint     = __webpack_require__(/*! ../common/utils */ 242).fromCodePoint;
 	
 	
 	var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
@@ -49160,7 +48660,7 @@
 
 
 /***/ },
-/* 304 */
+/* 298 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/configs/default.js ***!
   \*********************************************/
@@ -49248,7 +48748,7 @@
 
 
 /***/ },
-/* 305 */
+/* 299 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/configs/full.js ***!
   \******************************************/
@@ -49295,7 +48795,7 @@
 
 
 /***/ },
-/* 306 */
+/* 300 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/configs/commonmark.js ***!
   \************************************************/
@@ -49375,10 +48875,10 @@
 
 
 /***/ },
-/* 307 */
-/*!******************************************!*\
-  !*** ./js/components/RecipeListItem.jsx ***!
-  \******************************************/
+/* 301 */
+/*!*****************************************!*\
+  !*** ./js/components/AddRecipePage.jsx ***!
+  \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49391,35 +48891,469 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 302);
+	
+	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	
+	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 239);
+	
+	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
-	    displayName: 'RecipeListItem',
+	    displayName: 'AddRecipePage',
+	    saveRecipe: function saveRecipe(state) {
+	        // Send POST to server here
+	        console.log(state);
+	    },
+	    render: function render() {
+	
+	        var emptyRecipe = {
+	            'title': '',
+	            'description': '',
+	            'yields': '',
+	            'prep_time': '',
+	            'cooking_time': '',
+	            'serve_with': '',
+	            'ingredients': [],
+	            'instructions': ''
+	        };
+	        return _react2.default.createElement(_SingleRecipeEditor2.default, {
+	            recipe: emptyRecipe,
+	            handleSubmit: this.saveRecipe
+	        });
+	    }
+	});
+
+/***/ },
+/* 302 */
+/*!**********************************************!*\
+  !*** ./js/components/SingleRecipeEditor.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _IngredientsEditor = __webpack_require__(/*! ./IngredientsEditor */ 303);
+	
+	var _IngredientsEditor2 = _interopRequireDefault(_IngredientsEditor);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SingleRecipeEditor',
 	
 	
 	    propTypes: {
-	        title: _react2.default.PropTypes.string.isRequired,
-	        url: _react2.default.PropTypes.string.isRequired
+	        recipe: _react2.default.PropTypes.object.isRequired,
+	        allowCancel: _react2.default.PropTypes.bool.isRequired,
+	        handleCancel: _react2.default.PropTypes.func.isRequired,
+	        handleSubmit: _react2.default.PropTypes.func.isRequired,
+	        allowDelete: _react2.default.PropTypes.bool.isRequired,
+	        handleDelete: _react2.default.PropTypes.func.isRequired
 	    },
 	
-	    render: function render() {
+	    getInitialState: function getInitialState() {
+	        var recipe = this.props.recipe;
+	        return {
+	            title: recipe.title,
+	            description: recipe.description,
+	            yields: recipe.yields,
+	            prep_time: recipe.prep_time,
+	            cooking_time: recipe.cooking_time,
+	            serve_with: recipe.serve_with,
+	            ingredients: recipe.ingredients,
+	            instructions: recipe.instructions,
+	            notes: recipe.notes,
+	            tags: recipe.tags
+	        };
+	    },
 	
+	
+	    // Handles changes from form fields, excluding ingredient fields
+	    handleFormChange: function handleFormChange(e) {
+	        this.setState(_defineProperty({}, e.target.name, e.target.value));
+	    },
+	    addIngredient: function addIngredient(e) {
+	        e.preventDefault();
+	        var newIngredients = this.state.ingredients.concat([{
+	            quantity: '',
+	            name: '',
+	            preparation: ''
+	        }]);
+	        this.setState({
+	            ingredients: newIngredients
+	        });
+	    },
+	    removeIngredient: function removeIngredient(index) {
+	        var ingredientsCopy = this.state.ingredients.slice(0);
+	        ingredientsCopy.splice(index, 1);
+	        this.setState({
+	            ingredients: ingredientsCopy
+	        });
+	    },
+	
+	
+	    // Handles changes to ingredient fields bubbled up from IngredientEditor component
+	    changeIngredientField: function changeIngredientField(field, index, value) {
+	
+	        var newIngredientsState = [].concat(_toConsumableArray(this.state.ingredients));
+	
+	        newIngredientsState[index] = _extends({}, newIngredientsState[index], _defineProperty({}, field, value));
+	
+	        this.setState({
+	            ingredients: newIngredientsState
+	        });
+	    },
+	
+	
+	    // Save the edited recipe
+	    handleSubmit: function handleSubmit(e) {
+	        e.preventDefault();
+	        this.props.handleSubmit(this.state);
+	    },
+	
+	
+	    // Delete the recipe
+	    handleDelete: function handleDelete(e) {
+	        e.preventDefault();
+	        this.props.handleDelete();
+	    },
+	    render: function render() {
 	        return _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: this.props.url, className: 'recipe' },
+	            'div',
+	            { className: 'recipe-editor narrow-container' },
 	            _react2.default.createElement(
-	                'h2',
-	                null,
-	                this.props.title
+	                'form',
+	                { onSumbit: this.handleSubmit },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Title'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'title',
+	                    value: this.state.title,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Description'
+	                ),
+	                _react2.default.createElement('textarea', {
+	                    name: 'description',
+	                    value: this.state.description,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Prep Time'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'prep_time',
+	                    value: this.state.prep_time,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Cooking Time'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'cooking_time',
+	                    value: this.state.cooking_time,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Yields'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'yields',
+	                    value: this.state.yields,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Serve With'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'serve_with',
+	                    value: this.state.serve_with,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'h3',
+	                    { className: 'subhead' },
+	                    'Ingredients'
+	                ),
+	                _react2.default.createElement(_IngredientsEditor2.default, {
+	                    ingredients: this.state.ingredients,
+	                    addIngredientFunction: this.addIngredient,
+	                    removeIngredientFunction: this.removeIngredient,
+	                    changeIngredientFieldFunction: this.changeIngredientField
+	                }),
+	                _react2.default.createElement(
+	                    'h3',
+	                    { className: 'subhead' },
+	                    'Instructions'
+	                ),
+	                _react2.default.createElement('textarea', {
+	                    name: 'instructions',
+	                    value: this.state.instructions,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'buttons-container' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'left-buttons' },
+	                        this.props.allowDelete ? _react2.default.createElement(
+	                            'button',
+	                            {
+	                                className: 'delete',
+	                                onClick: this.handleDelete
+	                            },
+	                            _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' }),
+	                            'Delete Recipe'
+	                        ) : ''
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'right-buttons' },
+	                        this.props.allowCancel ? _react2.default.createElement(
+	                            'button',
+	                            { onClick: this.props.handleCancel },
+	                            'Cancel'
+	                        ) : '',
+	                        _react2.default.createElement(
+	                            'button',
+	                            {
+	                                className: 'primary',
+	                                type: 'submit',
+	                                onClick: this.handleSubmit
+	                            },
+	                            _react2.default.createElement('i', { className: 'fa fa-floppy-o', 'aria-hidden': 'true' }),
+	                            ' Save'
+	                        )
+	                    )
+	                )
 	            )
 	        );
 	    }
 	});
 
 /***/ },
-/* 308 */
+/* 303 */
+/*!*********************************************!*\
+  !*** ./js/components/IngredientsEditor.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 304);
+	
+	var _IngredientEditor2 = _interopRequireDefault(_IngredientEditor);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'IngredientsEditor',
+	
+	
+	    propTypes: {
+	        ingredients: _react2.default.PropTypes.array.isRequired,
+	        addIngredientFunction: _react2.default.PropTypes.func.isRequired,
+	        removeIngredientFunction: _react2.default.PropTypes.func.isRequired,
+	        changeIngredientFieldFunction: _react2.default.PropTypes.func.isRequired
+	    },
+	
+	    render: function render() {
+	
+	        console.log(this.props.ingredients);
+	
+	        var removeIngredientFunction = this.props.removeIngredientFunction;
+	        var changeIngredientFieldFunction = this.props.changeIngredientFieldFunction;
+	
+	        var ingredientEditors = this.props.ingredients.map(function (ingredient, index) {
+	            return _react2.default.createElement(_IngredientEditor2.default, {
+	                ingredient: ingredient,
+	                index: index,
+	                removeIngredientFunction: removeIngredientFunction,
+	                changeIngredientFieldFunction: changeIngredientFieldFunction
+	            });
+	        });
+	
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            ingredientEditors,
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'buttons-container' },
+	                _react2.default.createElement('div', { className: 'left-buttons' }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'right-buttons' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'primary', onClick: this.props.addIngredientFunction },
+	                        _react2.default.createElement('i', { className: 'fa fa-plus-circle', 'aria-hidden': 'true' }),
+	                        'Add Ingredient'
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 304 */
+/*!********************************************!*\
+  !*** ./js/components/IngredientEditor.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 304);
+	
+	var _IngredientEditor2 = _interopRequireDefault(_IngredientEditor);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'IngredientEditor',
+	
+	
+	    propTypes: {
+	        ingredient: _react2.default.PropTypes.object.isRequired,
+	        index: _react2.default.PropTypes.number.isRequired,
+	        removeIngredientFunction: _react2.default.PropTypes.func.isRequired,
+	        changeIngredientFieldFunction: _react2.default.PropTypes.func.isRequired
+	    },
+	
+	    remove: function remove(e) {
+	        e.preventDefault();
+	        this.props.removeIngredientFunction(this.props.index);
+	    },
+	    changeField: function changeField(e) {
+	        this.props.changeIngredientFieldFunction(e.target.name, this.props.index, e.target.value);
+	    },
+	    render: function render() {
+	
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'ingredient' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'fields' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Quantity'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'quantity',
+	                    value: this.props.ingredient.quantity,
+	                    onChange: this.changeField
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Name'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'name',
+	                    value: this.props.ingredient.name,
+	                    onChange: this.changeField
+	                }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Preparation'
+	                ),
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    name: 'preparation',
+	                    value: this.props.ingredient.preparation,
+	                    onChange: this.changeField
+	                })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'remove-button-wrapper' },
+	                _react2.default.createElement('i', {
+	                    className: 'remove-button fa fa-minus-circle',
+	                    onClick: this.remove
+	                })
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 305 */
 /*!******************************************!*\
   !*** ./js/components/EditRecipePage.jsx ***!
   \******************************************/
@@ -49435,15 +49369,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
+	var _jquery = __webpack_require__(/*! jquery */ 238);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _utilities = __webpack_require__(/*! ../utilities */ 309);
+	var _utilities = __webpack_require__(/*! ../utilities */ 306);
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
-	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 241);
+	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 302);
 	
 	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
 	
@@ -49516,7 +49450,7 @@
 	});
 
 /***/ },
-/* 309 */
+/* 306 */
 /*!*************************!*\
   !*** ./js/utilities.js ***!
   \*************************/
@@ -49529,7 +49463,7 @@
 	});
 	exports.getCookie = undefined;
 	
-	var _jquery = __webpack_require__(/*! jquery */ 237);
+	var _jquery = __webpack_require__(/*! jquery */ 238);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
@@ -49550,6 +49484,109 @@
 	    }
 	    return cookieValue;
 	};
+
+/***/ },
+/* 307 */
+/*!**************************************!*\
+  !*** ./js/components/RecipeList.jsx ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _RecipeListItem = __webpack_require__(/*! ./RecipeListItem */ 308);
+	
+	var _RecipeListItem2 = _interopRequireDefault(_RecipeListItem);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'RecipeList',
+	
+	
+	    propTypes: {
+	        recipes: _react2.default.PropTypes.array.isRequired
+	    },
+	
+	    render: function render() {
+	
+	        var recipes = this.props.recipes;
+	
+	        var recipeListItems = recipes.map(function (recipe) {
+	            var recipeUrl = '/recipe/' + recipe.id;
+	            return _react2.default.createElement(_RecipeListItem2.default, {
+	                title: recipe.title,
+	                url: recipeUrl
+	            });
+	        });
+	
+	        if (recipes.length === 0) {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                'No Recipes Yet!'
+	            );
+	        } else {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'recipe-list' },
+	                recipeListItems
+	            );
+	        }
+	    }
+	});
+
+/***/ },
+/* 308 */
+/*!******************************************!*\
+  !*** ./js/components/RecipeListItem.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'RecipeListItem',
+	
+	
+	    propTypes: {
+	        title: _react2.default.PropTypes.string.isRequired,
+	        url: _react2.default.PropTypes.string.isRequired
+	    },
+	
+	    render: function render() {
+	
+	        return _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: this.props.url, className: 'recipe' },
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                this.props.title
+	            )
+	        );
+	    }
+	});
 
 /***/ }
 /******/ ]);

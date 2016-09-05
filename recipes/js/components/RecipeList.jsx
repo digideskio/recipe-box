@@ -1,6 +1,5 @@
 import React from 'react';
 import RecipeListItem from './RecipeListItem';
-import { Link } from 'react-router';
 
 export default React.createClass({
 
@@ -31,16 +30,8 @@ export default React.createClass({
         }
         else {
             return (
-                <div>
-                    <nav>
-                        <ul>
-                            <li><Link to='/'>Recipe List</Link></li>
-                            <li><Link to='/recipe/add'>Add Recipe</Link></li>
-                        </ul>
-                    </nav>
-                    <div className="recipe-list">
-                        {recipeListItems}
-                    </div>
+                <div className="recipe-list">
+                    {recipeListItems}
                 </div>
             )
         }
