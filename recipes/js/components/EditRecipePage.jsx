@@ -1,10 +1,10 @@
 import React from 'react';
+
 import $ from 'jquery';
 import { getCookie } from '../utilities'
-
 import { browserHistory } from 'react-router';
 
-import SingleRecipeEditor from './SingleRecipeEditor';
+import RecipeEditor from './RecipeEditor';
 
 export default React.createClass({
 
@@ -28,13 +28,29 @@ export default React.createClass({
         });
     },
 
-    toggleEditor() {
-        browserHistory.push(`/recipes/${this.props.params.id}`)
+    quitEditor() {
+        browserHistory.push(`/recipe/${this.props.params.id}/`)
     },
 
-    saveRecipe(state) {
-        // Send UPDATE to server here
-        console.log(state);
+    saveRecipe(data) {
+        var self = this;
+        $.ajax({
+            method: 'PUT',
+            // Must include CSRF token for PUT request
+            beforeSend: function (request) {
+                request.setRequestHeader( "X-CSRFToken", getCookie('csrftoken') );
+                request.setRequestHeader( "Content-Type", "application/json" );
+            },
+            data: JSON.stringify(data),
+            dataType: 'json',
+            url: `/api/recipes/${self.props.params.id}/`,
+            success: function(data) {
+                browserHistory.push(`/recipe/${self.props.params.id}/`)
+            },
+            error: function(error) {
+                window.alert('Could not save recipe. Check that required fields are filled.')
+            }
+        });
     },
 
     deleteRecipe() {
@@ -66,14 +82,13 @@ export default React.createClass({
         }
         else {
             return (
-                <SingleRecipeEditor
+                <RecipeEditor
                     recipe={this.state.data}
-                    handleCancelButton={this.toggleEditor}
                     handleSubmit={this.saveRecipe}
                     allowDelete={true}
                     handleDelete={this.deleteRecipe}
                     allowCancel={true}
-                    handleCancel={this.toggleEditor}
+                    handleCancel={this.quitEditor}
                 />
             );
         }

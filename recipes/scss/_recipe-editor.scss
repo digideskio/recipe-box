@@ -5,9 +5,11 @@
         font-size: 1.2em;
         margin-bottom: 10px;
     }
+
     input[type="text"], textarea {
         margin-bottom: 20px;
     }
+
     .ingredient {
         display: flex;
         padding: 20px 0px 20px 20px;
@@ -33,6 +35,50 @@
         }
         :last-child {
             margin-bottom: 0;
+        }
+    }
+
+    .tags-editor {
+        margin: 20px 0px;
+        padding: 20px;
+        border: 2px solid $grey;
+        .tags {
+            margin: 10px 0px;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        .tag {
+            font-family: $serif-font;
+            font-size: 1.25em;
+            border: 2px solid $red;
+            color: $red;
+            padding: 10px;
+            margin: 0px 15px 10px 0px;
+            cursor: pointer;
+            i {
+                margin-left: 15px;
+            }
+            &:hover {
+                background-color: $red;
+                color: white;
+            }
+        }
+        .add-tag {
+            display: flex;
+            align-items: stretch;
+            margin: 10px 0px;
+            input {
+                margin: 0;
+            }
+            button {
+                min-width: 150px;
+                margin-left: 10px;
+            }
         }
     }
 }

@@ -5,14 +5,17 @@ export default React.createClass({
     render() {
         return (
             <div>
+
                 <header>
                     <Link to="/">
-                        <h1>
+                        <div className="app-title">
                             Recipe Box
-                        </h1>
+                        </div>
                     </Link>
                 </header>
+
                 {this.props.children}
+
             </div>
         )
     }

@@ -1,15 +1,17 @@
 import React from 'react';
 import $ from 'jquery';
 
+import Loader from './Loader';
+import SearchBox from './SearchBox';
 import RecipeList from './RecipeList';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 export default React.createClass({
 
     getInitialState() {
         return ({
             loading: true,
-            data: []
+            tags: []
         });
     },
 
@@ -17,19 +19,23 @@ export default React.createClass({
 
         var self = this;
         $.ajax({
-            url: '/api/recipes/',
+            url: '/api/tags/',
             success: function (data) {
-                console.log(data);
                 self.setState({
                     loading: false,
-                    data: data,
+                    tags: data,
                 });
             }
         });
     },
 
+    searchByTitle(query) {
+        browserHistory.push(`/search/${query}/`);
+    },
+
     render() {
 
+        var self = this;
         var randomQuote = function() {
             var randomNumber = Math.random();
             var quote = {};
@@ -55,30 +61,64 @@ export default React.createClass({
             }
             return (
                 <div className="quote-container">
-                    <div className="quote">"{quote.quote}"</div>
+                    <div className="quote">&ldquo;{quote.quote}&rdquo;</div>
                     <div className="attribution">{quote.attribution}</div>
                 </div>
             );
-        }
+        };
+
+        var tagsList = function() {
+
+            var tags = self.state.tags;
+
+            return tags.map(function(tag) {
+                return (
+                    <Link to={`/tag/${tag.id}`} key={tag.id}>
+                        <div className="tag">
+                            {tag.name}
+                        </div>
+                    </Link>
+                )
+            })
+
+        };
 
         if (this.state.loading) {
             return (
-                <div>Loading...</div>
-            )
+                <Loader/>
+            );
         }
+
         else {
             return (
                 <div className="home-page narrow-container">
-                    <nav>
-                        <ul>
-                            <li><Link to='/'>Recipe List</Link></li>
-                            <li><Link to='/recipe/add'>Add Recipe</Link></li>
-                        </ul>
-                    </nav>
+                    <div className="toolbar">
+                        <Link to='/recipe/add'>
+                            <button className="primary">
+                                <i className="fa fa-plus"/>
+                                Add Recipe
+                            </button>
+                        </Link>
+                    </div>
+
                     {randomQuote()}
-                    <RecipeList recipes={this.state.data}/>
+
+                    <section>
+                        <h2>Find Recipes by Title</h2>
+                        <SearchBox
+                            handleSubmitFunction = {this.searchByTitle}
+                        />
+                    </section>
+
+                    <section>
+                        <h2>Find Recipes by Tag</h2>
+                        <div className="tags">
+                            {tagsList()}
+                        </div>
+                    </section>
                 </div>
             )
         }
+
     }
 })

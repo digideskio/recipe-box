@@ -1,16 +1,26 @@
 header {
     background-color: black;
     border-bottom: 1px solid grey;
-    padding: 20px 20px 20px 30px;
 
     a {
         text-decoration: none;
     }
 
-    h1 {
+    .app-title {
+        display: inline-block;
+        padding: 25px;
         font-family: $serif-font;
         color: white;
         font-size: 2em;
         font-weight: 300;
+        transition: 0.2s;
+        @media (hover: hover) {
+            &:hover {
+                background-color: $grey;
+            }
+        }
+        @include bp(600px) {
+            padding: 20px;
+        }
     }
 }

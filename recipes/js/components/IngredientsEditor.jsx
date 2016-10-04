@@ -14,14 +14,13 @@ export default React.createClass({
 
     render() {
 
-        console.log(this.props.ingredients);
-
         var removeIngredientFunction = this.props.removeIngredientFunction;
         var changeIngredientFieldFunction = this.props.changeIngredientFieldFunction;
 
         var ingredientEditors = this.props.ingredients.map(function (ingredient, index) {
             return (
                 <IngredientEditor
+                    key={ingredient.id}
                     ingredient={ingredient}
                     index={index}
                     removeIngredientFunction={removeIngredientFunction}

@@ -17,6 +17,7 @@
     }
     .yields {
         font-family: $serif-font;
+        font-weight: bold;
         font-style: italic;
         text-align: center;
     }
@@ -65,5 +66,11 @@
         max-width: 200px;
         margin: 20px auto;
         background-color: $grey;
+    }
+    .not-found {
+        font-family: $serif-font;
+        font-size: 2em;
+        text-align: center;
+        margin: 30px;
     }
 }

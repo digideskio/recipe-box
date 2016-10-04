@@ -1,6 +1,9 @@
 // General
 body {
     font-family: sans-serif;
+    @include bp(600px) {
+        font-size: 0.75em;
+    }
 }
 
 .narrow-container{
@@ -9,7 +12,7 @@ body {
     margin: 40px auto;
 }
 
-a{
+a {
     color: inherit;
     &:visited {
         color: inherit;
@@ -37,6 +40,7 @@ button, input[type='submit'] {
     display: inline-block;
     font-family: $serif-font;
     font-size: 1.25em;
+    text-decoration: none;
     background-color: $grey;
     border: 0;
     padding: 10px 20px;
@@ -44,25 +48,32 @@ button, input[type='submit'] {
     cursor: pointer;
     outline: none;
     margin-right: 10px;
+    transition: 0.2s;
     i {
         margin-right: 10px;
     }
-    &:hover {
-        background-color: $dark-grey;
+    @media (hover: hover) {
+        &:hover {
+            background-color: $dark-grey;
+        }
     }
 }
 
 button.primary {
     background-color: $green;
-    &:hover {
-        background-color: $dark-green;
+    @media (hover: hover) {
+        &:hover {
+            background-color: $dark-green;
+        }
     }
 }
 
 button.delete{
     background-color: $red;
-    &:hover {
-        background-color: $dark-red;
+    @media (hover: hover) {
+        &:hover {
+            background-color: $dark-red;
+        }
     }
 }
 

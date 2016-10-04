@@ -2,16 +2,17 @@ import React from 'react';
 import $ from 'jquery';
 
 import IngredientsEditor from './IngredientsEditor';
+import TagsEditor from './TagsEditor';
 
 export default React.createClass({
 
     propTypes: {
         recipe: React.PropTypes.object.isRequired,
         allowCancel: React.PropTypes.bool.isRequired,
-        handleCancel: React.PropTypes.func.isRequired,
+        handleCancel: React.PropTypes.func,
         handleSubmit: React.PropTypes.func.isRequired,
         allowDelete: React.PropTypes.bool.isRequired,
-        handleDelete: React.PropTypes.func.isRequired
+        handleDelete: React.PropTypes.func
     },
 
     getInitialState() {
@@ -20,8 +21,8 @@ export default React.createClass({
             title: recipe.title,
             description: recipe.description,
             yields: recipe.yields,
-            prep_time: recipe.prep_time,
-            cooking_time: recipe.cooking_time,
+            //prep_time: recipe.prep_time,
+            //cooking_time: recipe.cooking_time,
             serve_with: recipe.serve_with,
             ingredients: recipe.ingredients,
             instructions: recipe.instructions,
@@ -62,16 +63,40 @@ export default React.createClass({
 
         var newIngredientsState = [
             ...this.state.ingredients,
-        ]
+        ];
 
         newIngredientsState[index] = {
             ...newIngredientsState[index],
             [field]: value
-        }
+        };
 
         this.setState({
-            ingredients: newIngredientsState
-        })
+            ingredients: newIngredientsState,
+
+        });
+    },
+
+    addTag(tag) {
+
+        var newTagsState = [
+            ...this.state.tags,
+            {name: tag}
+        ];
+
+        this.setState({
+            tags: newTagsState
+        });
+
+    },
+
+    removeTag(index) {
+
+        var tagsCopy = this.state.tags.slice(0);
+        tagsCopy.splice(index, 1);
+        this.setState({
+            tags: tagsCopy
+        });
+
     },
 
     // Save the edited recipe
@@ -103,22 +128,6 @@ export default React.createClass({
                         name="description"
                         value={this.state.description} 
                         onChange={this.handleFormChange}
-                    />
-
-                    <label>Prep Time</label>
-                    <input
-                        type="text"
-                        name="prep_time"
-                        value={this.state.prep_time}
-                        onChange={this.handleFormChange}
-                    />
-
-                    <label>Cooking Time</label>
-                    <input
-                        type="text"
-                        name="cooking_time"
-                        value={this.state.cooking_time}
-                        onChange={this.handleFormChange} 
                     />
 
                     <label>Yields</label>
@@ -153,6 +162,20 @@ export default React.createClass({
                         onChange={this.handleFormChange} 
                     />
 
+                    <h3 className="subhead">Notes</h3>
+                    <textarea
+                        name="notes"
+                        value={this.state.notes}
+                        onChange={this.handleFormChange} 
+                    />
+
+                    <h3 className="subhead">Tags</h3>
+
+                    <TagsEditor
+                        tags={this.state.tags}
+                        addTagFunction={this.addTag}
+                        removeTagFunction={this.removeTag}
+                    />
 
                     <div className="buttons-container">
                         <div className="left-buttons">
@@ -183,6 +206,7 @@ export default React.createClass({
                             </button>
                         </div>
                     </div>
+
                 </form>
             </div>
         );

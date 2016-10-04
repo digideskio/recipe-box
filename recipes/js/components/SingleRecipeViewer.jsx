@@ -2,6 +2,8 @@ import React from 'react';
 import $ from 'jquery';
 import Remarkable from 'remarkable';
 
+import { Link } from 'react-router';
+
 export default React.createClass({
 
     propTypes: {
@@ -21,7 +23,7 @@ export default React.createClass({
 
         var ingredients = recipe.ingredients.map(function (ingredient) {
             return (
-                <li>
+                <li key={ingredient.id}>
                     {ingredient.quantity} {ingredient.name}
                     {/* append a comma if ingredient includes preparation */ }
                     { ingredient.preparation ? ', ' + ingredient.preparation : ''}
@@ -31,9 +33,11 @@ export default React.createClass({
 
         var tags = recipe.tags.map(function (tag) {
             return (
-                <div className="tag">
-                {tag.name}
-                </div>
+                <Link to={`/tag/${tag.id}`} key={tag.id}>
+                    <div className="tag">
+                        {tag.name}
+                    </div>
+                </Link>
             )
         })
 
@@ -54,17 +58,7 @@ export default React.createClass({
                         :
                             ''
                         }
-                        <div className="yields">{recipe.yields}</div>
-                        <div className="times">
-                            <div>
-                                <i className="fa fa-clock-o" aria-hidden="true" />
-                                <span className="label">Cooking Time:</span> {recipe.cooking_time}
-                            </div>
-                            <div>
-                                <i className="fa fa-clock-o" aria-hidden="true" />
-                                <span className="label">Prep Time:</span> {recipe.prep_time}
-                            </div>
-                        </div>
+                        <div className="yields">yields {recipe.yields}</div>
                     </section>
 
                     <section className="ingredients">
@@ -80,7 +74,7 @@ export default React.createClass({
                             <span dangerouslySetInnerHTML={this.markdownToHTML(recipe.instructions)}></span>
                         </p>
                         { recipe.serve_with ?
-                            <p><span class="label">Serve With:</span> {recipe.serve_with}</p>
+                            <p><span className="label">Serve With:</span> {recipe.serve_with}</p>
                         :
                             ''
                         }

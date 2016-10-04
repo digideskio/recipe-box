@@ -21,12 +21,14 @@ from rest_framework import routers
 
 router = routers.SimpleRouter()
 router.register(r'recipes', views.RecipeViewSet)
-# router.register(r'recipeingredients', views.RecipeIngredientViewSet)
+router.register(r'tags', views.TagViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls',
                                 namespace='rest_framework')),
     url(r'^api/', include(router.urls, namespace='api')),
+    url(r'^api/search', views.SearchView.as_view()),
+    url(r'^api/bytag', views.ByTagView.as_view()),
     url(r'^', include('recipes.urls')),
 ]

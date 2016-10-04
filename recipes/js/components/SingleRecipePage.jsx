@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 import { browserHistory } from 'react-router';
 
+import Loader from './Loader';
 import SingleRecipeViewer from './SingleRecipeViewer';
 
 export default React.createClass({
@@ -10,6 +11,7 @@ export default React.createClass({
     getInitialState() {
         return ({
             loading: true,
+            notFound: false,
             data: {}
         });
     },
@@ -23,6 +25,12 @@ export default React.createClass({
                     loading: false,
                     data: data,
                 });
+            },
+            error: function(error) {
+                self.setState({
+                    loading: false,
+                    notFound: true
+                })
             }
         });
     },
@@ -35,10 +43,15 @@ export default React.createClass({
 
         if (this.state.loading === true) {
             return (
-                <div>
-                    'Loading...'
-                </div>
+                <Loader/>
             );
+        }
+        else if (this.state.notFound === true) {
+            return (
+                <div className="recipe-viewer">
+                    <h1 className="not-found">Recipe Not Found</h1>
+                </div>
+            )
         }
         else {
             return (

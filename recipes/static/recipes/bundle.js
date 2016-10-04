@@ -65,17 +65,25 @@
 	
 	var _HomePage2 = _interopRequireDefault(_HomePage);
 	
-	var _SingleRecipePage = __webpack_require__(/*! ./components/SingleRecipePage */ 237);
+	var _SingleRecipePage = __webpack_require__(/*! ./components/SingleRecipePage */ 240);
 	
 	var _SingleRecipePage2 = _interopRequireDefault(_SingleRecipePage);
 	
-	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 301);
+	var _AddRecipePage = __webpack_require__(/*! ./components/AddRecipePage */ 303);
 	
 	var _AddRecipePage2 = _interopRequireDefault(_AddRecipePage);
 	
-	var _EditRecipePage = __webpack_require__(/*! ./components/EditRecipePage */ 305);
+	var _EditRecipePage = __webpack_require__(/*! ./components/EditRecipePage */ 308);
 	
 	var _EditRecipePage2 = _interopRequireDefault(_EditRecipePage);
+	
+	var _TagResultsPage = __webpack_require__(/*! ./components/TagResultsPage */ 311);
+	
+	var _TagResultsPage2 = _interopRequireDefault(_TagResultsPage);
+	
+	var _SearchResultsPage = __webpack_require__(/*! ./components/SearchResultsPage */ 312);
+	
+	var _SearchResultsPage2 = _interopRequireDefault(_SearchResultsPage);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -88,7 +96,10 @@
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _HomePage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/add', component: _AddRecipePage2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id', component: _SingleRecipePage2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id/edit', component: _EditRecipePage2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/recipe/:id/edit', component: _EditRecipePage2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/tag/:id', component: _TagResultsPage2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/search/:q', component: _SearchResultsPage2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _HomePage2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -27830,8 +27841,8 @@
 	                    _reactRouter.Link,
 	                    { to: '/' },
 	                    _react2.default.createElement(
-	                        'h1',
-	                        null,
+	                        'div',
+	                        { className: 'app-title' },
 	                        'Recipe Box'
 	                    )
 	                )
@@ -27858,11 +27869,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _RecipeList = __webpack_require__(/*! ./RecipeList */ 307);
+	var _Loader = __webpack_require__(/*! ./Loader */ 313);
+	
+	var _Loader2 = _interopRequireDefault(_Loader);
+	
+	var _SearchBox = __webpack_require__(/*! ./SearchBox */ 310);
+	
+	var _SearchBox2 = _interopRequireDefault(_SearchBox);
+	
+	var _RecipeList = __webpack_require__(/*! ./RecipeList */ 238);
 	
 	var _RecipeList2 = _interopRequireDefault(_RecipeList);
 	
@@ -27875,25 +27894,28 @@
 	    getInitialState: function getInitialState() {
 	        return {
 	            loading: true,
-	            data: []
+	            tags: []
 	        };
 	    },
 	    componentWillMount: function componentWillMount() {
 	
 	        var self = this;
 	        _jquery2.default.ajax({
-	            url: '/api/recipes/',
+	            url: '/api/tags/',
 	            success: function success(data) {
-	                console.log(data);
 	                self.setState({
 	                    loading: false,
-	                    data: data
+	                    tags: data
 	                });
 	            }
 	        });
 	    },
+	    searchByTitle: function searchByTitle(query) {
+	        _reactRouter.browserHistory.push('/search/' + query + '/');
+	    },
 	    render: function render() {
 	
+	        var self = this;
 	        var randomQuote = function randomQuote() {
 	            var randomNumber = Math.random();
 	            var quote = {};
@@ -27919,9 +27941,9 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'quote' },
-	                    '"',
+	                    '“',
 	                    quote.quote,
-	                    '"'
+	                    '”'
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -27931,44 +27953,70 @@
 	            );
 	        };
 	
+	        var tagsList = function tagsList() {
+	
+	            var tags = self.state.tags;
+	
+	            return tags.map(function (tag) {
+	                return _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: '/tag/' + tag.id, key: tag.id },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'tag' },
+	                        tag.name
+	                    )
+	                );
+	            });
+	        };
+	
 	        if (this.state.loading) {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                'Loading...'
-	            );
+	            return _react2.default.createElement(_Loader2.default, null);
 	        } else {
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'home-page narrow-container' },
 	                _react2.default.createElement(
-	                    'nav',
-	                    null,
+	                    'div',
+	                    { className: 'toolbar' },
 	                    _react2.default.createElement(
-	                        'ul',
-	                        null,
+	                        _reactRouter.Link,
+	                        { to: '/recipe/add' },
 	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/' },
-	                                'Recipe List'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/recipe/add' },
-	                                'Add Recipe'
-	                            )
+	                            'button',
+	                            { className: 'primary' },
+	                            _react2.default.createElement('i', { className: 'fa fa-plus' }),
+	                            'Add Recipe'
 	                        )
 	                    )
 	                ),
 	                randomQuote(),
-	                _react2.default.createElement(_RecipeList2.default, { recipes: this.state.data })
+	                _react2.default.createElement(
+	                    'section',
+	                    null,
+	                    _react2.default.createElement(
+	                        'h2',
+	                        null,
+	                        'Find Recipes by Title'
+	                    ),
+	                    _react2.default.createElement(_SearchBox2.default, {
+	                        handleSubmitFunction: this.searchByTitle
+	                    })
+	                ),
+	                _react2.default.createElement(
+	                    'section',
+	                    null,
+	                    _react2.default.createElement(
+	                        'h2',
+	                        null,
+	                        'Find Recipes by Tag'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'tags' },
+	                        tagsList()
+	                    )
+	                )
 	            );
 	        }
 	    }
@@ -27976,75 +28024,6 @@
 
 /***/ },
 /* 237 */
-/*!********************************************!*\
-  !*** ./js/components/SingleRecipePage.jsx ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 172);
-	
-	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 239);
-	
-	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	    displayName: 'SingleRecipePage',
-	    getInitialState: function getInitialState() {
-	        return {
-	            loading: true,
-	            data: {}
-	        };
-	    },
-	    componentWillMount: function componentWillMount() {
-	        var self = this;
-	        _jquery2.default.ajax({
-	            url: '/api/recipes/' + self.props.params.id + '/',
-	            success: function success(data) {
-	                self.setState({
-	                    loading: false,
-	                    data: data
-	                });
-	            }
-	        });
-	    },
-	    toggleEditor: function toggleEditor() {
-	        _reactRouter.browserHistory.push('/recipe/' + this.props.params.id + '/edit');
-	    },
-	    render: function render() {
-	
-	        if (this.state.loading === true) {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                '\'Loading...\''
-	            );
-	        } else {
-	            return _react2.default.createElement(_SingleRecipeViewer2.default, {
-	                recipe: this.state.data,
-	                handleEditButton: this.toggleEditor
-	            });
-	        }
-	    }
-	});
-
-/***/ },
-/* 238 */
 /*!*********************************!*\
   !*** ./~/jquery/dist/jquery.js ***!
   \*********************************/
@@ -38127,7 +38106,209 @@
 
 
 /***/ },
+/* 238 */
+/*!**************************************!*\
+  !*** ./js/components/RecipeList.jsx ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _RecipeListItem = __webpack_require__(/*! ./RecipeListItem */ 239);
+	
+	var _RecipeListItem2 = _interopRequireDefault(_RecipeListItem);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'RecipeList',
+	
+	
+	    propTypes: {
+	        recipes: _react2.default.PropTypes.array.isRequired,
+	        header: _react2.default.PropTypes.string
+	    },
+	
+	    render: function render() {
+	
+	        var recipes = this.props.recipes;
+	
+	        var recipeListItems = recipes.map(function (recipe) {
+	            var recipeUrl = '/recipe/' + recipe.id;
+	            return _react2.default.createElement(_RecipeListItem2.default, {
+	                title: recipe.title,
+	                url: recipeUrl,
+	                key: recipe.id
+	            });
+	        });
+	
+	        if (recipes.length === 0) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'recipe-list' },
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    'No Matching Recipes'
+	                )
+	            );
+	        } else {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'recipe-list' },
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    this.props.header
+	                ),
+	                recipeListItems
+	            );
+	        }
+	    }
+	});
+
+/***/ },
 /* 239 */
+/*!******************************************!*\
+  !*** ./js/components/RecipeListItem.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'RecipeListItem',
+	
+	
+	    propTypes: {
+	        title: _react2.default.PropTypes.string.isRequired,
+	        url: _react2.default.PropTypes.string.isRequired
+	    },
+	
+	    render: function render() {
+	
+	        return _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: this.props.url, className: 'recipe' },
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                this.props.title
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 240 */
+/*!********************************************!*\
+  !*** ./js/components/SingleRecipePage.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	var _Loader = __webpack_require__(/*! ./Loader */ 313);
+	
+	var _Loader2 = _interopRequireDefault(_Loader);
+	
+	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 241);
+	
+	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SingleRecipePage',
+	    getInitialState: function getInitialState() {
+	        return {
+	            loading: true,
+	            notFound: false,
+	            data: {}
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	        var self = this;
+	        _jquery2.default.ajax({
+	            url: '/api/recipes/' + self.props.params.id + '/',
+	            success: function success(data) {
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
+	            },
+	            error: function error(_error) {
+	                self.setState({
+	                    loading: false,
+	                    notFound: true
+	                });
+	            }
+	        });
+	    },
+	    toggleEditor: function toggleEditor() {
+	        _reactRouter.browserHistory.push('/recipe/' + this.props.params.id + '/edit');
+	    },
+	    render: function render() {
+	
+	        if (this.state.loading === true) {
+	            return _react2.default.createElement(_Loader2.default, null);
+	        } else if (this.state.notFound === true) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'recipe-viewer' },
+	                _react2.default.createElement(
+	                    'h1',
+	                    { className: 'not-found' },
+	                    'Recipe Not Found'
+	                )
+	            );
+	        } else {
+	            return _react2.default.createElement(_SingleRecipeViewer2.default, {
+	                recipe: this.state.data,
+	                handleEditButton: this.toggleEditor
+	            });
+	        }
+	    }
+	});
+
+/***/ },
+/* 241 */
 /*!**********************************************!*\
   !*** ./js/components/SingleRecipeViewer.jsx ***!
   \**********************************************/
@@ -38143,13 +38324,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _remarkable = __webpack_require__(/*! remarkable */ 240);
+	var _remarkable = __webpack_require__(/*! remarkable */ 242);
 	
 	var _remarkable2 = _interopRequireDefault(_remarkable);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -38174,7 +38357,7 @@
 	        var ingredients = recipe.ingredients.map(function (ingredient) {
 	            return _react2.default.createElement(
 	                'li',
-	                null,
+	                { key: ingredient.id },
 	                ingredient.quantity,
 	                ' ',
 	                ingredient.name,
@@ -38184,9 +38367,13 @@
 	
 	        var tags = recipe.tags.map(function (tag) {
 	            return _react2.default.createElement(
-	                'div',
-	                { className: 'tag' },
-	                tag.name
+	                _reactRouter.Link,
+	                { to: '/tag/' + tag.id, key: tag.id },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'tag' },
+	                    tag.name
+	                )
 	            );
 	        });
 	
@@ -38218,35 +38405,8 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'yields' },
+	                        'yields ',
 	                        recipe.yields
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'times' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'Cooking Time:'
-	                            ),
-	                            ' ',
-	                            recipe.cooking_time
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'Prep Time:'
-	                            ),
-	                            ' ',
-	                            recipe.prep_time
-	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -38281,7 +38441,7 @@
 	                        null,
 	                        _react2.default.createElement(
 	                            'span',
-	                            { 'class': 'label' },
+	                            { className: 'label' },
 	                            'Serve With:'
 	                        ),
 	                        ' ',
@@ -38333,7 +38493,7 @@
 	});
 
 /***/ },
-/* 240 */
+/* 242 */
 /*!*******************************!*\
   !*** ./~/remarkable/index.js ***!
   \*******************************/
@@ -38342,11 +38502,11 @@
 	'use strict';
 	
 	
-	module.exports = __webpack_require__(/*! ./lib/ */ 241);
+	module.exports = __webpack_require__(/*! ./lib/ */ 243);
 
 
 /***/ },
-/* 241 */
+/* 243 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/index.js ***!
   \***********************************/
@@ -38358,21 +38518,21 @@
 	 * Local dependencies
 	 */
 	
-	var assign       = __webpack_require__(/*! ./common/utils */ 242).assign;
-	var Renderer     = __webpack_require__(/*! ./renderer */ 244);
-	var ParserCore   = __webpack_require__(/*! ./parser_core */ 246);
-	var ParserBlock  = __webpack_require__(/*! ./parser_block */ 264);
-	var ParserInline = __webpack_require__(/*! ./parser_inline */ 279);
-	var Ruler        = __webpack_require__(/*! ./ruler */ 247);
+	var assign       = __webpack_require__(/*! ./common/utils */ 244).assign;
+	var Renderer     = __webpack_require__(/*! ./renderer */ 246);
+	var ParserCore   = __webpack_require__(/*! ./parser_core */ 248);
+	var ParserBlock  = __webpack_require__(/*! ./parser_block */ 266);
+	var ParserInline = __webpack_require__(/*! ./parser_inline */ 281);
+	var Ruler        = __webpack_require__(/*! ./ruler */ 249);
 	
 	/**
 	 * Preset configs
 	 */
 	
 	var config = {
-	  'default':    __webpack_require__(/*! ./configs/default */ 298),
-	  'full':       __webpack_require__(/*! ./configs/full */ 299),
-	  'commonmark': __webpack_require__(/*! ./configs/commonmark */ 300)
+	  'default':    __webpack_require__(/*! ./configs/default */ 300),
+	  'full':       __webpack_require__(/*! ./configs/full */ 301),
+	  'commonmark': __webpack_require__(/*! ./configs/commonmark */ 302)
 	};
 	
 	/**
@@ -38546,11 +38706,11 @@
 	 * rendering.
 	 */
 	
-	module.exports.utils = __webpack_require__(/*! ./common/utils */ 242);
+	module.exports.utils = __webpack_require__(/*! ./common/utils */ 244);
 
 
 /***/ },
-/* 242 */
+/* 244 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/common/utils.js ***!
   \******************************************/
@@ -38640,7 +38800,7 @@
 	
 	var NAMED_ENTITY_RE   = /&([a-z#][a-z0-9]{1,31});/gi;
 	var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
-	var entities = __webpack_require__(/*! ./entities */ 243);
+	var entities = __webpack_require__(/*! ./entities */ 245);
 	
 	function replaceEntityPattern(match, name) {
 	  var code = 0;
@@ -38700,7 +38860,7 @@
 
 
 /***/ },
-/* 243 */
+/* 245 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/common/entities.js ***!
   \*********************************************/
@@ -40843,7 +41003,7 @@
 
 
 /***/ },
-/* 244 */
+/* 246 */
 /*!**************************************!*\
   !*** ./~/remarkable/lib/renderer.js ***!
   \**************************************/
@@ -40855,8 +41015,8 @@
 	 * Local dependencies
 	 */
 	
-	var utils = __webpack_require__(/*! ./common/utils */ 242);
-	var rules = __webpack_require__(/*! ./rules */ 245);
+	var utils = __webpack_require__(/*! ./common/utils */ 244);
+	var rules = __webpack_require__(/*! ./rules */ 247);
 	
 	/**
 	 * Expose `Renderer`
@@ -40927,7 +41087,7 @@
 
 
 /***/ },
-/* 245 */
+/* 247 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/rules.js ***!
   \***********************************/
@@ -40939,10 +41099,10 @@
 	 * Local dependencies
 	 */
 	
-	var has             = __webpack_require__(/*! ./common/utils */ 242).has;
-	var unescapeMd      = __webpack_require__(/*! ./common/utils */ 242).unescapeMd;
-	var replaceEntities = __webpack_require__(/*! ./common/utils */ 242).replaceEntities;
-	var escapeHtml      = __webpack_require__(/*! ./common/utils */ 242).escapeHtml;
+	var has             = __webpack_require__(/*! ./common/utils */ 244).has;
+	var unescapeMd      = __webpack_require__(/*! ./common/utils */ 244).unescapeMd;
+	var replaceEntities = __webpack_require__(/*! ./common/utils */ 244).replaceEntities;
+	var escapeHtml      = __webpack_require__(/*! ./common/utils */ 244).escapeHtml;
 	
 	/**
 	 * Renderer rules cache
@@ -41363,7 +41523,7 @@
 
 
 /***/ },
-/* 246 */
+/* 248 */
 /*!*****************************************!*\
   !*** ./~/remarkable/lib/parser_core.js ***!
   \*****************************************/
@@ -41375,22 +41535,22 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler = __webpack_require__(/*! ./ruler */ 247);
+	var Ruler = __webpack_require__(/*! ./ruler */ 249);
 	
 	/**
 	 * Core parser `rules`
 	 */
 	
 	var _rules = [
-	  [ 'block',          __webpack_require__(/*! ./rules_core/block */ 248)          ],
-	  [ 'abbr',           __webpack_require__(/*! ./rules_core/abbr */ 249)           ],
-	  [ 'references',     __webpack_require__(/*! ./rules_core/references */ 252)     ],
-	  [ 'inline',         __webpack_require__(/*! ./rules_core/inline */ 257)         ],
-	  [ 'footnote_tail',  __webpack_require__(/*! ./rules_core/footnote_tail */ 258)  ],
-	  [ 'abbr2',          __webpack_require__(/*! ./rules_core/abbr2 */ 259)          ],
-	  [ 'replacements',   __webpack_require__(/*! ./rules_core/replacements */ 260)   ],
-	  [ 'smartquotes',    __webpack_require__(/*! ./rules_core/smartquotes */ 261)    ],
-	  [ 'linkify',        __webpack_require__(/*! ./rules_core/linkify */ 262)        ]
+	  [ 'block',          __webpack_require__(/*! ./rules_core/block */ 250)          ],
+	  [ 'abbr',           __webpack_require__(/*! ./rules_core/abbr */ 251)           ],
+	  [ 'references',     __webpack_require__(/*! ./rules_core/references */ 254)     ],
+	  [ 'inline',         __webpack_require__(/*! ./rules_core/inline */ 259)         ],
+	  [ 'footnote_tail',  __webpack_require__(/*! ./rules_core/footnote_tail */ 260)  ],
+	  [ 'abbr2',          __webpack_require__(/*! ./rules_core/abbr2 */ 261)          ],
+	  [ 'replacements',   __webpack_require__(/*! ./rules_core/replacements */ 262)   ],
+	  [ 'smartquotes',    __webpack_require__(/*! ./rules_core/smartquotes */ 263)    ],
+	  [ 'linkify',        __webpack_require__(/*! ./rules_core/linkify */ 264)        ]
 	];
 	
 	/**
@@ -41430,7 +41590,7 @@
 
 
 /***/ },
-/* 247 */
+/* 249 */
 /*!***********************************!*\
   !*** ./~/remarkable/lib/ruler.js ***!
   \***********************************/
@@ -41712,7 +41872,7 @@
 
 
 /***/ },
-/* 248 */
+/* 250 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_core/block.js ***!
   \**********************************************/
@@ -41738,7 +41898,7 @@
 
 
 /***/ },
-/* 249 */
+/* 251 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/rules_core/abbr.js ***!
   \*********************************************/
@@ -41750,8 +41910,8 @@
 	'use strict';
 	
 	
-	var StateInline    = __webpack_require__(/*! ../rules_inline/state_inline */ 250);
-	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
+	var StateInline    = __webpack_require__(/*! ../rules_inline/state_inline */ 252);
+	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 253);
 	
 	
 	function parseAbbr(str, parserInline, options, env) {
@@ -41817,7 +41977,7 @@
 
 
 /***/ },
-/* 250 */
+/* 252 */
 /*!*******************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/state_inline.js ***!
   \*******************************************************/
@@ -41908,7 +42068,7 @@
 
 
 /***/ },
-/* 251 */
+/* 253 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_label.js ***!
   \******************************************************/
@@ -41976,7 +42136,7 @@
 
 
 /***/ },
-/* 252 */
+/* 254 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_core/references.js ***!
   \***************************************************/
@@ -41985,11 +42145,11 @@
 	'use strict';
 	
 	
-	var StateInline          = __webpack_require__(/*! ../rules_inline/state_inline */ 250);
-	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
-	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 253);
-	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 255);
-	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 256);
+	var StateInline          = __webpack_require__(/*! ../rules_inline/state_inline */ 252);
+	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 253);
+	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 255);
+	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 257);
+	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 258);
 	
 	
 	function parseReference(str, parser, options, env) {
@@ -42083,7 +42243,7 @@
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /*!************************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_destination.js ***!
   \************************************************************/
@@ -42092,8 +42252,8 @@
 	'use strict';
 	
 	
-	var normalizeLink = __webpack_require__(/*! ./normalize_link */ 254);
-	var unescapeMd    = __webpack_require__(/*! ../common/utils */ 242).unescapeMd;
+	var normalizeLink = __webpack_require__(/*! ./normalize_link */ 256);
+	var unescapeMd    = __webpack_require__(/*! ../common/utils */ 244).unescapeMd;
 	
 	/**
 	 * Parse link destination
@@ -42175,7 +42335,7 @@
 
 
 /***/ },
-/* 254 */
+/* 256 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/helpers/normalize_link.js ***!
   \****************************************************/
@@ -42183,7 +42343,7 @@
 
 	'use strict';
 	
-	var replaceEntities = __webpack_require__(/*! ../common/utils */ 242).replaceEntities;
+	var replaceEntities = __webpack_require__(/*! ../common/utils */ 244).replaceEntities;
 	
 	module.exports = function normalizeLink(url) {
 	  var normalized = replaceEntities(url);
@@ -42197,7 +42357,7 @@
 
 
 /***/ },
-/* 255 */
+/* 257 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/helpers/parse_link_title.js ***!
   \******************************************************/
@@ -42206,7 +42366,7 @@
 	'use strict';
 	
 	
-	var unescapeMd = __webpack_require__(/*! ../common/utils */ 242).unescapeMd;
+	var unescapeMd = __webpack_require__(/*! ../common/utils */ 244).unescapeMd;
 	
 	/**
 	 * Parse link title
@@ -42252,7 +42412,7 @@
 
 
 /***/ },
-/* 256 */
+/* 258 */
 /*!*********************************************************!*\
   !*** ./~/remarkable/lib/helpers/normalize_reference.js ***!
   \*********************************************************/
@@ -42269,7 +42429,7 @@
 
 
 /***/ },
-/* 257 */
+/* 259 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_core/inline.js ***!
   \***********************************************/
@@ -42291,7 +42451,7 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /*!******************************************************!*\
   !*** ./~/remarkable/lib/rules_core/footnote_tail.js ***!
   \******************************************************/
@@ -42395,7 +42555,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_core/abbr2.js ***!
   \**********************************************/
@@ -42492,7 +42652,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /*!*****************************************************!*\
   !*** ./~/remarkable/lib/rules_core/replacements.js ***!
   \*****************************************************/
@@ -42565,7 +42725,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_core/smartquotes.js ***!
   \****************************************************/
@@ -42687,7 +42847,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_core/linkify.js ***!
   \************************************************/
@@ -42700,7 +42860,7 @@
 	'use strict';
 	
 	
-	var Autolinker = __webpack_require__(/*! autolinker */ 263);
+	var Autolinker = __webpack_require__(/*! autolinker */ 265);
 	
 	
 	var LINK_SCAN_RE = /www|@|\:\/\//;
@@ -42857,7 +43017,7 @@
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /*!*****************************************!*\
   !*** ./~/autolinker/dist/Autolinker.js ***!
   \*****************************************/
@@ -45189,7 +45349,7 @@
 
 
 /***/ },
-/* 264 */
+/* 266 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/parser_block.js ***!
   \******************************************/
@@ -45201,26 +45361,26 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler      = __webpack_require__(/*! ./ruler */ 247);
-	var StateBlock = __webpack_require__(/*! ./rules_block/state_block */ 265);
+	var Ruler      = __webpack_require__(/*! ./ruler */ 249);
+	var StateBlock = __webpack_require__(/*! ./rules_block/state_block */ 267);
 	
 	/**
 	 * Parser rules
 	 */
 	
 	var _rules = [
-	  [ 'code',       __webpack_require__(/*! ./rules_block/code */ 266) ],
-	  [ 'fences',     __webpack_require__(/*! ./rules_block/fences */ 267),     [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'blockquote', __webpack_require__(/*! ./rules_block/blockquote */ 268), [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'hr',         __webpack_require__(/*! ./rules_block/hr */ 269),         [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'list',       __webpack_require__(/*! ./rules_block/list */ 270),       [ 'paragraph', 'blockquote' ] ],
-	  [ 'footnote',   __webpack_require__(/*! ./rules_block/footnote */ 271),   [ 'paragraph' ] ],
-	  [ 'heading',    __webpack_require__(/*! ./rules_block/heading */ 272),    [ 'paragraph', 'blockquote' ] ],
-	  [ 'lheading',   __webpack_require__(/*! ./rules_block/lheading */ 273) ],
-	  [ 'htmlblock',  __webpack_require__(/*! ./rules_block/htmlblock */ 274),  [ 'paragraph', 'blockquote' ] ],
-	  [ 'table',      __webpack_require__(/*! ./rules_block/table */ 276),      [ 'paragraph' ] ],
-	  [ 'deflist',    __webpack_require__(/*! ./rules_block/deflist */ 277),    [ 'paragraph' ] ],
-	  [ 'paragraph',  __webpack_require__(/*! ./rules_block/paragraph */ 278) ]
+	  [ 'code',       __webpack_require__(/*! ./rules_block/code */ 268) ],
+	  [ 'fences',     __webpack_require__(/*! ./rules_block/fences */ 269),     [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'blockquote', __webpack_require__(/*! ./rules_block/blockquote */ 270), [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'hr',         __webpack_require__(/*! ./rules_block/hr */ 271),         [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'list',       __webpack_require__(/*! ./rules_block/list */ 272),       [ 'paragraph', 'blockquote' ] ],
+	  [ 'footnote',   __webpack_require__(/*! ./rules_block/footnote */ 273),   [ 'paragraph' ] ],
+	  [ 'heading',    __webpack_require__(/*! ./rules_block/heading */ 274),    [ 'paragraph', 'blockquote' ] ],
+	  [ 'lheading',   __webpack_require__(/*! ./rules_block/lheading */ 275) ],
+	  [ 'htmlblock',  __webpack_require__(/*! ./rules_block/htmlblock */ 276),  [ 'paragraph', 'blockquote' ] ],
+	  [ 'table',      __webpack_require__(/*! ./rules_block/table */ 278),      [ 'paragraph' ] ],
+	  [ 'deflist',    __webpack_require__(/*! ./rules_block/deflist */ 279),    [ 'paragraph' ] ],
+	  [ 'paragraph',  __webpack_require__(/*! ./rules_block/paragraph */ 280) ]
 	];
 	
 	/**
@@ -45353,7 +45513,7 @@
 
 
 /***/ },
-/* 265 */
+/* 267 */
 /*!*****************************************************!*\
   !*** ./~/remarkable/lib/rules_block/state_block.js ***!
   \*****************************************************/
@@ -45520,7 +45680,7 @@
 
 
 /***/ },
-/* 266 */
+/* 268 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_block/code.js ***!
   \**********************************************/
@@ -45565,7 +45725,7 @@
 
 
 /***/ },
-/* 267 */
+/* 269 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_block/fences.js ***!
   \************************************************/
@@ -45665,7 +45825,7 @@
 
 
 /***/ },
-/* 268 */
+/* 270 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_block/blockquote.js ***!
   \****************************************************/
@@ -45807,7 +45967,7 @@
 
 
 /***/ },
-/* 269 */
+/* 271 */
 /*!********************************************!*\
   !*** ./~/remarkable/lib/rules_block/hr.js ***!
   \********************************************/
@@ -45861,7 +46021,7 @@
 
 
 /***/ },
-/* 270 */
+/* 272 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_block/list.js ***!
   \**********************************************/
@@ -46136,7 +46296,7 @@
 
 
 /***/ },
-/* 271 */
+/* 273 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_block/footnote.js ***!
   \**************************************************/
@@ -46212,7 +46372,7 @@
 
 
 /***/ },
-/* 272 */
+/* 274 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_block/heading.js ***!
   \*************************************************/
@@ -46279,7 +46439,7 @@
 
 
 /***/ },
-/* 273 */
+/* 275 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_block/lheading.js ***!
   \**************************************************/
@@ -46343,7 +46503,7 @@
 
 
 /***/ },
-/* 274 */
+/* 276 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_block/htmlblock.js ***!
   \***************************************************/
@@ -46354,7 +46514,7 @@
 	'use strict';
 	
 	
-	var block_names = __webpack_require__(/*! ../common/html_blocks */ 275);
+	var block_names = __webpack_require__(/*! ../common/html_blocks */ 277);
 	
 	
 	var HTML_TAG_OPEN_RE = /^<([a-zA-Z]{1,15})[\s\/>]/;
@@ -46426,7 +46586,7 @@
 
 
 /***/ },
-/* 275 */
+/* 277 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/common/html_blocks.js ***!
   \************************************************/
@@ -46497,7 +46657,7 @@
 
 
 /***/ },
-/* 276 */
+/* 278 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_block/table.js ***!
   \***********************************************/
@@ -46640,7 +46800,7 @@
 
 
 /***/ },
-/* 277 */
+/* 279 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_block/deflist.js ***!
   \*************************************************/
@@ -46856,7 +47016,7 @@
 
 
 /***/ },
-/* 278 */
+/* 280 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_block/paragraph.js ***!
   \***************************************************/
@@ -46924,7 +47084,7 @@
 
 
 /***/ },
-/* 279 */
+/* 281 */
 /*!*******************************************!*\
   !*** ./~/remarkable/lib/parser_inline.js ***!
   \*******************************************/
@@ -46936,31 +47096,31 @@
 	 * Local dependencies
 	 */
 	
-	var Ruler       = __webpack_require__(/*! ./ruler */ 247);
-	var StateInline = __webpack_require__(/*! ./rules_inline/state_inline */ 250);
-	var utils       = __webpack_require__(/*! ./common/utils */ 242);
+	var Ruler       = __webpack_require__(/*! ./ruler */ 249);
+	var StateInline = __webpack_require__(/*! ./rules_inline/state_inline */ 252);
+	var utils       = __webpack_require__(/*! ./common/utils */ 244);
 	
 	/**
 	 * Inline Parser `rules`
 	 */
 	
 	var _rules = [
-	  [ 'text',            __webpack_require__(/*! ./rules_inline/text */ 280) ],
-	  [ 'newline',         __webpack_require__(/*! ./rules_inline/newline */ 281) ],
-	  [ 'escape',          __webpack_require__(/*! ./rules_inline/escape */ 282) ],
-	  [ 'backticks',       __webpack_require__(/*! ./rules_inline/backticks */ 283) ],
-	  [ 'del',             __webpack_require__(/*! ./rules_inline/del */ 284) ],
-	  [ 'ins',             __webpack_require__(/*! ./rules_inline/ins */ 285) ],
-	  [ 'mark',            __webpack_require__(/*! ./rules_inline/mark */ 286) ],
-	  [ 'emphasis',        __webpack_require__(/*! ./rules_inline/emphasis */ 287) ],
-	  [ 'sub',             __webpack_require__(/*! ./rules_inline/sub */ 288) ],
-	  [ 'sup',             __webpack_require__(/*! ./rules_inline/sup */ 289) ],
-	  [ 'links',           __webpack_require__(/*! ./rules_inline/links */ 290) ],
-	  [ 'footnote_inline', __webpack_require__(/*! ./rules_inline/footnote_inline */ 291) ],
-	  [ 'footnote_ref',    __webpack_require__(/*! ./rules_inline/footnote_ref */ 292) ],
-	  [ 'autolink',        __webpack_require__(/*! ./rules_inline/autolink */ 293) ],
-	  [ 'htmltag',         __webpack_require__(/*! ./rules_inline/htmltag */ 295) ],
-	  [ 'entity',          __webpack_require__(/*! ./rules_inline/entity */ 297) ]
+	  [ 'text',            __webpack_require__(/*! ./rules_inline/text */ 282) ],
+	  [ 'newline',         __webpack_require__(/*! ./rules_inline/newline */ 283) ],
+	  [ 'escape',          __webpack_require__(/*! ./rules_inline/escape */ 284) ],
+	  [ 'backticks',       __webpack_require__(/*! ./rules_inline/backticks */ 285) ],
+	  [ 'del',             __webpack_require__(/*! ./rules_inline/del */ 286) ],
+	  [ 'ins',             __webpack_require__(/*! ./rules_inline/ins */ 287) ],
+	  [ 'mark',            __webpack_require__(/*! ./rules_inline/mark */ 288) ],
+	  [ 'emphasis',        __webpack_require__(/*! ./rules_inline/emphasis */ 289) ],
+	  [ 'sub',             __webpack_require__(/*! ./rules_inline/sub */ 290) ],
+	  [ 'sup',             __webpack_require__(/*! ./rules_inline/sup */ 291) ],
+	  [ 'links',           __webpack_require__(/*! ./rules_inline/links */ 292) ],
+	  [ 'footnote_inline', __webpack_require__(/*! ./rules_inline/footnote_inline */ 293) ],
+	  [ 'footnote_ref',    __webpack_require__(/*! ./rules_inline/footnote_ref */ 294) ],
+	  [ 'autolink',        __webpack_require__(/*! ./rules_inline/autolink */ 295) ],
+	  [ 'htmltag',         __webpack_require__(/*! ./rules_inline/htmltag */ 297) ],
+	  [ 'entity',          __webpack_require__(/*! ./rules_inline/entity */ 299) ]
 	];
 	
 	/**
@@ -47094,7 +47254,7 @@
 
 
 /***/ },
-/* 280 */
+/* 282 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/text.js ***!
   \***********************************************/
@@ -47156,7 +47316,7 @@
 
 
 /***/ },
-/* 281 */
+/* 283 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/newline.js ***!
   \**************************************************/
@@ -47213,7 +47373,7 @@
 
 
 /***/ },
-/* 282 */
+/* 284 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/escape.js ***!
   \*************************************************/
@@ -47271,7 +47431,7 @@
 
 
 /***/ },
-/* 283 */
+/* 285 */
 /*!****************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/backticks.js ***!
   \****************************************************/
@@ -47326,7 +47486,7 @@
 
 
 /***/ },
-/* 284 */
+/* 286 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/del.js ***!
   \**********************************************/
@@ -47419,7 +47579,7 @@
 
 
 /***/ },
-/* 285 */
+/* 287 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/ins.js ***!
   \**********************************************/
@@ -47512,7 +47672,7 @@
 
 
 /***/ },
-/* 286 */
+/* 288 */
 /*!***********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/mark.js ***!
   \***********************************************/
@@ -47605,7 +47765,7 @@
 
 
 /***/ },
-/* 287 */
+/* 289 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/emphasis.js ***!
   \***************************************************/
@@ -47763,7 +47923,7 @@
 
 
 /***/ },
-/* 288 */
+/* 290 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/sub.js ***!
   \**********************************************/
@@ -47830,7 +47990,7 @@
 
 
 /***/ },
-/* 289 */
+/* 291 */
 /*!**********************************************!*\
   !*** ./~/remarkable/lib/rules_inline/sup.js ***!
   \**********************************************/
@@ -47897,7 +48057,7 @@
 
 
 /***/ },
-/* 290 */
+/* 292 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/links.js ***!
   \************************************************/
@@ -47907,10 +48067,10 @@
 	
 	'use strict';
 	
-	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
-	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 253);
-	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 255);
-	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 256);
+	var parseLinkLabel       = __webpack_require__(/*! ../helpers/parse_link_label */ 253);
+	var parseLinkDestination = __webpack_require__(/*! ../helpers/parse_link_destination */ 255);
+	var parseLinkTitle       = __webpack_require__(/*! ../helpers/parse_link_title */ 257);
+	var normalizeReference   = __webpack_require__(/*! ../helpers/normalize_reference */ 258);
 	
 	
 	module.exports = function links(state, silent) {
@@ -48076,7 +48236,7 @@
 
 
 /***/ },
-/* 291 */
+/* 293 */
 /*!**********************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/footnote_inline.js ***!
   \**********************************************************/
@@ -48086,7 +48246,7 @@
 	
 	'use strict';
 	
-	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 251);
+	var parseLinkLabel = __webpack_require__(/*! ../helpers/parse_link_label */ 253);
 	
 	
 	module.exports = function footnote_inline(state, silent) {
@@ -48138,7 +48298,7 @@
 
 
 /***/ },
-/* 292 */
+/* 294 */
 /*!*******************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/footnote_ref.js ***!
   \*******************************************************/
@@ -48209,7 +48369,7 @@
 
 
 /***/ },
-/* 293 */
+/* 295 */
 /*!***************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/autolink.js ***!
   \***************************************************/
@@ -48219,8 +48379,8 @@
 	
 	'use strict';
 	
-	var url_schemas   = __webpack_require__(/*! ../common/url_schemas */ 294);
-	var normalizeLink = __webpack_require__(/*! ../helpers/normalize_link */ 254);
+	var url_schemas   = __webpack_require__(/*! ../common/url_schemas */ 296);
+	var normalizeLink = __webpack_require__(/*! ../helpers/normalize_link */ 256);
 	
 	
 	/*eslint max-len:0*/
@@ -48296,7 +48456,7 @@
 
 
 /***/ },
-/* 294 */
+/* 296 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/common/url_schemas.js ***!
   \************************************************/
@@ -48477,7 +48637,7 @@
 
 
 /***/ },
-/* 295 */
+/* 297 */
 /*!**************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/htmltag.js ***!
   \**************************************************/
@@ -48488,7 +48648,7 @@
 	'use strict';
 	
 	
-	var HTML_TAG_RE = __webpack_require__(/*! ../common/html_re */ 296).HTML_TAG_RE;
+	var HTML_TAG_RE = __webpack_require__(/*! ../common/html_re */ 298).HTML_TAG_RE;
 	
 	
 	function isLetter(ch) {
@@ -48535,7 +48695,7 @@
 
 
 /***/ },
-/* 296 */
+/* 298 */
 /*!********************************************!*\
   !*** ./~/remarkable/lib/common/html_re.js ***!
   \********************************************/
@@ -48603,7 +48763,7 @@
 
 
 /***/ },
-/* 297 */
+/* 299 */
 /*!*************************************************!*\
   !*** ./~/remarkable/lib/rules_inline/entity.js ***!
   \*************************************************/
@@ -48613,10 +48773,10 @@
 	
 	'use strict';
 	
-	var entities          = __webpack_require__(/*! ../common/entities */ 243);
-	var has               = __webpack_require__(/*! ../common/utils */ 242).has;
-	var isValidEntityCode = __webpack_require__(/*! ../common/utils */ 242).isValidEntityCode;
-	var fromCodePoint     = __webpack_require__(/*! ../common/utils */ 242).fromCodePoint;
+	var entities          = __webpack_require__(/*! ../common/entities */ 245);
+	var has               = __webpack_require__(/*! ../common/utils */ 244).has;
+	var isValidEntityCode = __webpack_require__(/*! ../common/utils */ 244).isValidEntityCode;
+	var fromCodePoint     = __webpack_require__(/*! ../common/utils */ 244).fromCodePoint;
 	
 	
 	var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
@@ -48660,7 +48820,7 @@
 
 
 /***/ },
-/* 298 */
+/* 300 */
 /*!*********************************************!*\
   !*** ./~/remarkable/lib/configs/default.js ***!
   \*********************************************/
@@ -48748,7 +48908,7 @@
 
 
 /***/ },
-/* 299 */
+/* 301 */
 /*!******************************************!*\
   !*** ./~/remarkable/lib/configs/full.js ***!
   \******************************************/
@@ -48795,7 +48955,7 @@
 
 
 /***/ },
-/* 300 */
+/* 302 */
 /*!************************************************!*\
   !*** ./~/remarkable/lib/configs/commonmark.js ***!
   \************************************************/
@@ -48875,7 +49035,7 @@
 
 
 /***/ },
-/* 301 */
+/* 303 */
 /*!*****************************************!*\
   !*** ./js/components/AddRecipePage.jsx ***!
   \*****************************************/
@@ -48891,25 +49051,41 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 302);
+	var _utilities = __webpack_require__(/*! ../utilities */ 304);
 	
-	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
-	var _SingleRecipeViewer = __webpack_require__(/*! ./SingleRecipeViewer */ 239);
+	var _RecipeEditor = __webpack_require__(/*! ./RecipeEditor */ 305);
 	
-	var _SingleRecipeViewer2 = _interopRequireDefault(_SingleRecipeViewer);
+	var _RecipeEditor2 = _interopRequireDefault(_RecipeEditor);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
 	    displayName: 'AddRecipePage',
-	    saveRecipe: function saveRecipe(state) {
-	        // Send POST to server here
-	        console.log(state);
+	    saveRecipe: function saveRecipe(data) {
+	        var self = this;
+	        _jquery2.default.ajax({
+	            method: 'POST',
+	            // Must include CSRF token for POST request
+	            beforeSend: function beforeSend(request) {
+	                request.setRequestHeader("X-CSRFToken", (0, _utilities.getCookie)('csrftoken'));
+	                request.setRequestHeader("Content-Type", "application/json");
+	            },
+	            data: JSON.stringify(data),
+	            dataType: 'json',
+	            url: '/api/recipes/',
+	            success: function success(data) {
+	                _reactRouter.browserHistory.push('/recipe/' + data.id);
+	            },
+	            error: function error(_error) {
+	                window.alert('Could not save recipe. Check that required fields are filled.');
+	            }
+	        });
 	    },
 	    render: function render() {
 	
@@ -48921,20 +49097,59 @@
 	            'cooking_time': '',
 	            'serve_with': '',
 	            'ingredients': [],
+	            'tags': [],
 	            'instructions': ''
 	        };
-	        return _react2.default.createElement(_SingleRecipeEditor2.default, {
+	        return _react2.default.createElement(_RecipeEditor2.default, {
 	            recipe: emptyRecipe,
-	            handleSubmit: this.saveRecipe
+	            handleSubmit: this.saveRecipe,
+	            allowCancel: false,
+	            allowDelete: false
 	        });
 	    }
 	});
 
 /***/ },
-/* 302 */
-/*!**********************************************!*\
-  !*** ./js/components/SingleRecipeEditor.jsx ***!
-  \**********************************************/
+/* 304 */
+/*!*************************!*\
+  !*** ./js/utilities.js ***!
+  \*************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.getCookie = undefined;
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var getCookie = exports.getCookie = function getCookie(name) {
+	    var cookieValue = null;
+	    if (document.cookie && document.cookie != '') {
+	        var cookies = document.cookie.split(';');
+	        for (var i = 0; i < cookies.length; i++) {
+	            var cookie = _jquery2.default.trim(cookies[i]);
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) == name + '=') {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	};
+
+/***/ },
+/* 305 */
+/*!****************************************!*\
+  !*** ./js/components/RecipeEditor.jsx ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48949,13 +49164,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _IngredientsEditor = __webpack_require__(/*! ./IngredientsEditor */ 303);
+	var _IngredientsEditor = __webpack_require__(/*! ./IngredientsEditor */ 306);
 	
 	var _IngredientsEditor2 = _interopRequireDefault(_IngredientsEditor);
+	
+	var _TagsEditor = __webpack_require__(/*! ./TagsEditor */ 309);
+	
+	var _TagsEditor2 = _interopRequireDefault(_TagsEditor);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -48964,16 +49183,16 @@
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	exports.default = _react2.default.createClass({
-	    displayName: 'SingleRecipeEditor',
+	    displayName: 'RecipeEditor',
 	
 	
 	    propTypes: {
 	        recipe: _react2.default.PropTypes.object.isRequired,
 	        allowCancel: _react2.default.PropTypes.bool.isRequired,
-	        handleCancel: _react2.default.PropTypes.func.isRequired,
+	        handleCancel: _react2.default.PropTypes.func,
 	        handleSubmit: _react2.default.PropTypes.func.isRequired,
 	        allowDelete: _react2.default.PropTypes.bool.isRequired,
-	        handleDelete: _react2.default.PropTypes.func.isRequired
+	        handleDelete: _react2.default.PropTypes.func
 	    },
 	
 	    getInitialState: function getInitialState() {
@@ -48982,8 +49201,8 @@
 	            title: recipe.title,
 	            description: recipe.description,
 	            yields: recipe.yields,
-	            prep_time: recipe.prep_time,
-	            cooking_time: recipe.cooking_time,
+	            //prep_time: recipe.prep_time,
+	            //cooking_time: recipe.cooking_time,
 	            serve_with: recipe.serve_with,
 	            ingredients: recipe.ingredients,
 	            instructions: recipe.instructions,
@@ -49026,6 +49245,23 @@
 	
 	        this.setState({
 	            ingredients: newIngredientsState
+	
+	        });
+	    },
+	    addTag: function addTag(tag) {
+	
+	        var newTagsState = [].concat(_toConsumableArray(this.state.tags), [{ name: tag }]);
+	
+	        this.setState({
+	            tags: newTagsState
+	        });
+	    },
+	    removeTag: function removeTag(index) {
+	
+	        var tagsCopy = this.state.tags.slice(0);
+	        tagsCopy.splice(index, 1);
+	        this.setState({
+	            tags: tagsCopy
 	        });
 	    },
 	
@@ -49073,28 +49309,6 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Prep Time'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'prep_time',
-	                    value: this.state.prep_time,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    'Cooking Time'
-	                ),
-	                _react2.default.createElement('input', {
-	                    type: 'text',
-	                    name: 'cooking_time',
-	                    value: this.state.cooking_time,
-	                    onChange: this.handleFormChange
-	                }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
 	                    'Yields'
 	                ),
 	                _react2.default.createElement('input', {
@@ -49134,6 +49348,26 @@
 	                    name: 'instructions',
 	                    value: this.state.instructions,
 	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'h3',
+	                    { className: 'subhead' },
+	                    'Notes'
+	                ),
+	                _react2.default.createElement('textarea', {
+	                    name: 'notes',
+	                    value: this.state.notes,
+	                    onChange: this.handleFormChange
+	                }),
+	                _react2.default.createElement(
+	                    'h3',
+	                    { className: 'subhead' },
+	                    'Tags'
+	                ),
+	                _react2.default.createElement(_TagsEditor2.default, {
+	                    tags: this.state.tags,
+	                    addTagFunction: this.addTag,
+	                    removeTagFunction: this.removeTag
 	                }),
 	                _react2.default.createElement(
 	                    'div',
@@ -49177,7 +49411,7 @@
 	});
 
 /***/ },
-/* 303 */
+/* 306 */
 /*!*********************************************!*\
   !*** ./js/components/IngredientsEditor.jsx ***!
   \*********************************************/
@@ -49193,11 +49427,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 304);
+	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 307);
 	
 	var _IngredientEditor2 = _interopRequireDefault(_IngredientEditor);
 	
@@ -49216,13 +49450,12 @@
 	
 	    render: function render() {
 	
-	        console.log(this.props.ingredients);
-	
 	        var removeIngredientFunction = this.props.removeIngredientFunction;
 	        var changeIngredientFieldFunction = this.props.changeIngredientFieldFunction;
 	
 	        var ingredientEditors = this.props.ingredients.map(function (ingredient, index) {
 	            return _react2.default.createElement(_IngredientEditor2.default, {
+	                key: ingredient.id,
 	                ingredient: ingredient,
 	                index: index,
 	                removeIngredientFunction: removeIngredientFunction,
@@ -49254,7 +49487,7 @@
 	});
 
 /***/ },
-/* 304 */
+/* 307 */
 /*!********************************************!*\
   !*** ./js/components/IngredientEditor.jsx ***!
   \********************************************/
@@ -49270,11 +49503,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 304);
+	var _IngredientEditor = __webpack_require__(/*! ./IngredientEditor */ 307);
 	
 	var _IngredientEditor2 = _interopRequireDefault(_IngredientEditor);
 	
@@ -49353,7 +49586,7 @@
 	});
 
 /***/ },
-/* 305 */
+/* 308 */
 /*!******************************************!*\
   !*** ./js/components/EditRecipePage.jsx ***!
   \******************************************/
@@ -49369,17 +49602,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
+	var _jquery = __webpack_require__(/*! jquery */ 237);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _utilities = __webpack_require__(/*! ../utilities */ 306);
+	var _utilities = __webpack_require__(/*! ../utilities */ 304);
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
-	var _SingleRecipeEditor = __webpack_require__(/*! ./SingleRecipeEditor */ 302);
+	var _RecipeEditor = __webpack_require__(/*! ./RecipeEditor */ 305);
 	
-	var _SingleRecipeEditor2 = _interopRequireDefault(_SingleRecipeEditor);
+	var _RecipeEditor2 = _interopRequireDefault(_RecipeEditor);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -49403,12 +49636,28 @@
 	            }
 	        });
 	    },
-	    toggleEditor: function toggleEditor() {
-	        _reactRouter.browserHistory.push('/recipes/' + this.props.params.id);
+	    quitEditor: function quitEditor() {
+	        _reactRouter.browserHistory.push('/recipe/' + this.props.params.id + '/');
 	    },
-	    saveRecipe: function saveRecipe(state) {
-	        // Send UPDATE to server here
-	        console.log(state);
+	    saveRecipe: function saveRecipe(data) {
+	        var self = this;
+	        _jquery2.default.ajax({
+	            method: 'PUT',
+	            // Must include CSRF token for PUT request
+	            beforeSend: function beforeSend(request) {
+	                request.setRequestHeader("X-CSRFToken", (0, _utilities.getCookie)('csrftoken'));
+	                request.setRequestHeader("Content-Type", "application/json");
+	            },
+	            data: JSON.stringify(data),
+	            dataType: 'json',
+	            url: '/api/recipes/' + self.props.params.id + '/',
+	            success: function success(data) {
+	                _reactRouter.browserHistory.push('/recipe/' + self.props.params.id + '/');
+	            },
+	            error: function error(_error) {
+	                window.alert('Could not save recipe. Check that required fields are filled.');
+	            }
+	        });
 	    },
 	    deleteRecipe: function deleteRecipe() {
 	        var self = this;
@@ -49436,59 +49685,22 @@
 	                '\'Loading...\''
 	            );
 	        } else {
-	            return _react2.default.createElement(_SingleRecipeEditor2.default, {
+	            return _react2.default.createElement(_RecipeEditor2.default, {
 	                recipe: this.state.data,
-	                handleCancelButton: this.toggleEditor,
 	                handleSubmit: this.saveRecipe,
 	                allowDelete: true,
 	                handleDelete: this.deleteRecipe,
 	                allowCancel: true,
-	                handleCancel: this.toggleEditor
+	                handleCancel: this.quitEditor
 	            });
 	        }
 	    }
 	});
 
 /***/ },
-/* 306 */
-/*!*************************!*\
-  !*** ./js/utilities.js ***!
-  \*************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.getCookie = undefined;
-	
-	var _jquery = __webpack_require__(/*! jquery */ 238);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var getCookie = exports.getCookie = function getCookie(name) {
-	    var cookieValue = null;
-	    if (document.cookie && document.cookie != '') {
-	        var cookies = document.cookie.split(';');
-	        for (var i = 0; i < cookies.length; i++) {
-	            var cookie = _jquery2.default.trim(cookies[i]);
-	            // Does this cookie string begin with the name we want?
-	            if (cookie.substring(0, name.length + 1) == name + '=') {
-	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	                break;
-	            }
-	        }
-	    }
-	    return cookieValue;
-	};
-
-/***/ },
-/* 307 */
+/* 309 */
 /*!**************************************!*\
-  !*** ./js/components/RecipeList.jsx ***!
+  !*** ./js/components/TagsEditor.jsx ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -49502,52 +49714,156 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _RecipeListItem = __webpack_require__(/*! ./RecipeListItem */ 308);
-	
-	var _RecipeListItem2 = _interopRequireDefault(_RecipeListItem);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
-	    displayName: 'RecipeList',
+	    displayName: 'TagsEditor',
 	
 	
 	    propTypes: {
-	        recipes: _react2.default.PropTypes.array.isRequired
+	        tags: _react2.default.PropTypes.array.isRequired,
+	        addTagFunction: _react2.default.PropTypes.func.isRequired,
+	        removeTagFunction: _react2.default.PropTypes.func.isRequired
 	    },
 	
+	    getInitialState: function getInitialState() {
+	        return {
+	            addTagField: ''
+	        };
+	    },
+	    handleAddTagFieldChange: function handleAddTagFieldChange(e) {
+	        this.setState({
+	            addTagField: e.target.value
+	        });
+	    },
+	    addTag: function addTag(e) {
+	        e.preventDefault();
+	        if (this.state.addTagField != '') {
+	            this.props.addTagFunction(this.state.addTagField);
+	            this.setState({
+	                addTagField: ''
+	            });
+	        }
+	    },
+	    removeTag: function removeTag(index, e) {
+	        e.preventDefault();
+	        this.props.removeTagFunction(index);
+	    },
 	    render: function render() {
 	
-	        var recipes = this.props.recipes;
-	
-	        var recipeListItems = recipes.map(function (recipe) {
-	            var recipeUrl = '/recipe/' + recipe.id;
-	            return _react2.default.createElement(_RecipeListItem2.default, {
-	                title: recipe.title,
-	                url: recipeUrl
-	            });
+	        var self = this;
+	        var tags = this.props.tags.map(function (tag, index) {
+	            return _react2.default.createElement(
+	                'div',
+	                {
+	                    className: 'tag',
+	                    onClick: self.removeTag.bind(self, index),
+	                    key: tag.id
+	                },
+	                tag.name,
+	                _react2.default.createElement('i', { className: 'fa fa-times' })
+	            );
 	        });
 	
-	        if (recipes.length === 0) {
-	            return _react2.default.createElement(
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'tags-editor' },
+	            _react2.default.createElement(
 	                'div',
-	                null,
-	                'No Recipes Yet!'
-	            );
-	        } else {
-	            return _react2.default.createElement(
+	                { className: 'tags' },
+	                tags
+	            ),
+	            _react2.default.createElement(
 	                'div',
-	                { className: 'recipe-list' },
-	                recipeListItems
-	            );
-	        }
+	                { className: 'add-tag' },
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    value: this.state.addTagField,
+	                    onChange: this.handleAddTagFieldChange
+	                }),
+	                _react2.default.createElement(
+	                    'button',
+	                    {
+	                        className: 'primary',
+	                        onClick: this.addTag
+	                    },
+	                    _react2.default.createElement('i', { className: 'fa fa-plus-circle' }),
+	                    'Add Tag'
+	                )
+	            )
+	        );
 	    }
 	});
 
 /***/ },
-/* 308 */
+/* 310 */
+/*!*************************************!*\
+  !*** ./js/components/SearchBox.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SearchBox',
+	
+	
+	    propTypes: {
+	        handleSubmitFunction: _react2.default.PropTypes.func.isRequired
+	    },
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            searchFieldText: ''
+	        };
+	    },
+	    handleSearchFieldChange: function handleSearchFieldChange(e) {
+	        this.setState({
+	            searchFieldText: e.target.value
+	        });
+	    },
+	    handleSubmit: function handleSubmit(e) {
+	        e.preventDefault();
+	        this.props.handleSubmitFunction(this.state.searchFieldText);
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'form',
+	            {
+	                className: 'search-box',
+	                onSubmit: this.handleSubmit
+	            },
+	            _react2.default.createElement('input', {
+	                type: 'text',
+	                value: this.state.searchFieldText,
+	                onChange: this.handleSearchFieldChange
+	            }),
+	            _react2.default.createElement(
+	                'button',
+	                {
+	                    className: 'primary',
+	                    type: 'submit'
+	                },
+	                'Search'
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 311 */
 /*!******************************************!*\
-  !*** ./js/components/RecipeListItem.jsx ***!
+  !*** ./js/components/TagResultsPage.jsx ***!
   \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -49561,30 +49877,158 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _Loader = __webpack_require__(/*! ./Loader */ 313);
+	
+	var _Loader2 = _interopRequireDefault(_Loader);
+	
+	var _RecipeList = __webpack_require__(/*! ./RecipeList */ 238);
+	
+	var _RecipeList2 = _interopRequireDefault(_RecipeList);
+	
 	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createClass({
-	    displayName: 'RecipeListItem',
-	
-	
-	    propTypes: {
-	        title: _react2.default.PropTypes.string.isRequired,
-	        url: _react2.default.PropTypes.string.isRequired
+	    displayName: 'TagResultsPage',
+	    getInitialState: function getInitialState() {
+	        return {
+	            loading: true,
+	            data: []
+	        };
 	    },
+	    componentWillMount: function componentWillMount() {
 	
+	        var self = this;
+	        _jquery2.default.ajax({
+	            url: '/api/bytag/?id=' + self.props.params.id,
+	            success: function success(data) {
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
+	            }
+	        });
+	    },
 	    render: function render() {
 	
-	        return _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: this.props.url, className: 'recipe' },
-	            _react2.default.createElement(
-	                'h2',
-	                null,
-	                this.props.title
-	            )
-	        );
+	        var self = this;
+	
+	        if (this.state.loading) {
+	            return _react2.default.createElement(_Loader2.default, null);
+	        } else {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'narrow-container' },
+	                _react2.default.createElement(_RecipeList2.default, {
+	                    recipes: this.state.data.recipes,
+	                    header: 'Recipes Filed Under: ' + this.state.data.tag_name
+	                })
+	            );
+	        }
+	    }
+	});
+
+/***/ },
+/* 312 */
+/*!*********************************************!*\
+  !*** ./js/components/SearchResultsPage.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 237);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _Loader = __webpack_require__(/*! ./Loader */ 313);
+	
+	var _Loader2 = _interopRequireDefault(_Loader);
+	
+	var _RecipeList = __webpack_require__(/*! ./RecipeList */ 238);
+	
+	var _RecipeList2 = _interopRequireDefault(_RecipeList);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: 'SearchResultsPage',
+	    getInitialState: function getInitialState() {
+	        return {
+	            loading: true,
+	            data: []
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	
+	        var self = this;
+	        _jquery2.default.ajax({
+	            url: '/api/search/?q=' + self.props.params.q,
+	            success: function success(data) {
+	                self.setState({
+	                    loading: false,
+	                    data: data
+	                });
+	            }
+	        });
+	    },
+	    render: function render() {
+	
+	        var self = this;
+	
+	        if (this.state.loading) {
+	            return _react2.default.createElement(_Loader2.default, null);
+	        } else {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'narrow-container' },
+	                _react2.default.createElement(_RecipeList2.default, {
+	                    recipes: this.state.data,
+	                    header: 'Search Results For: ' + self.props.params.q
+	                })
+	            );
+	        }
+	    }
+	});
+
+/***/ },
+/* 313 */
+/*!**********************************!*\
+  !*** ./js/components/Loader.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	    displayName: "Loader",
+	    render: function render() {
+	        return _react2.default.createElement("div", { className: "loader" });
 	    }
 	});
 

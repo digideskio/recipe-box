@@ -56,6 +56,9 @@ table {
 
 body {
   font-family: sans-serif; }
+  @media (max-width: 600px) {
+    body {
+      font-size: 0.75em; } }
 
 .narrow-container {
   width: 90%;
@@ -83,27 +86,32 @@ button, input[type='submit'] {
   display: inline-block;
   font-family: "Merriweather";
   font-size: 1.25em;
+  text-decoration: none;
   background-color: #808080;
   border: 0;
   padding: 10px 20px;
   color: white;
   cursor: pointer;
   outline: none;
-  margin-right: 10px; }
+  margin-right: 10px;
+  transition: 0.2s; }
   button i, input[type='submit'] i {
     margin-right: 10px; }
-  button:hover, input[type='submit']:hover {
-    background-color: #404040; }
+  @media (hover: hover) {
+    button:hover, input[type='submit']:hover {
+      background-color: #404040; } }
 
 button.primary {
   background-color: #145a32; }
-  button.primary:hover {
-    background-color: #092a17; }
+  @media (hover: hover) {
+    button.primary:hover {
+      background-color: #092a17; } }
 
 button.delete {
   background-color: #b22222; }
-  button.delete:hover {
-    background-color: #561010; }
+  @media (hover: hover) {
+    button.delete:hover {
+      background-color: #561010; } }
 
 .buttons-container {
   display: flex;
@@ -111,25 +119,53 @@ button.delete {
   .buttons-container .right-buttons button:last-child {
     margin-right: 0; }
 
+.loader {
+  font-family: "Merriweather";
+  color: #808080;
+  text-align: center;
+  font-size: 1.5em; }
+
 header {
   background-color: black;
-  border-bottom: 1px solid grey;
-  padding: 20px 20px 20px 30px; }
+  border-bottom: 1px solid grey; }
   header a {
     text-decoration: none; }
-  header h1 {
+  header .app-title {
+    display: inline-block;
+    padding: 25px;
     font-family: "Merriweather";
     color: white;
     font-size: 2em;
-    font-weight: 300; }
+    font-weight: 300;
+    transition: 0.2s; }
+    @media (hover: hover) {
+      header .app-title:hover {
+        background-color: #808080; } }
+    @media (max-width: 600px) {
+      header .app-title {
+        padding: 20px; } }
 
 .home-page {
   text-align: center;
   font-family: "Merriweather"; }
+  .home-page .toolbar {
+    text-align: right; }
+  .home-page h2 {
+    font-style: italic;
+    text-align: left;
+    font-size: 1.5em;
+    margin-bottom: 15px; }
+  .home-page section {
+    margin-bottom: 30px; }
   .home-page .quote-container {
     color: #b22222;
     font-style: italic;
-    margin: 30px 0px; }
+    margin: 30px 0px;
+    padding: 30px;
+    border-bottom: 1px solid #808080; }
+    @media (max-width: 600px) {
+      .home-page .quote-container {
+        padding-top: 10px; } }
     .home-page .quote-container .quote {
       font-size: 2em;
       line-height: 1.2em;
@@ -137,7 +173,34 @@ header {
       margin: 0 auto 20px auto; }
     .home-page .quote-container .attribution {
       font-size: 1.5em; }
+  .home-page .search-box {
+    display: flex; }
+    .home-page .search-box button {
+      width: 100px;
+      margin-left: 10px; }
+  .home-page .tags {
+    text-align: left; }
+    .home-page .tags .tag {
+      font-family: "Merriweather";
+      display: inline-block;
+      border: 2px solid #b22222;
+      color: #b22222;
+      padding: 5px;
+      margin: 0px 15px 15px 0px;
+      cursor: pointer; }
+      .home-page .tags .tag:hover {
+        background-color: #b22222;
+        color: white; }
 
+.recipe-list button i {
+  margin: 0; }
+.recipe-list h1 {
+  font-family: "Merriweather";
+  font-size: 2em;
+  text-align: center;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #808080; }
 .recipe-list .recipe {
   font-family: "Merriweather";
   color: #b22222;
@@ -184,6 +247,41 @@ header {
       color: #561010; }
   .recipe-editor .ingredient :last-child {
     margin-bottom: 0; }
+.recipe-editor .tags-editor {
+  margin: 20px 0px;
+  padding: 20px;
+  border: 2px solid #808080; }
+  .recipe-editor .tags-editor .tags {
+    margin: 10px 0px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none; }
+  .recipe-editor .tags-editor .tag {
+    font-family: "Merriweather";
+    font-size: 1.25em;
+    border: 2px solid #b22222;
+    color: #b22222;
+    padding: 10px;
+    margin: 0px 15px 10px 0px;
+    cursor: pointer; }
+    .recipe-editor .tags-editor .tag i {
+      margin-left: 15px; }
+    .recipe-editor .tags-editor .tag:hover {
+      background-color: #b22222;
+      color: white; }
+  .recipe-editor .tags-editor .add-tag {
+    display: flex;
+    align-items: stretch;
+    margin: 10px 0px; }
+    .recipe-editor .tags-editor .add-tag input {
+      margin: 0; }
+    .recipe-editor .tags-editor .add-tag button {
+      min-width: 150px;
+      margin-left: 10px; }
 
 .recipe-viewer section {
   margin-bottom: 30px; }
@@ -201,6 +299,7 @@ header {
   text-align: center; }
 .recipe-viewer .yields {
   font-family: "Merriweather";
+  font-weight: bold;
   font-style: italic;
   text-align: center; }
 .recipe-viewer .ingredients-list {
@@ -241,5 +340,10 @@ header {
   max-width: 200px;
   margin: 20px auto;
   background-color: #808080; }
+.recipe-viewer .not-found {
+  font-family: "Merriweather";
+  font-size: 2em;
+  text-align: center;
+  margin: 30px; }
 
 /*# sourceMappingURL=styles.css.map */

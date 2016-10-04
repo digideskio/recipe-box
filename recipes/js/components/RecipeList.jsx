@@ -1,10 +1,13 @@
 import React from 'react';
 import RecipeListItem from './RecipeListItem';
 
+import { Link } from 'react-router';
+
 export default React.createClass({
 
     propTypes: {
-        recipes: React.PropTypes.array.isRequired
+        recipes: React.PropTypes.array.isRequired,
+        header: React.PropTypes.string
     },
 
     render() {
@@ -17,21 +20,25 @@ export default React.createClass({
                 <RecipeListItem
                     title={recipe.title}
                     url={recipeUrl}
+                    key={recipe.id}
                 />
             );
         });
 
         if (recipes.length === 0) {
             return (
-                <div>
-                    No Recipes Yet!
+                <div className="recipe-list">
+                    <h1>No Matching Recipes</h1>
                 </div>
             )
         }
         else {
             return (
                 <div className="recipe-list">
+
+                    <h1>{this.props.header}</h1>
                     {recipeListItems}
+
                 </div>
             )
         }
