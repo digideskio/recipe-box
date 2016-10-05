@@ -71,6 +71,14 @@ export default React.createClass({
 
             var tags = self.state.tags;
 
+            if (tags.length == 0) {
+                return (
+                    <div>
+                        No tags found
+                    </div>
+                )
+            }
+
             return tags.map(function(tag) {
                 return (
                     <Link to={`/tag/${tag.id}`} key={tag.id}>
@@ -104,18 +112,19 @@ export default React.createClass({
                     {randomQuote()}
 
                     <section>
+                        <h2>Find Recipes by Tag</h2>
+                        <div className="tags">
+                            {tagsList()}
+                        </div>
+                    </section>
+
+                    <section>
                         <h2>Find Recipes by Title</h2>
                         <SearchBox
                             handleSubmitFunction = {this.searchByTitle}
                         />
                     </section>
 
-                    <section>
-                        <h2>Find Recipes by Tag</h2>
-                        <div className="tags">
-                            {tagsList()}
-                        </div>
-                    </section>
                 </div>
             )
         }
