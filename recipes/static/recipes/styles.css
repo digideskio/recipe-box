@@ -182,15 +182,17 @@ header {
     text-align: left; }
     .home-page .tags .tag {
       font-family: "Merriweather";
+      font-size: 1.5em;
       display: inline-block;
       border: 2px solid #b22222;
       color: #b22222;
-      padding: 5px;
+      padding: 0.3em;
       margin: 0px 15px 15px 0px;
       cursor: pointer; }
-      .home-page .tags .tag:hover {
-        background-color: #b22222;
-        color: white; }
+      @media (hover: hover) {
+        .home-page .tags .tag:hover {
+          background-color: #b22222;
+          color: white; } }
 
 .recipe-list button i {
   margin: 0; }

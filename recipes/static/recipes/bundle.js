@@ -27957,6 +27957,14 @@
 	
 	            var tags = self.state.tags;
 	
+	            if (tags.length == 0) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    'No tags found'
+	                );
+	            }
+	
 	            return tags.map(function (tag) {
 	                return _react2.default.createElement(
 	                    _reactRouter.Link,
@@ -27997,18 +28005,6 @@
 	                    _react2.default.createElement(
 	                        'h2',
 	                        null,
-	                        'Find Recipes by Title'
-	                    ),
-	                    _react2.default.createElement(_SearchBox2.default, {
-	                        handleSubmitFunction: this.searchByTitle
-	                    })
-	                ),
-	                _react2.default.createElement(
-	                    'section',
-	                    null,
-	                    _react2.default.createElement(
-	                        'h2',
-	                        null,
 	                        'Find Recipes by Tag'
 	                    ),
 	                    _react2.default.createElement(
@@ -28016,6 +28012,18 @@
 	                        { className: 'tags' },
 	                        tagsList()
 	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'section',
+	                    null,
+	                    _react2.default.createElement(
+	                        'h2',
+	                        null,
+	                        'Find Recipes by Title'
+	                    ),
+	                    _react2.default.createElement(_SearchBox2.default, {
+	                        handleSubmitFunction: this.searchByTitle
+	                    })
 	                )
 	            );
 	        }
@@ -38405,7 +38413,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'yields' },
-	                        'yields ',
+	                        'Yield: ',
 	                        recipe.yields
 	                    )
 	                ),
@@ -49309,7 +49317,7 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Yields'
+	                    'Yield'
 	                ),
 	                _react2.default.createElement('input', {
 	                    type: 'text',

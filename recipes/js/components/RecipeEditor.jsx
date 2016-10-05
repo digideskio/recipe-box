@@ -130,7 +130,7 @@ export default React.createClass({
                         onChange={this.handleFormChange}
                     />
 
-                    <label>Yields</label>
+                    <label>Yield</label>
                     <input
                         type="text"
                         name="yields"

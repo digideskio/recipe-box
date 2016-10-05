@@ -49,15 +49,18 @@
         text-align: left;
         .tag {
             font-family: $serif-font;
+            font-size: 1.5em;
             display: inline-block;
             border: 2px solid $red;
             color: $red;
-            padding: 5px;
+            padding: 0.3em;
             margin: 0px 15px 15px 0px;
             cursor: pointer;
-            &:hover {
-                background-color: $red;
-                color: white;
+            @media (hover: hover) {
+                &:hover {
+                    background-color: $red;
+                    color: white;
+                }
             }
         }
     }
