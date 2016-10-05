@@ -38413,7 +38413,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'yields' },
-	                        'yields ',
+	                        'Yield: ',
 	                        recipe.yields
 	                    )
 	                ),
@@ -49317,7 +49317,7 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Yields'
+	                    'Yield'
 	                ),
 	                _react2.default.createElement('input', {
 	                    type: 'text',

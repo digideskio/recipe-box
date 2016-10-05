@@ -58,7 +58,7 @@ export default React.createClass({
                         :
                             ''
                         }
-                        <div className="yields">yields {recipe.yields}</div>
+                        <div className="yields">Yield: {recipe.yields}</div>
                     </section>
 
                     <section className="ingredients">
