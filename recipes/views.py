@@ -27,7 +27,7 @@ class SearchView(generics.ListAPIView):
 
     def get_queryset(self):
         parameter = self.request.GET.get('q', default='')
-        return models.Recipe.objects.filter(title__contains=parameter)
+        return models.Recipe.objects.filter(title__icontains=parameter)
 
 class ByTagView(generics.ListAPIView):
     serializer_class = serializers.RecipeSerializer
